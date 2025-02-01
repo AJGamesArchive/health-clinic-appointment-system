@@ -1,0 +1,22 @@
+{
+  "name": "database",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "setup:cloud": "tsc && NODE_ENV=cloud node ./dist/SetupDatabase.js",
+    "setup:local": "tsc && NODE_ENV=local node ./dist/SetupDatabase.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "mongoose": "^8.9.6"
+  },
+  "devDependencies": {
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^22.13.0",
+    "typescript": "^5.7.3"
+  },
+  "volta": {
+    "extends": "../package.json"
+  }
+}

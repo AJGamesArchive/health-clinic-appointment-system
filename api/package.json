@@ -1,0 +1,27 @@
+{
+  "name": "api",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start:cloud": "NODE_ENV=cloud node ./dist/Server.js",
+    "start:local": "NODE_ENV=local node ./dist/Server.js",
+    "build": "tsc",
+    "dev:cloud": "NODE_ENV=cloud tsc-watch --onSuccess \"node ./dist/Server.js\"",
+    "dev:local": "NODE_ENV=local tsc-watch --onSuccess \"node ./dist/Server.js\""
+  },
+  "dependencies": {
+    "@fastify/cors": "^10.0.2",
+    "dotenv": "^16.4.7",
+    "fastify": "^5.2.1",
+    "mongoose": "^8.9.6"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "tsc-watch": "6.2.1",
+    "typescript": "^5.7.3"
+  },
+  "volta": {
+    "extends": "../package.json"
+  }
+}

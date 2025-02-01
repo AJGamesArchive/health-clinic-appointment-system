@@ -1,0 +1,53 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "setup:cloud": {
+      "outputs": [
+        "dist"
+      ],
+      "cache": false
+    },
+    "setup:local": {
+      "outputs": [
+        "dist"
+      ],
+      "cache": false
+    },
+    "start:cloud": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "start:local": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "build": {
+      "outputs": [
+        "dist"
+      ],
+      "cache": true
+    },
+    "dev:cloud": {
+      "persistent": true,
+      "cache": false
+    },
+    "dev:local": {
+      "persistent": true,
+      "cache": false
+    },
+    "dev": {
+      "persistent": true,
+      "cache": false
+    },
+    "lint": {
+      "cache": false
+    },
+    "preview": {
+      "dependsOn": [
+        "^build"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "name": "health-clinic-appointment-system",
+  "author": "Alex Ward, Jessica Excell, Ethan McGuiness, Trinity Sayer, Alfie Skinner",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AJGamesArchive/health-clinic-appointment-system.git"
+  },
+  "description": "Advanced Databases & Big Data Assessment 2 - Group Development Project",
+  "license": "ISC",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "database",
+      "api",
+      "web"
+    ]
+  },
+  "scripts": {
+    "//////// All ////////": "",
+    "all:dev:cloud": "turbo run dev:cloud",
+    "all:dev:local": "turbo run dev:local",
+    "//////// Database ////////": "",
+    "db:setup:cloud": "turbo run setup:cloud --filter=database",
+    "db:setup:local": "turbo run setup:local --filter=database",
+    "//////// API ////////": "",
+    "api:start:cloud": "turbo run start:cloud --filter=api",
+    "api:start:local": "turbo run start:local --filter=api",
+    "api:build": "turbo run build --filter=api",
+    "api:dev:cloud": "turbo run dev:cloud --filter=api",
+    "api:dev:local": "turbo run dev:local --filter=api",
+    "//////// Web Client ////////": "",
+    "web:preview": "turbo run preview --filter=web",
+    "web:build": "turbo run build --filter=web",
+    "web:dev": "turbo run dev --filter=web",
+    "web:lint": "turbo run lint --filter=web"
+  },
+  "devDependencies": {
+    "turbo": "^2.4.0"
+  },
+  "packageManager": "yarn@4.0.2",
+  "engines": {
+    "node": "20.18.1",
+    "yarn": "4.0.2"
+  },
+  "volta": {
+    "node": "20.18.1",
+    "yarn": "4.0.2"
+  }
+}

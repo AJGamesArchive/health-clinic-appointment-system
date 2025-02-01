@@ -1,0 +1,16 @@
+.env*
+.env.*
+!.env.*.example
+!.env.example
+.yarn
+.turbo
+.pnp*
+node_modules
+dist
+lib
+logs
+log
+outputs
+output
+build
+.rest*
