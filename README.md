@@ -22,19 +22,19 @@ If you require any further information regarding the repo structure, commands, w
 
 ## Commits
 
-When making commits to this repo, please try and put a workspace prefix onto the front of the commit message to help specify which workspace your commit if sore.
-- If you're making global / root change, please prefix with **Core:**
-- If you're working in the ``database`` workspace, please prefix with **Database:**
-- If you're working in the ``api`` workspace, please prefix with **API:**
-- If you're working in the ``web`` workspace, please prefix with **Web:**
+When making commits to this repo, please try and put a workspace prefix onto the front of the commit message to help specify which workspace your commit is for.
+- If you're making global / root change, please prefix with '**Core:**'
+- If you're working in the ``database`` workspace, please prefix with '**Database:**'
+- If you're working in the ``api`` workspace, please prefix with '**API:**'
+- If you're working in the ``web`` workspace, please prefix with '**Web:**'
 
-It's not the end of the world if you forget, but these prefixes do help with keep track of what people are working on.
+It's not the end of the world if you forget, but these prefixes do help with keeping track of what people are working on.
 
 ## Overview
 
 This is a monorepo comprised of **__3__** workspaces: "database", "api", and "web". The repo requires **NodeJS v20.18.1+**, uses the package manager **Yarn v4.0.2**, and utilizes Volta and Nodes Engine to enforce the Node version. Turbo is used to manage the monorepo.
 
-Details on how to setup, use, and work with this monorepo are detailed below! Documentation for all tools and utilities can be found at the bottom of the file.
+Details on how to setup, use, and work with this monorepo are detailed below! Documentation for all tools and utilities can be found at the bottom of this file.
 
 ## Workspaces
 
@@ -58,7 +58,7 @@ This code is located in: (``./api``).
 
 ### Web
 
-This code is located in: (``./wen``).
+This code is located in: (``./web``).
 
 **Content:** This is the simple front-end Web Interface for the system. All GUI code is written here and the UI is powered by data and HTTP requests sent to and from the backend API.
 
@@ -80,13 +80,13 @@ DB_URL=
 ```
 Place all values after the ``=`` and place each key on a separate line.
 
-All workspaces have additional type declarations for all ENVs so as long as you write out the ENV keys correctly, you will get autocomplete on the keys in the Typescript file on the ``process.env`` object.
+All workspaces have additional type declarations for all ENVs so as long as you write out the ENV keys correctly, you will get autocomplete on the keys in the Typescript files on the ``process.env`` object.
 
-**DO NOT PUT ANY ENV VALUES / SENSITIVE API KEYS / AUTHENTICATION TOKENS IN THE .ENV.EXAMPLE FILES!!!**
+**DO NOT PUT ANY ENV VALUES / SENSITIVE API KEYS / AUTHENTICATION TOKENS IN THE ``.env.*.example`` FILES & DO NOT COMMIT ANY ENV VALUES TO GITHUB!**
 
 ## Databases
 
-This repo is setup to allow you to both; use your own locally hosted MongoDB database and connect to a shared online MongoDB database running on MongoDB Atlas. Most execution commands will have a ``:cloud`` or ``:local`` suffix, allowing you to switch databases once you've set up all ENVs correctly.
+This repo is setup to allow you to both; use your own locally hosted MongoDB database and connect to a shared online MongoDB database running on MongoDB Atlas. Most execution commands will have a ``:cloud`` or ``:local`` suffix, allowing you to switch databases **once you've set up all ENVs correctly**.
 
 - To get an authentication token for the shared online Database, you will need a MongoDB Atlas account and will need to give Alex you're account email address so you can be added to the project.
 
@@ -97,7 +97,7 @@ This repo is setup to allow you to both; use your own locally hosted MongoDB dat
 ### Initial Setup
 
 - Ensure you have **NodeJS v20.18.1** installed.
-- - If you do not have v20.18.1 installed, instead of manually downloading the version is recommend installing either [Node Version Manager (NVM)](https://github.com/nvm-sh/nvm) or [Volta](https://volta.sh).
+- - If you do not have v20.18.1 installed, instead of manually downloading the version, I recommend installing either [Node Version Manager (NVM)](https://github.com/nvm-sh/nvm) or [Volta](https://volta.sh).
 - - - [Node Version Manager (NVM)](https://github.com/nvm-sh/nvm) is a tool that can manage your installed Node versions for you and allow you to easily install other versions of node from the CLI using the command ``nvm install 20``, to install NodeJS v20 for example. It furthers lets you easily switch between your installed node versions using the command ``nvw use 20``, to switch to NodeJS v20.
 - - - [Volta](https://volta.sh) is a tool that can automatically switch what Node version your using for each program / repo based on config fields in the ``package.json`` file.
 - - This monorepo is setup to work with both [NVM](https://github.com/nvm-sh/nvm) and [Volta](https://volta.sh). If you have [NVM](https://github.com/nvm-sh/nvm) you can run ``nvm use`` in root to switch to the required node version. If you have [Volta](https://volta.sh) installed, it should detect and use the correct node version when you run any commands.
@@ -127,7 +127,7 @@ This repo is setup to allow you to both; use your own locally hosted MongoDB dat
 - ``yarn api:start:cloud`` - Run the most recently compiled production build of both the server-api, connecting to the shared cloud database.
 - ``yarn api:start:local`` - Run the most recently compiled production build of both the server-api, connecting to you're local database.
 - ``yarn api:build`` - Compile a production build of the API.
-- ``api:dev:cloud`` - Run a DEV build of the server-api, connecting to the shared cloud database.
+- ``yarn api:dev:cloud`` - Run a DEV build of the server-api, connecting to the shared cloud database.
 - ``yarn api:dev:local`` - Run a DEV build of the server-api, connecting to you're local database.
 
 #### Web-Client Workspace
@@ -143,7 +143,7 @@ This repo is setup to allow you to both; use your own locally hosted MongoDB dat
 - To add a dependency to a workspace run: ``yarn workspace <workspace_name> add <package_name>``.
 - To add a DEV dependency to a workspace run: ``yarn workspace <workspace_name> add -D <package_name>``.
 - To remove a dependency from a workspace run: ``yarn workspace <workspace_name> remove <package_name>``.
-- All dependencies should be installed in 1 of the 3 workspaces, you should **NEVER** need to install a dependency global but if you ever need to for some arbitrary reason, you can do so with: ``yarn add -W <package_name>`` or: ``yarn add -W -D <package_name>`` for global DEV dependency.
+- All dependencies should be installed in 1 of the 3 workspaces, you should **NEVER** need to install a dependency in root but if you ever need to for some arbitrary reason, you can do so with: ``yarn add -W <package_name>`` or: ``yarn add -W -D <package_name>`` for a root DEV dependency.
 
 ## Tool & Utility Documentation
 
@@ -165,5 +165,5 @@ This repo is setup to allow you to both; use your own locally hosted MongoDB dat
 - The other creation script option is to use plan Javascript to write a shell script that can then be executed using the MongoDb Shell.
 - This method is not much harder but would require addition tools and commands to work with.
 - **We will need to confirm with Amina if there are any specific format requirements in this regard and further confirm if we're okay to be using a third-party ODM tool.**
-- We should also confirm with her what, if any, schema validation is required for the assessment and at what level. Either database level, application level, or both.
+- **We should also confirm with her what, if any, schema validation is required for the assessment and at what level. Either database level, application level, or both.**
 - If we do end up needing to produce a shell script for creation and insertion, our current format can easily be migrated to that format. It is theoretically easier to migrate from TS to shell than visa versa.
