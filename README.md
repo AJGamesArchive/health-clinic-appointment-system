@@ -16,6 +16,18 @@
 
 - **Tuesday 20th May 2025 - 14:00**
 
+## Assignment Work
+
+| Brief Sec. Ref | Codebase | Work | Weighting | Description / Key Points | Group Member(s) |
+|:--------------:|:--------:|:-----|:---------:|:-------------------------|:---------------:|
+|**3A**|Document|Requirements Analysis|20%|Define project scope and objectives, understand clinic workflows, define system requirements and key features.|-----|
+|**3B**|Document|Entity Relationship (ER) Conceptual Model|10%|Identify entities, define relationships, define data structures (deciding on embedding vs referencing for each), create fully formed and annotated ER model.|-----|
+|**3B**|Document|Logical Schema Design (JSON Document Model)|15%|Create fully formed JSON DOcument Model complete with; field names; data types; and example documents for each collection, provide denormalization explanation.|-----|
+|**3C**|Document & GitHub Repo - Database Workspace|Database Setup|20%|Setup MongoDB database based on logical schema, populate database with high volume of realistic sample data, ensure proper use of; collections; embedding; and referencing.|-----|
+|**3C**|Document & GitHub Repo - API Workspace|Query Implementation (via API?)|15%|Implement queries to support user use cases, optimize queries with appropriate indexing strategies, ensure all CRUD operations for all applicable data are covered as outlined in requirements analysis.|-----|
+|**3D**|Document & GitHub Repo - Web Workspace|Operational Web Interface|10%|Demonstraight operational capabilities of created database, develop a simple web user interface, test CRUD operations for accuracy and efficiency,|-----|
+|**3E**|Document|Challenges & Future Considerations|10%|Propose and present solutions to the following; "*What do you propose for handling booking conflicts where 2 patients might try to book the same time slot?*"; "*As the clinic grows, the database should be able to handle a large number of records efficiently - what solutions can you propose to handle this?*".|-----|
+
 # Repo Info
 
 If you require any further information regarding the repo structure, commands, workspace codebases, or MongoDB beyond what is written below then feel free to come scream at Alex.
@@ -56,6 +68,8 @@ This code is located in: (``./api``).
 
 **Technology:** This is a simple Fastify REST API written in Typescript. This API accesses the database via the Object Document Model (ODM) tool [Mongoose](https://mongoosejs.com/docs/) and runs on [Port 80](http://localhost:80).
 
+- If you get a ``'Permission Denied'`` error when trying to boot the API, this is because you're OS requires elevated privileges in order to map to Ports below 1024 for security reasons. Sometimes these privileges are enabled by default and sometimes there not. If you get this error you will need to provide the NodeJS binary on your computer with Admin/Sudo privileges.
+
 ### Web
 
 This code is located in: (``./web``).
@@ -67,6 +81,8 @@ This code is located in: (``./web``).
 ## Environment Variables
 
 All 3 workspaces require Environment Variables in the form of ENV files. Wherever you find a ``.env.*.example`` file, you need to make a ``.env.*`` file next to it that contains the keys shown in the example file. The example files will tell you what values you need to put with the keys and in some cases, where to get the values.
+
+- You do **NOT** need to wrap any ENV values in ``""``. Just past the raw value past the ``=`` sign on the respective key(s).
 
 ### For Example
 
@@ -88,11 +104,11 @@ All workspaces have additional type declarations for all ENVs so as long as you 
 
 This repo is setup to allow you to both; use your own locally hosted MongoDB database and connect to a shared online MongoDB database running on MongoDB Atlas. Most execution commands will have a ``:cloud`` or ``:local`` suffix, allowing you to switch databases **once you've set up all ENVs correctly**.
 
-- To get an authentication token for the shared online Database, you will need a MongoDB Atlas account and will need to give Alex you're account email address so you can be added to the project.
+- To get an authentication token for the shared online Database, you will need to ask Alex for your DB credentials and connection string.
 
 ## Setup & Commands
 
-**__NOTE:__** All commands for everything should be run in root! **DO NOT** directly ``cd`` into a workspace.
+**__NOTE:__** All commands for everything should be run in the **repository** root! **DO NOT** directly ``cd`` into a workspace.
 
 ### Initial Setup
 
@@ -110,6 +126,8 @@ This repo is setup to allow you to both; use your own locally hosted MongoDB dat
 - Launch a DEV build of both the web-client and server-api by running: ``yarn all:dev:cloud``. This will connect you to the shared cloud database.
 
 ### All Monorepo Commands
+
+**__NOTE:__** All commands for everything should be run in the **repository** root! **DO NOT** directly ``cd`` into a workspace.
 
 #### Global
 
@@ -159,11 +177,15 @@ This repo is setup to allow you to both; use your own locally hosted MongoDB dat
 
 # Additional Assessment Notes
 
-- The assessment brief is unclear on in what format a database creation script must be provided.
-- I've currently got a programmatic Typescript creation script setup that is executed with Node.
+## Points Discussed and Confirmed with Amina 
+
+- The database creation and MongoDB setup and preparation scripts can be created in any way we want.
+- The database setup and operations will be graded by the evidence written up in the Documentation/Report and supported by the code submitted - **Amina will not be trying to run / execute the code**.
+- Amina has confirmed we're good to use a third-party ODM tool (Mongoose) for aiding in database interactions and operations.
+- Any and all schema validation implemented should be done at the **database level** instead of the application level - additional validation can be added to the application level but the database level should take priority.
+- Amina confirmed we will get higher marks for writing a "JSON data generation script" to generate high volumes of sample data for the database instead of using an online generation tool.
+
+## Misc Technical Notes
+
+- I've currently got a programmatic Typescript database creation and population script setup that is executed with Node.
 - This fits into a web-interface workflow much nicer than other options and allows us to utilize a ODM tool to aid in accessing and querying the database.
-- The other creation script option is to use plan Javascript to write a shell script that can then be executed using the MongoDb Shell.
-- This method is not much harder but would require addition tools and commands to work with.
-- **We will need to confirm with Amina if there are any specific format requirements in this regard and further confirm if we're okay to be using a third-party ODM tool.**
-- **We should also confirm with her what, if any, schema validation is required for the assessment and at what level. Either database level, application level, or both.**
-- If we do end up needing to produce a shell script for creation and insertion, our current format can easily be migrated to that format. It is theoretically easier to migrate from TS to shell than visa versa.
