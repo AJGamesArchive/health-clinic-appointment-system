@@ -20,6 +20,10 @@
 
 If you require any further information regarding the repo structure, commands, workspace codebases, or MongoDB beyond what is written below then feel free to come scream at Alex.
 
+## Design
+
+The ``/schema`` folder contains only design file such as the **Logical Data Schema** and is not linked to any part of the codebase.
+
 ## Commits
 
 When making commits to this repo, please try and put a workspace prefix onto the front of the commit message to help specify which workspace your commit is for.
