@@ -8,9 +8,9 @@
 |:-----|----------------------:|
 |Jessica Excell|je398@canterbury.ac.uk|
 |Ethan McGuiness|em814@canterbury.ac.uk|
-|Trinity Sayer|ts560@canterbury.ac.uk|
 |Alfie Skinner|as2679@canterbury.ac.uk|
 |Alex Ward|aw949@canterbury.ac.uk|
+|~~Trinity Sayer~~|~~ts560@canterbury.ac.uk~~|
 
 ## Assignment Deadline
 

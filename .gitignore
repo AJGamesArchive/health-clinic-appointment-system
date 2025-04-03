@@ -14,3 +14,7 @@ outputs
 output
 build
 .rest*
+env.ethan
+env.jess
+env.alfie
+env.alex
