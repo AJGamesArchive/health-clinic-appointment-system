@@ -32,7 +32,17 @@ type DB_Appointment = {
   bookedBy: 'Doctor' | 'Patient' | 'Admin';
   bookedAt: Date;
   updatedAt: Date;
+  vitals?: {
+    height?: string;
+    weight?: string;
+    bloodPressure?: string;
+    heartRate?: string;
+    temperature?: string;
+  };
   preAppointmentNotes: string;
+  actionsTaken: string; //? Ensure this is translated to ERD
+  previousAppointmentId?: () => { _id: string}; //? Ensure this is translated to ERD
+  nextAppointmentId?: () => { _id: string}; //? Ensure this is translated to ERD
   postAppointmentNotes: string;
 };
 
@@ -123,4 +133,5 @@ type PatientData = {
     currentMedications: string[];
     dietaryRestrictions: string[];
   };
+  importantNotes: string[]; //? Add this to ERD - This is for things like; homelessness, language barriers, criminal, aggressive tendencies, etc...
 };
