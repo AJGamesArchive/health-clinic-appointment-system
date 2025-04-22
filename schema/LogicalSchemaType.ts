@@ -49,19 +49,19 @@ type DB_Appointment = {
 /**
  * @note In it's own collection due to the file size limits imposed by MongoDB and so data driven people can query all medical history for stats etc
  */
-type DB_MedicalRecords = {
+type DB_MedicalHistory = {
   _id: () => { _id: string};
   patient: {
     patientId: () => { _id: string};
     name: string;
   };
-  createdBy: {
+  entryBy: {
     doctorId: () => { _id: string};
     doctorName: string;
   };
   createdAt: Date;
   updatedAt: Date;
-  details: undefined; //! This is a placeholder for the medical records data
+  details: MedicalHistoryDetails;
 };
 
 type AdminData = {
@@ -121,7 +121,7 @@ type PatientData = {
     doctorId: () => { _id: string};
     doctorName: string;
   }[];
-  medicalInformation: {
+  medicalInformation: { //? This would be the patents current statuses, however, an entry could be made for these in Medical History to ensure past statuses are kept?
     bloodType: string;
     sexAtBirth: string;
     smokingStatus: string | null;
@@ -134,4 +134,230 @@ type PatientData = {
     dietaryRestrictions: string[];
   };
   importantNotes: string[]; //? Add this to ERD - This is for things like; homelessness, language barriers, criminal, aggressive tendencies, etc...
+};
+
+/*
+  * Medical History Embeds
+  TODO Check all of the below with group!!!
+*/
+type MedicalHistoryDetails =
+  LabTestResults |
+  Diagnoses |
+  DietaryRestrictions |
+  LifeStyleFactors |
+  Allergies |
+  ChronicConditions |
+  PastSurgeries |
+  Vaccines |
+  Medications |
+  Treatments |
+  Referrals
+;
+
+type LabTestResults = {
+  tests: {
+    testName: string;
+    result: string;
+    resultsDate: Date;
+    requestedBy: {
+      doctorId: () => { _id: string};
+      doctorName: string;
+    };
+  }[];
+};
+
+type Diagnoses = {
+  diagnoses: {
+    condition: string;
+    notes: string;
+    severity: string;
+    date: Date;
+    diagnosedBy: {
+      doctorId: () => { _id: string};
+      doctorName: string;
+    };
+  }[];
+};
+
+type DietaryRestrictions = {
+  dietaryRestrictions: {
+    restriction: string;
+    notes: string;
+    date: Date;
+    prescribedBy: {
+      doctorId: () => { _id: string};
+      doctorName: string;
+    };
+  }[];
+};
+
+type LifeStyleFactors = {
+  smokingStatus?: {
+    status: string;
+    statusAsOf: Date;
+    notes: string;
+  };
+  alcoholConsumption?: {
+    consumption: string;
+    consumptionAsOf: Date;
+    notes: string;
+  };
+  recreationalDrugUse?: {
+    drug: string;
+    usage: string;
+    useAsOf: Date;
+    notes: string;
+  }[];
+  exerciseFrequency?:{
+    exercise: string;
+    frequency: string;
+    frequencyAsOf: Date;
+    notes: string;
+  };
+  sleepQuality?:{
+    quality: string;
+    qualityAsOf: Date;
+    notes: string;
+  };
+  stressLevel?: {
+    level: string;
+    levelAsOf: Date;
+    notes: string;
+  };
+  socialSupport?: {
+    support: string;
+    supportAsOf: Date;
+    notes: string;
+  };
+  hobbies?: {
+    hobby: string;
+    frequency: string;
+    frequencyAsOf: Date;
+    notes: string;
+  };
+  travelHistory?: {
+    location: string;
+    date: Date;
+    duration: string;
+    notes: string;
+  };
+  sexualHistory?: {
+    history: string;
+    date: Date;
+    notes: string;
+  };
+  familyConditionals?: {
+    condition: string;
+    typicalCause: string;
+    typicalAgeOfDiagnosis: number;
+    notes: string;
+  };
+  occupationalHistory?: {
+    occupation: string;
+    dateStarted: Date;
+    dateEnded: Date | null; //? null if current
+    reasonForLeaving: string;
+    notes: string;
+  };
+  environmentalFactors?: {
+    factor: string;
+    exposure: string;
+    exposureAsOf: Date;
+    notes: string;
+  };
+};
+
+type Allergies = {
+  allergies: {
+    allergen: string;
+    reaction: string;
+    severity: string;
+    notes: string;
+    date: Date;
+  }[];
+};
+
+type ChronicConditions = {
+  conditions: {
+    condition: string;
+    dateDiagnosed: Date;
+    severity: string;
+    notes: string;
+  }[];
+};
+
+type PastSurgeries = {
+  surgeries: {
+    surgery: string;
+    emergency: boolean;
+    date: Date;
+    notes: string;
+  }[];
+};
+
+type Vaccines = {
+  vaccines: {
+    vaccine: string;
+    dateAdministered: Date;
+    notes: string;
+  }[];
+};
+
+type Medications = {
+  medications: {
+    medication: string;
+    dosage: string;
+    frequency: string;
+    startDate: Date;
+    endDate: Date | null; //? null if current
+    prescribedBy: {
+      doctorId: () => { _id: string};
+      doctorName: string;
+    };
+    prescribedDate: Date;
+    refills: number;
+    sideEffects: string[];
+    interactions: string[];
+    contraindications: string[];
+    notes: string;
+  }[];
+};
+
+type Treatments = {
+  treatments: {
+    treatment: string;
+    schedule: {
+      dateAdministered: Date;
+    } | {
+      startDate: Date;
+      endDate: Date;
+    };
+    administeredBy: {
+      doctorId: () => { _id: string};
+      doctorName: string;
+    };
+    dosage: string;
+    reason: string;
+    notes: string;
+  }[];
+};
+
+type Referrals = {
+  referrals: {
+    referralTo: string;
+    dateReferred: Date;
+    reason: string;
+    referredBy: {
+      doctorId: () => { _id: string};
+      doctorName: string;
+    };
+    status: 'Pending' | 'Completed' | 'Declined';
+    followUpDate: Date | null; //? null if no follow up needed
+    followUpNotes: string;
+    followUpBy: {
+      doctorId: () => { _id: string};
+      doctorName: string;
+    };
+    notes: string;
+  }[];
 };
