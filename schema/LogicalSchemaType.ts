@@ -229,34 +229,16 @@ type LifeStyleFactors = {
     supportAsOf: Date;
     notes: string;
   };
-  hobbies?: {
-    hobby: string;
-    frequency: string;
-    frequencyAsOf: Date;
-    notes: string;
-  };
   travelHistory?: {
     location: string;
     date: Date;
     duration: string;
     notes: string;
   };
-  sexualHistory?: {
-    history: string;
-    date: Date;
-    notes: string;
-  };
   familyConditionals?: {
     condition: string;
     typicalCause: string;
     typicalAgeOfDiagnosis: number;
-    notes: string;
-  };
-  occupationalHistory?: {
-    occupation: string;
-    dateStarted: Date;
-    dateEnded: Date | null; //? null if current
-    reasonForLeaving: string;
     notes: string;
   };
   environmentalFactors?: {
