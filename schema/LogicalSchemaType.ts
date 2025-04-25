@@ -61,7 +61,7 @@ type DB_MedicalHistory = {
   };
   createdAt: Date;
   updatedAt: Date;
-  details: MedicalHistoryDetails;
+  details: MedicalHistoryDetails[];
 };
 
 type AdminData = {
@@ -265,6 +265,10 @@ type ChronicConditions = {
     dateDiagnosed: Date;
     severity: string;
     notes: string;
+    diagnosedBy: {
+      doctorId: () => { _id: string};
+      doctorName: string;
+    };
   }[];
 };
 
@@ -274,6 +278,10 @@ type PastSurgeries = {
     emergency: boolean;
     date: Date;
     notes: string;
+    performedBy: {
+      doctorId: () => { _id: string};
+      doctorName: string;
+    }[];
   }[];
 };
 
