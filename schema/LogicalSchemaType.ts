@@ -124,16 +124,71 @@ type PatientData = {
   medicalInformation: { //? This would be the patents current statuses, however, an entry could be made for these in Medical History to ensure past statuses are kept?
     bloodType: string;
     sexAtBirth: string;
-    smokingStatus: string | null;
-    alcoholConsumption: string | null;
-    recreationalDrugUse: string | null;
-    exerciseFrequency: string | null;
     conditions: string[];
     allergies: string[];
-    currentMedications: string[];
-    dietaryRestrictions: string[];
   };
+  lifeStyleHistory: LifeStyleFactors;
   importantNotes: string[]; //? Add this to ERD - This is for things like; homelessness, language barriers, criminal, aggressive tendencies, etc...
+};
+
+//TODO Work out how to represent nullability on the JSON LDS
+//? Ensure these changes are correct on ER model
+type LifeStyleFactors = {
+  smokingStatus: {
+    status: string;
+    statusAsOf: Date;
+    notes: string;
+  }[] | null;
+  alcoholConsumption: {
+    consumption: string;
+    consumptionAsOf: Date;
+    notes: string;
+  }[] | null;
+  recreationalDrugUse: {
+    drug: string;
+    usage: string;
+    useAsOf: Date;
+    notes: string;
+  }[] | null;
+  exerciseFrequency:{
+    exercise: string;
+    frequency: string;
+    frequencyAsOf: Date;
+    notes: string;
+  }[] | null;
+  sleepQuality:{
+    quality: string;
+    qualityAsOf: Date;
+    notes: string;
+  }[] | null;
+  stressLevel: {
+    level: string;
+    levelAsOf: Date;
+    notes: string;
+  }[] | null;
+  socialSupport: {
+    support: string;
+    supportAsOf: Date;
+    notes: string;
+  }[] | null;
+  travelHistory: {
+    location: string;
+    date: Date;
+    duration: string;
+    notes: string;
+  }[] | null;
+  familyConditionals: {
+    condition: string;
+    typicalCause: string;
+    typicalAgeOfDiagnosis: number;
+    notes: string;
+  }[] | null;
+  environmentalFactors: {
+    factor: string;
+    exposure: string;
+    exposureAsOf: Date;
+    notes: string;
+  }[] | null;
 };
 
 /*
@@ -144,7 +199,6 @@ type MedicalHistoryDetails =
   LabTestResults |
   Diagnoses |
   DietaryRestrictions |
-  LifeStyleFactors |
   Allergies |
   ChronicConditions |
   PastSurgeries |
@@ -169,7 +223,7 @@ type LabTestResults = {
 type Diagnoses = {
   diagnoses: {
     condition: string;
-    notes: string;
+    notes: string;TODO
     severity: string;
     date: Date;
     diagnosedBy: {
@@ -189,64 +243,6 @@ type DietaryRestrictions = {
       doctorName: string;
     };
   }[];
-};
-
-type LifeStyleFactors = {
-  smokingStatus?: {
-    status: string;
-    statusAsOf: Date;
-    notes: string;
-  };
-  alcoholConsumption?: {
-    consumption: string;
-    consumptionAsOf: Date;
-    notes: string;
-  };
-  recreationalDrugUse?: {
-    drug: string;
-    usage: string;
-    useAsOf: Date;
-    notes: string;
-  }[];
-  exerciseFrequency?:{
-    exercise: string;
-    frequency: string;
-    frequencyAsOf: Date;
-    notes: string;
-  };
-  sleepQuality?:{
-    quality: string;
-    qualityAsOf: Date;
-    notes: string;
-  };
-  stressLevel?: {
-    level: string;
-    levelAsOf: Date;
-    notes: string;
-  };
-  socialSupport?: {
-    support: string;
-    supportAsOf: Date;
-    notes: string;
-  };
-  travelHistory?: {
-    location: string;
-    date: Date;
-    duration: string;
-    notes: string;
-  };
-  familyConditionals?: {
-    condition: string;
-    typicalCause: string;
-    typicalAgeOfDiagnosis: number;
-    notes: string;
-  };
-  environmentalFactors?: {
-    factor: string;
-    exposure: string;
-    exposureAsOf: Date;
-    notes: string;
-  };
 };
 
 type Allergies = {
@@ -306,9 +302,6 @@ type Medications = {
     };
     prescribedDate: Date;
     refills: number;
-    sideEffects: string[];
-    interactions: string[];
-    contraindications: string[];
     notes: string;
   }[];
 };

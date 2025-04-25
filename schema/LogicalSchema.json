@@ -83,15 +83,89 @@
             "medicalInformation": {
               "bloodType": "string",
               "sexAtBirth": "string",
-              "smokingStatus": "string",
-              "alcoholConsumption": "string",
-              "recreationalDrugUse": "string",
-              "exerciseFrequency": "string",
               "conditions": ["string"],
-              "allergies": ["string"],
-              "currentMedications": ["string"],
-              "dietaryRestrictions": ["string"]
+              "allergies": ["string"]
             },
+            "lifeStyleHistory": {
+              "type": "object",
+              "properties": {
+                "smokingStatus": [
+                  {
+                    "status": "string",
+                    "statusAsOf": "Date",
+                    "notes": "string"
+                  }
+                ],
+                "alcoholConsumption": [
+                  {
+                    "consumption": "string",
+                    "consumptionAsOf": "Date",
+                    "notes": "string"
+                  }
+                ],
+                "recreationalDrugUse": [
+                  {
+                    "drug": "string",
+                    "usage": "string",
+                    "useAsOf": "Date",
+                    "notes": "string"
+                  }
+                ],
+                "exerciseFrequency": [
+                  {
+                    "exercise": "string",
+                    "frequency": "string",
+                    "frequencyAsOf": "Date",
+                    "notes": "string"
+                  }
+                ],
+                "sleepQuality": [
+                  {
+                    "quality": "string",
+                    "qualityAsOf": "Date",
+                    "notes": "string"
+                  }
+                ],
+                "stressLevel": [
+                  {
+                    "level": "string",
+                    "levelAsOf": "Date",
+                    "notes": "string"
+                  }
+                ],
+                "socialSupport": [
+                  {
+                    "support": "string",
+                    "supportAsOf": "Date",
+                    "notes": "string"
+                  }
+                ],
+                "travelHistory": [
+                  {
+                    "location": "string",
+                    "date": "Date",
+                    "duration": "string",
+                    "notes": "string"
+                  }
+                ],
+                "familyConditionals": [
+                  {
+                    "condition": "string",
+                    "typicalCause": "string",
+                    "typicalAgeOfDiagnosis": "number",
+                    "notes": "string"
+                  }
+                ],
+                "environmentalFactors": [
+                  {
+                    "factor": "string",
+                    "exposure": "string",
+                    "exposureAsOf": "Date",
+                    "notes": "string"
+                  }
+                ]
+              }
+            },      
             "importantNotes": ["string"]
           }
         }
@@ -136,263 +210,188 @@
     "updatedAt": "Date",
     "details": [
       {
-        "oneOf": [
-          {
-            "type": "object",
-            "properties": {
-              "tests": [
+        "type": "object",
+        "properties": {
+          "tests": [
+            {
+              "testName": "string",
+              "result": "string",
+              "resultsDate": "Date",
+              "requestedBy": {
+                "doctorId": "ObjectId",
+                "doctorName": "string"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "object",
+        "properties": {
+          "diagnoses": [
+            {
+              "condition": "string",
+              "notes": "string",
+              "severity": "string",
+              "date": "Date",
+              "diagnosedBy": {
+                "doctorId": "ObjectId",
+                "doctorName": "string"
+              }
+            }
+          ]
+        } 
+      },
+      {
+        "type": "object",
+        "properties": {
+          "dietaryRestrictions": [
+            {
+              "restriction": "string",
+              "notes": "string",
+              "date": "Date",
+              "prescribedBy": {
+                "doctorId": "ObjectId",
+                "doctorName": "string"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "object",
+        "properties": {
+          "allergies": [
+            {
+              "allergen": "string",
+              "reaction": "string",
+              "severity": "string",
+              "notes": "string",
+              "date": "Date"
+            }
+          ]
+        }
+      },
+      {
+        "type": "object",
+        "properties": {
+          "conditions": [
+            {
+              "condition": "string",
+              "dateDiagnosed": "Date",
+              "severity": "string",
+              "notes": "string",
+              "diagnosedBy": {
+                "doctorId": "ObjectId",
+                "doctorName": "string"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "object",
+        "properties": {
+          "surgeries": [
+            {
+              "surgery": "string",
+              "emergency": "boolean",
+              "date": "Date",
+              "notes": "string",
+              "performedBy": [
                 {
-                  "testName": "string",
-                  "result": "string",
-                  "resultsDate": "Date",
-                  "requestedBy": {
-                    "doctorId": "ObjectId",
-                    "doctorName": "string"
+                  "doctorId": "ObjectId",
+                  "doctorName": "string"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "object",
+        "properties": {
+          "vaccines": [
+            {
+              "vaccine": "string",
+              "dateAdministered": "Date",
+              "notes": "string"
+            }
+          ]
+        }
+      },
+      {
+        "type": "object",
+        "properties": {
+          "medications": [
+            {
+              "medication": "string",
+              "dosage": "string",
+              "frequency": "string",
+              "startDate": "Date",
+              "endDate": "Date",
+              "prescribedBy": {
+                "doctorId": "ObjectId",
+                "doctorName": "string"
+              },
+              "prescribedDate": "Date",
+              "refills": "number",
+              "notes": "string"
+            }
+          ]
+        }
+      },
+      {
+        "type": "object",
+        "properties": { 
+          "treatments": [
+            {
+              "treatment": "string",
+              "schedule": {
+                "oneOf": [
+                  {
+                    "dateAdministered": "Date"
+                  },
+                  {
+                    "startDate": "Date",
+                    "endDate": "Date"
                   }
-                }
-              ]
-            }
-          },
-          {
-            "type": "object",
-            "properties": {
-              "diagnoses": [
-                {
-                  "condition": "string",
-                  "notes": "string",
-                  "severity": "string",
-                  "date": "Date",
-                  "diagnosedBy": {
-                    "doctorId": "ObjectId",
-                    "doctorName": "string"
-                  }
-                }
-              ]
-            } 
-          },
-          {
-            "type": "object",
-            "properties": {
-              "dietaryRestrictions": [
-                {
-                  "restriction": "string",
-                  "notes": "string",
-                  "date": "Date",
-                  "prescribedBy": {
-                    "doctorId": "ObjectId",
-                    "doctorName": "string"
-                  }
-                }
-              ]
-            }
-          },
-          {
-            "type": "object",
-            "properties": {
-              "smokingStatus": {
-                "status": "string",
-                "statusAsOf": "Date",
-                "notes": "string"
+                ]
               },
-              "alcoholConsumption": {
-                "consumption": "string",
-                "consumptionAsOf": "Date",
-                "notes": "string"
+              "administeredBy": {
+                "doctorId": "ObjectId",
+                "doctorName": "string"
               },
-              "recreationalDrugUse": [
-                {
-                  "drug": "string",
-                  "usage": "string",
-                  "useAsOf": "Date",
-                  "notes": "string"
-                }
-              ],
-              "exerciseFrequency": {
-                "exercise": "string",
-                "frequency": "string",
-                "frequencyAsOf": "Date",
-                "notes": "string"
+              "dosage": "string",
+              "reason": "string",
+              "notes": "string"
+            }
+          ]
+        }
+      },
+      {
+        "type": "object",
+        "properties": {
+          "referrals": [
+            {
+              "referralTo": "string",
+              "dateReferred": "Date",
+              "reason": "string",
+              "referredBy": {
+                "doctorId": "ObjectId",
+                "doctorName": "string"
               },
-              "sleepQuality": {
-                "quality": "string",
-                "qualityAsOf": "Date",
-                "notes": "string"
+              "status": { "enum": ["Pending", "Completed", "Declined"] },
+              "followUpDate": "Date",
+              "followUpNotes": "string",
+              "followUpBy": {
+                "doctorId": "ObjectId",
+                "doctorName": "string"
               },
-              "stressLevel": {
-                "level": "string",
-                "levelAsOf": "Date",
-                "notes": "string"
-              },
-              "socialSupport": {
-                "support": "string",
-                "supportAsOf": "Date",
-                "notes": "string"
-              },
-              "travelHistory": [
-                {
-                  "location": "string",
-                  "date": "Date",
-                  "duration": "string",
-                  "notes": "string"
-                }
-              ],
-              "familyConditionals": [
-                {
-                  "condition": "string",
-                  "typicalCause": "string",
-                  "typicalAgeOfDiagnosis": "number",
-                  "notes": "string"
-                }
-              ],
-              "environmentalFactors": [
-                {
-                  "factor": "string",
-                  "exposure": "string",
-                  "exposureAsOf": "Date",
-                  "notes": "string"
-                }
-              ]
+              "notes": "string"
             }
-          },
-          {
-            "type": "object",
-            "properties": {
-              "allergies": [
-                {
-                  "allergen": "string",
-                  "reaction": "string",
-                  "severity": "string",
-                  "notes": "string",
-                  "date": "Date"
-                }
-              ]
-            }
-          },
-          {
-            "type": "object",
-            "properties": {
-              "conditions": [
-                {
-                  "condition": "string",
-                  "dateDiagnosed": "Date",
-                  "severity": "string",
-                  "notes": "string",
-                  "diagnosedBy": {
-                    "doctorId": "ObjectId",
-                    "doctorName": "string"
-                  }
-                }
-              ]
-            }
-          },
-          {
-            "type": "object",
-            "properties": {
-              "surgeries": [
-                {
-                  "surgery": "string",
-                  "emergency": "boolean",
-                  "date": "Date",
-                  "notes": "string",
-                  "performedBy": [
-                    {
-                      "doctorId": "ObjectId",
-                      "doctorName": "string"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "type": "object",
-            "properties": {
-              "vaccines": [
-                {
-                  "vaccine": "string",
-                  "dateAdministered": "Date",
-                  "notes": "string"
-                }
-              ]
-            }
-          },
-          {
-            "type": "object",
-            "properties": {
-              "medications": [
-                {
-                  "medication": "string",
-                  "dosage": "string",
-                  "frequency": "string",
-                  "startDate": "Date",
-                  "endDate": "Date",
-                  "prescribedBy": {
-                    "doctorId": "ObjectId",
-                    "doctorName": "string"
-                  },
-                  "prescribedDate": "Date",
-                  "refills": "number",
-                  "sideEffects": ["string"],
-                  "interactions": ["string"],
-                  "contraindications": ["string"],
-                  "notes": "string"
-                }
-              ]
-            }
-          },
-          {
-            "type": "object",
-            "properties": { 
-              "treatments": [
-                {
-                  "treatment": "string",
-                  "schedule": {
-                    "oneOf": [
-                      {
-                        "dateAdministered": "Date"
-                      },
-                      {
-                        "startDate": "Date",
-                        "endDate": "Date"
-                      }
-                    ]
-                  },
-                  "administeredBy": {
-                    "doctorId": "ObjectId",
-                    "doctorName": "string"
-                  },
-                  "dosage": "string",
-                  "reason": "string",
-                  "notes": "string"
-                }
-              ]
-            }
-          },
-          {
-            "type": "object",
-            "properties": {
-              "referrals": [
-                {
-                  "referralTo": "string",
-                  "dateReferred": "Date",
-                  "reason": "string",
-                  "referredBy": {
-                    "doctorId": "ObjectId",
-                    "doctorName": "string"
-                  },
-                  "status": { "enum": ["Pending", "Completed", "Declined"] },
-                  "followUpDate": "Date",
-                  "followUpNotes": "string",
-                  "followUpBy": {
-                    "doctorId": "ObjectId",
-                    "doctorName": "string"
-                  },
-                  "notes": "string"
-                }
-              ]
-            }
-          }
-        ]
+          ]
+        }
       }
     ]
   }
