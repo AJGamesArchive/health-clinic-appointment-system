@@ -1,3 +1,5 @@
+//TODO Update Logical Schema to remove the "oneOf" keys and co. Choose one of the prided data sets in those sections and remove others.
+
 /**
  * This file contains the types that are used in the logical schema of the database
  * These types are used to define the structure of the data in the database
