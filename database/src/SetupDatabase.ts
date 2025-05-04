@@ -35,7 +35,7 @@ async function main() {
   // Preform the database setup
   try {
     await setupCollections();
-  } catch (err) {
+  } catch (err: any) {
     console.error(`Failed to setup the database:\n\n${err}`);
     console.log("Closing database connection...");
     await mongoose.disconnect();

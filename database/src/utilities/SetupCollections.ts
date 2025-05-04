@@ -1,32 +1,79 @@
 // Import models
 import mongoose from "mongoose";
 import dataCreationPromises from "../static/Data.js";
+// import sleep from "./Sleep.js";
+
+//TODO Something in this script and/or MongoDB is fucked! It will NOT under ANY syntax wipe the database and re-create it! IT DOES NOT WORK!!!! It needs fixing, somehow. Good fucking luck... I've tried extensivelyyyyyyyyyyyy
 
 /**
  * Function to reset and create all collections
  */
 async function setupCollections(): Promise<void> {
-  console.log("Setting up collections...");
+  console.log("Ensuring database is ready...")
   if(mongoose.connection.readyState === 0 || !mongoose.connection.db) throw new Error("Database connection not open");
+  console.log(`Database connection is open to: ${mongoose.connection.name}`);
 
-  // Fetch live collections and all collections to setup
-  const liveCollections = await mongoose.connection.db?.listCollections().toArray();
+  // // Tear down database
+  // console.log("Dropping database...");
+  // await mongoose.connection.dropDatabase();
+  // console.log("Database dropped");
 
-  // Drop all live collections
-  if(liveCollections.length !== 0) {
-    console.log("Dropping live collections...");
-    for(const collection of liveCollections) {
-      console.log(`Dropping collection: ${collection.name}`);
-      await mongoose.connection.db.dropCollection(collection.name);
-    };
-    console.log(`${liveCollections.length} Live collections dropped`);
-  } else {
-    console.log("No live collections to drop");
-  };
+  // // Fetch live collections and all collections to setup
+  // console.log("Fetching live collections...");
+  // const liveCollections = await mongoose.connection.db?.listCollections().toArray();
+
+  // // Ensure all live collections are empty
+  // console.log("Verifying live collections are empty...");
+  // if(liveCollections.length !== 0) {
+  //   console.log(`Detected ${liveCollections.length} live collections...`);
+  //   for(const collection of liveCollections) {
+  //     console.log(`Verifying collection: ${collection.name}`);
+  //     let docCount: number = await mongoose.connection.db.collection(collection.name).countDocuments();
+  //     if(docCount !== 0) {
+  //       console.error(`Collection is not empty, found '${docCount}' documents. Dropping...`);
+  //       await mongoose.connection.db.collection(collection.name).drop();
+  //       console.log(`Collection '${collection.name}' dropped`);
+  //       docCount = await mongoose.connection.db.collection(collection.name).countDocuments();
+  //       if(docCount !== 0) {
+  //         console.error(`Collection still exists, found '${docCount}' documents. Exiting...`);
+  //         throw new Error(`Collection still exists, found '${docCount}' documents`);
+  //       };
+  //     };
+  //     console.log(`Collection '${collection.name}' is empty`);
+  //   };
+  //   console.log(`All ${liveCollections.length} Live collections verified successfully`);
+  // } else {
+  //   console.log("No live collections to verify");
+  // };
+
+  // // Ensure all collections are removed and all transactions are complete
+  // console.log("Awaiting all transactions to complete...");
+  // await sleep(10000);
+  // console.log("Verifying all collections are removed...");
+  // const remainingCollections: number = (await mongoose.connection.db?.listCollections().toArray()).length;
+  // console.log("Remaining collections: ", remainingCollections);
+  //!
+  // if(remainingCollections !== 0) {
+  //   console.log("Collections still exist, retrying...");
+  //   await sleep(10000);
+  //   const remainingCollections: number = (await mongoose.connection.db?.listCollections().toArray()).length;
+  //   console.log("Remaining collections: ", remainingCollections);
+  //   if(remainingCollections !== 0) {
+  //     console.error("Collections still exist, exiting...");
+  //     throw new Error("Collections still exist");
+  //   };
+  // };
 
   // Create all collections
+  console.log("Setting up collections...");
   if(dataCreationPromises.length !== 0) {
     console.log("Creating collections and inserting default data...");
+    // const accounts = await dataCreationPromises[0];
+    // console.log(`Accounts created: ${accounts}`);
+    // console.log(`Verifying accounts in DB: ${await Accounts.countDocuments()}`);
+    // const doctors = await dataCreationPromises[1];
+    // console.log(`Doctors created: ${doctors}`);
+    // console.log(`Verifying accounts in DB: ${await Doctors.countDocuments()}`);
     const createdCollections = await Promise.all(dataCreationPromises);
     for(const collection of createdCollections) {
       console.log(`Created collection: ${collection[0].collection.name}`);
