@@ -4,9 +4,10 @@ import Doctors from "../schemas/Doctors.js";
 
 /**
  * Array of data creation promises
+ * Changed this to methods so it's not called immediately (i think)
  */
 const dataCreationPromises = [
-  Accounts.insertMany([
+  async () => await Accounts.insertMany([
     {
       username: "aWard",
       email: "aw949@canterbury.ac.uk",
@@ -44,7 +45,7 @@ const dataCreationPromises = [
       accountData: null,
     },
   ], { ordered: false }),
-  Doctors.insertMany([
+  async () => await Doctors.insertMany([
     {
       name: "Alex Ward",
       email: "aw949@canterbury.ac.uk",
