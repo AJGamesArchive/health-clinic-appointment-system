@@ -5,7 +5,9 @@ import mongoose from 'mongoose';
  * Accounts schema
  */
 const accountsSchema = new mongoose.Schema({
-  name: String,
+  title: String,
+  forenames: String,
+  surname: String,
   email: String,
   password: String,
   role: String,
