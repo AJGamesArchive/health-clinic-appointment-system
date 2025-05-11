@@ -3,9 +3,10 @@ import Accounts from "../schemas/Accounts.js";
 
 /**
  * Array of data creation promises
+ * Changed this to methods so it's not called immediately (i think)
  */
 const dataCreationPromises = [
-  Accounts.insertMany([
+  async () => await Accounts.insertMany([
     {
       title: "Mr",
       forenames: "Alex",
