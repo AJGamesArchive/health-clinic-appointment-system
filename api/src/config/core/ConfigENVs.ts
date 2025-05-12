@@ -21,7 +21,7 @@ function configureENVs(): ENV {
 
   // Validate ENVs
   const missing: string[] = [];
-  if(!Number.isNaN(process.env.PORT)) missing.push('PORT');
+  if(Number.isNaN(process.env.PORT)) missing.push('PORT');
   if(!process.env.HOST) missing.push('HOST');
   if(!process.env.JWT_SECRET) missing.push('JWT_SECRET');
   if(!process.env.DB_URL) missing.push('DB_URL');

@@ -6,7 +6,6 @@ import AccountRoles from "../../types/data/AccountRoles.js";
 import PatientData from "../../types/data/PatientData.js";
 import DoctorData from "../../types/data/DoctorData.js";
 import AdminData from "../../types/data/AdminData.js";
-import Account from "../../classes/data/Account.js";
 
 /**
  * Service class to handle all account database operations
@@ -190,10 +189,10 @@ abstract class AccountService {
   /**
    * @static async function to get an account from the database
    * @param id - The account ID to get
-   * @returns A loaded account class, otherwise returns error status code
+   * @returns An account data object, otherwise returns error status code
    * @AJGamesArchive
    */
-  static async getOne(id: string): Promise<Account | number> {
+  static async getOne(id: string): Promise<AccountData | number> {
     // Ensure required data is present
     if(!id) return 400;
 
@@ -206,7 +205,7 @@ abstract class AccountService {
       if(!document) return 404; // Not Found
 
       // Map updated document
-      const account: Account = new Account({
+      const account: AccountData = {
         id: document._id.toString(),
         title: document.title,
         forenames: document.forenames,
@@ -219,7 +218,7 @@ abstract class AccountService {
         patientData: ((document.role as AccountRoles) === "Patient") ? document.accountData : undefined,
         doctorData: ((document.role as AccountRoles) === "Doctor") ? document.accountData : undefined,
         adminData: ((document.role as AccountRoles) === "Admin") ? document.accountData : undefined,
-      });
+      };
 
       // Return account class
       return account;
@@ -234,10 +233,10 @@ abstract class AccountService {
    * @param page - The page number to get
    * @param limit - The number of accounts to get per page
    * @param roleFilter - Optional filter to only get accounts of a specific role
-   * @returns Array of account classes, otherwise returns error status code
+   * @returns Array of account data objects, otherwise returns error status code
    * @AJGamesArchive
    */
-  static async getManyByPage(page: number, limit: number, roleFilter?: AccountRoles): Promise<Account[] | number> {
+  static async getManyByPage(page: number, limit: number, roleFilter?: AccountRoles): Promise<AccountData[] | number> {
     // Calculate the offset
     const offset: number = (page - 1) * limit;
 
@@ -247,7 +246,7 @@ abstract class AccountService {
       const documents = await DB_Accounts.find({ role: roleFilter }).skip(offset).limit(limit);
 
       // Map retrieved documents
-      const classes: Account[] = documents.map((document) => new Account({
+      const classes: AccountData[] = documents.map((document) => ({
         id: document._id.toString(),
         title: document.title,
         forenames: document.forenames,
@@ -273,12 +272,12 @@ abstract class AccountService {
   /**
    * @static async function to get an account from the database by email
    * @param email - The account email to get
-   * @returns Array of classes, otherwise returns error status code
+   * @returns Array of account data objects, otherwise returns error status code
    * @notes At the DB level, we cannot validate that only 1 account has an email, even though the schema should enforce uniqueness. If you are expecting a single document, check "array.length" and handle accordingly.
    * @notes Function specifically does NOT use '.findOne()' to ensure a query can be made to find duplicate emails should any slip through
    * @AJGamesArchive
    */
-  static async getByEmail(email: string): Promise<Account[] | number> {
+  static async getByEmail(email: string): Promise<AccountData[] | number> {
     // Ensure required data is present
     if(!email) return 400;
 
@@ -291,7 +290,7 @@ abstract class AccountService {
       if(!documents) return 404; // Not Found
 
       // Map retrieved documents
-      const classes: Account[] = documents.map((document) => new Account({
+      const classes: AccountData[] = documents.map((document) => ({
         id: document._id.toString(),
         title: document.title,
         forenames: document.forenames,
