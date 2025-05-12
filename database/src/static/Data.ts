@@ -1,6 +1,8 @@
 // Imports
 import Accounts from "../schemas/Accounts.js";
 
+//TODO This array needs to store the functions that will generate promises, not the promises them selves
+
 /**
  * Array of data creation promises
  * Changed this to methods so it's not called immediately (i think)

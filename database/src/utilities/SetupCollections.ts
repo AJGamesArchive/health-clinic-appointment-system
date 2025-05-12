@@ -3,9 +3,10 @@ import mongoose from "mongoose";
 import dataCreationPromises from "../static/Data.js";
 import sleep from "./Sleep.js";
 import Accounts from "../schemas/Accounts.js";
-import Doctors from "../schemas/Doctors.js";
 
 //TODO Something in this script and/or MongoDB is fucked! It will NOT under ANY syntax wipe the database and re-create it! IT DOES NOT WORK!!!! It needs fixing, somehow. Good fucking luck... I've tried extensivelyyyyyyyyyyyy
+//TODO I KNOW WHY THIS SCRIPT IS BEING FUCKY, I WILL FIX AFTER AUTH SYSTEM IS DONE - Alex
+//TODO This function needs to use the dataCreationPromises array to create an array of promises that can all then be asyncranessly resolved
 
 /**
  * Function to reset and create all collections
@@ -74,9 +75,6 @@ async function setupCollections(): Promise<void> {
     const accounts = await dataCreationPromises[0]();
     console.log(`Accounts created: ${accounts}`);
     console.log(`Verifying accounts in DB: ${await Accounts.countDocuments()}`);
-    const doctors = await dataCreationPromises[1]();
-    console.log(`Doctors created: ${doctors}`);
-    console.log(`Verifying accounts in DB: ${await Doctors.countDocuments()}`);
     const createdCollections = await Promise.all(dataCreationPromises);
     // for(const collection of createdCollections) {
     //   console.log(`Created collection: ${collection[0].collection.name}`);
