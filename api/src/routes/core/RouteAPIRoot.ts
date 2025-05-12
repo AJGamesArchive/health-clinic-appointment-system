@@ -1,7 +1,10 @@
 // Imports
 import { FastifyRequest, FastifyReply } from 'fastify';
 import buildNum from '../../static/BuildNumber.js';
-import { APIRootReply } from '../../schema/core/SchemaAPIRoot.js';
+import {
+  APIRootHeaders,
+  APIRootReply,
+} from '../../schema/core/SchemaAPIRoot.js';
 
 /**
  * @summary Route to return general API information
@@ -9,7 +12,9 @@ import { APIRootReply } from '../../schema/core/SchemaAPIRoot.js';
  * @AJGamesArchive
  */
 const routeAPIRoot = async (
-	_req: FastifyRequest,
+	_req: FastifyRequest<{
+    Headers: APIRootHeaders;
+  }>,
 	rep: FastifyReply,
 ): Promise<void> => {
 	rep.status(200).send(JSON.stringify({

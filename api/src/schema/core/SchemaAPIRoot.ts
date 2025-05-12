@@ -1,3 +1,6 @@
+export interface APIRootHeaders {
+  'content-type': string;
+};
 export interface APIRootReply {
   api: string;
   version: string;
@@ -14,6 +17,13 @@ export interface APIRootReply {
  * @AJGamesArchive
  */
 const schemaAPIRoot = {
+  headers: {
+    type: 'object',
+    properties: {
+      'content-type': { type: 'string', enum: ['application/json'] },
+    },
+    required: ['content-type'],
+  },
   response: {
     200: {
       type: 'object',

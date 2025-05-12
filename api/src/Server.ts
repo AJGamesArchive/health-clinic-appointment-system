@@ -41,9 +41,12 @@ server.register(fastifyFormbody); // Enable Form Body Parsing
 // Setup handlers
 server.setNotFoundHandler(handlerRouteNotFound);
 
-// Setup routes
+// Core routes
 server.register(coreRoutes);
-server.register(protectedInternalRoutes);
+
+// Setup protected internal routes
+const protectedInternal = protectedInternalRoutes();
+server.register(protectedInternal.routes, { prefix: protectedInternal.prefix });
 
 // Start server
 server.listen({

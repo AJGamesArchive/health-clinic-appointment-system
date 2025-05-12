@@ -52,7 +52,7 @@ const routeInternalCookie = async (
   // Validate credentials
   const result: JWTAccountData | number = await AccountService.validateCredentials(email, password);
   if(typeof result === 'number') {
-    rep.status(result === 500 ? 500 : 404).send({
+    rep.status(result === 500 ? 500 : 401).send({
       error: (result === 500) ? 'FAILED_DB_CONNECTION' : 'CLIENT_UNAUTHORIZED',
       message: 'The passed credentials are not valid.',
     } as InternalCookieReplyError);
@@ -78,7 +78,7 @@ const routeInternalCookie = async (
       httpOnly: true,
       secure: true,
       sameSite: 'strict',
-      path: '/token/internal/cookie/refresh',
+      path: '/',
     })
     .send(JSON.stringify({
       message: 'Login Successful',

@@ -23,7 +23,7 @@ const schemaDecodeCookie = {
   headers: {
     type: 'object',
     properties: {
-      'content-type': { type: 'string', const: 'application/x-www-form-urlencoded' },
+      'content-type': { type: 'string', const: 'application/json' },
       'origin': { type: 'string' },
     },
     required: ['content-type', 'origin'],
