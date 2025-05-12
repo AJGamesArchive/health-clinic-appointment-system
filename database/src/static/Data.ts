@@ -1,14 +1,11 @@
 // Imports
-import Accounts from "../schemas/Accounts.js";
-
-//TODO This array needs to store the functions that will generate promises, not the promises them selves
+import DB_Accounts from "../schemas/Accounts.js";
 
 /**
- * Array of data creation promises
- * Changed this to methods so it's not called immediately (i think)
+ * Array of function to generate database insertion promises
  */
-const dataCreationPromises = [
-  async () => await Accounts.insertMany([
+const dataCreationFunctions = [
+  async () => DB_Accounts.insertMany([
     {
       title: "Mr",
       forenames: "Alex",
@@ -18,7 +15,9 @@ const dataCreationPromises = [
       role: "Admin",
       createdAt: new Date(),
       updatedAt: new Date(),
-      accountData: null,
+      accountData: {
+        staffRole: "Chief Elephant Operator",
+      },
     },
     {
       title: "Miss",
@@ -29,7 +28,9 @@ const dataCreationPromises = [
       role: "Admin",
       createdAt: new Date(),
       updatedAt: new Date(),
-      accountData: null,
+      accountData: {
+        staffRole: "Assistant to the Regional Manager",
+      },
     },
     {
       title: "Mr",
@@ -40,7 +41,9 @@ const dataCreationPromises = [
       role: "Admin",
       createdAt: new Date(),
       updatedAt: new Date(),
-      accountData: null,
+      accountData: {
+        staffRole: "Receptionist",
+      },
     },
     {
       title: "Mr",
@@ -51,9 +54,11 @@ const dataCreationPromises = [
       role: "Admin",
       createdAt: new Date(),
       updatedAt: new Date(),
-      accountData: null,
+      accountData: {
+        staffRole: "Head Secretary",
+      },
     },
   ], { ordered: false }),
 ];
 
-export default dataCreationPromises;
+export default dataCreationFunctions;
