@@ -20,6 +20,7 @@ import handlerRouteNotFound from './config/handlers/HandlerRouteNotFound.js';
 
 // Import routes
 import coreRoutes from './config/routes/CoreRoutes.js';
+import protectedInternalRoutes from './config/routes/ProtectedInternalRoutes.js';
 
 // Load ENVs
 const envs: ENV = configureENVs();
@@ -42,6 +43,7 @@ server.setNotFoundHandler(handlerRouteNotFound);
 
 // Setup routes
 server.register(coreRoutes);
+server.register(protectedInternalRoutes);
 
 // Start server
 server.listen({
@@ -51,3 +53,6 @@ server.listen({
 
 // Setup process event listeners
 setupProcessEventListeners(server);
+
+export default server;
+export { envs };
