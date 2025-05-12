@@ -6,7 +6,6 @@ import mongoose from 'mongoose';
 
 // Import routes
 import routeAPIBuild from './routes/core/APIBuild.js';
-import routeGetAllDOctors from './routes/GET/GetAllDoctors.js';
 
 // Load ENVs
 if(process.env.NODE_ENV === 'cloud') {
@@ -41,7 +40,6 @@ server.register(cors, {
 
 // Create endpoints
 server.get('/', {}, routeAPIBuild);
-server.get('/doctors', {}, routeGetAllDOctors);
 
 // Start server
 server.listen({
