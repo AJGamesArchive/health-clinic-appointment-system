@@ -2,7 +2,7 @@
 
 - Advanced Databases & Big Data Assessment 2 - Group Development Project
 
-## Group Members
+## Group - Markers Pliers & co.
 
 | Name | Contact Email Address |
 |:-----|----------------------:|
@@ -22,10 +22,10 @@
 |**3A**|Document|Requirements Analysis|20%|Define project scope and objectives, understand clinic workflows, define system requirements and key features.|All|
 |**3B**|Document|Entity Relationship (ER) Conceptual Model|10%|Identify entities, define relationships, define data structures (deciding on embedding vs referencing for each), create fully formed and annotated ER model.|All|
 |**3B**|Document|Logical Schema Design (JSON Document Model)|15%|Create fully formed JSON DOcument Model complete with; field names; data types; and example documents for each collection, provide denormalization explanation.|All|
-|**3C**|Document & GitHub Repo - Database Workspace|Database Setup|20%|Setup MongoDB database based on logical schema, populate database with high volume of realistic sample data, ensure proper use of; collections; embedding; and referencing.|-----|
-|**3C**|Document & GitHub Repo - API Workspace|Query Implementation (via API?)|15%|Implement queries to support user use cases, optimize queries with appropriate indexing strategies, ensure all CRUD operations for all applicable data are covered as outlined in requirements analysis.|-----|
-|**3D**|Document & GitHub Repo - Web Workspace|Operational Web Interface|10%|Demonstraight operational capabilities of created database, develop a simple web user interface, test CRUD operations for accuracy and efficiency,|-----|
-|**3E**|Document|Challenges & Future Considerations|10%|Propose and present solutions to the following; "*What do you propose for handling booking conflicts where 2 patients might try to book the same time slot?*"; "*As the clinic grows, the database should be able to handle a large number of records efficiently - what solutions can you propose to handle this?*".|-----|
+|**3C**|Document & GitHub Repo - Database Workspace|Database Setup|20%|Setup MongoDB database based on logical schema, populate database with high volume of realistic sample data, ensure proper use of; collections; embedding; and referencing.|Alex|
+|**3C**|Document & GitHub Repo - API Workspace|Query Implementation (via API?)|15%|Implement queries to support user use cases, optimize queries with appropriate indexing strategies, ensure all CRUD operations for all applicable data are covered as outlined in requirements analysis.|Alfie, Ethan, Alex|
+|**3D**|Document & GitHub Repo - Web Workspace|Operational Web Interface|10%|Demonstraight operational capabilities of created database, develop a simple web user interface, test CRUD operations for accuracy and efficiency,|Jess, Alex|
+|**3E**|Document|Challenges & Future Considerations|10%|Propose and present solutions to the following; "*What do you propose for handling booking conflicts where 2 patients might try to book the same time slot?*"; "*As the clinic grows, the database should be able to handle a large number of records efficiently - what solutions can you propose to handle this?*".|All|
 
 # Repo Info
 
