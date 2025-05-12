@@ -1,16 +1,16 @@
 // Imports
 import { FastifyInstance } from "fastify";
-import endpointTimeout from "../../utilities/core/EndpointTimeout.js";
+import endpointTimeout from "../../../utilities/core/EndpointTimeout.js";
 
 // Import routes & schemas
-import schemaAPIRoot from "../../schema/core/SchemaAPIRoot.js";
-import routeAPIRoot from "../../routes/core/RouteAPIRoot.js";
-import schemaInternalCookie from "../../schema/auth/SchemaInternalCookie.js";
-import routeInternalCookie from "../../routes/auth/RouteInternalCookie.js";
-import schemaInternalCookieRefresh from "../../schema/auth/SchemaInternalCookieRefresh.js";
-import routeInternalCookieRefresh from "../../routes/auth/RouteInternalCookieRefresh.js";
-import schemaInternalLogout from "../../schema/auth/SchemaInternalLogout.js";
-import routeInternalLogout from "../../routes/auth/RouteInternalLogout.js";
+import schemaAPIRoot from "../../../schema/core/SchemaAPIRoot.js";
+import routeAPIRoot from "../../../routes/core/RouteAPIRoot.js";
+import schemaInternalCookie from "../../../schema/auth/SchemaInternalCookie.js";
+import routeInternalCookie from "../../../routes/auth/RouteInternalCookie.js";
+import schemaInternalCookieRefresh from "../../../schema/auth/SchemaInternalCookieRefresh.js";
+import routeInternalCookieRefresh from "../../../routes/auth/RouteInternalCookieRefresh.js";
+import schemaInternalLogout from "../../../schema/auth/SchemaInternalLogout.js";
+import routeInternalLogout from "../../../routes/auth/RouteInternalLogout.js";
 
 /**
  * Function to declare all core routes

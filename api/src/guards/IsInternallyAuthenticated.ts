@@ -18,7 +18,8 @@ const guardIsInternallyAuthenticated = async (
     req.user = await server.jwt.verify(jwt);
   } catch (err: any) {
     rep.status(401).send(JSON.stringify({
-      message: "Unauthorized"
+      error: "UNAUTHORIZED",
+      message: "You are not logged in. Please login to continue."
     }, null, 2));
     return;
   };

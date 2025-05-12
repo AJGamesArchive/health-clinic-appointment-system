@@ -19,8 +19,8 @@ import startupTasks from './config/core/ConfigStartup.js';
 import handlerRouteNotFound from './config/handlers/HandlerRouteNotFound.js';
 
 // Import routes
-import coreRoutes from './config/routes/CoreRoutes.js';
-import protectedInternalRoutes from './config/routes/ProtectedInternalRoutes.js';
+import coreRoutes from './config/routes/core/CoreRoutes.js';
+import protectedInternalRoutes from './config/routes/protected/ProtectedInternalRoutes.js';
 
 // Load ENVs
 const envs: ENV = configureENVs();
