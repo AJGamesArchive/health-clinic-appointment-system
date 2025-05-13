@@ -2,6 +2,7 @@
 import './App.css';
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Lazy load pages
 const Home = lazy(() => import('./pages/Home'));
