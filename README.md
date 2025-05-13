@@ -118,7 +118,7 @@ This repo is setup to allow you to both; use your own locally hosted MongoDB dat
 
 - Ensure you have **NodeJS v22.14.0** installed.
 - - If you do not have v22.14.0 installed, instead of manually downloading the version, I recommend installing either [Node Version Manager (NVM)](https://github.com/nvm-sh/nvm) or [Volta](https://volta.sh).
-- - - [Node Version Manager (NVM)](https://github.com/nvm-sh/nvm) is a tool that can manage your installed Node versions for you and allow you to easily install other versions of node from the CLI using the command ``nvm install 20``, to install NodeJS v20 for example. It furthers lets you easily switch between your installed node versions using the command ``nvw use 20``, to switch to NodeJS v20.
+- - - [Node Version Manager (NVM)](https://github.com/nvm-sh/nvm) is a tool that can manage your installed Node versions for you and allow you to easily install other versions of node from the CLI using the command ``nvm install 22``, to install NodeJS v22 for example. It furthers lets you easily switch between your installed node versions using the command ``nvw use 22``, to switch to NodeJS v22.
 - - - [Volta](https://volta.sh) is a tool that can automatically switch what Node version your using for each program / repo based on config fields in the ``package.json`` file.
 - - This monorepo is setup to work with both [NVM](https://github.com/nvm-sh/nvm) and [Volta](https://volta.sh). If you have [NVM](https://github.com/nvm-sh/nvm) you can run ``nvm use`` in root to switch to the required node version. If you have [Volta](https://volta.sh) installed, it should detect and use the correct node version when you run any commands.
 - Clone the repo:
@@ -177,6 +177,7 @@ This repo is setup to allow you to both; use your own locally hosted MongoDB dat
 - [Fastify](https://fastify.dev) - REST API / Server Framework.
 - [Vite](https://vite.dev) - NodeJS Build Tool / Bundler.
 - [React](https://reactnative.dev) - Client Web-App Framework.
+- [Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/) - UI Library
 - [Typescript](https://www.typescriptlang.org/docs/) - Programming Language.
 
 # Additional Assessment Notes
