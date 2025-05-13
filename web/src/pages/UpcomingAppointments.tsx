@@ -41,7 +41,7 @@ const UpcomingAppointments: React.FC = () => {
 
     return (
         <Layout>
-            <h1>Upcoming Appointments</h1>
+            <h2>Upcoming Appointments</h2>
             { tempAppointmentCards ? 
                 tempAppointmentCards 
             : 
