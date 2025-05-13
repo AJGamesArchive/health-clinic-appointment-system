@@ -66,10 +66,7 @@
               "addressLine2": "Apt 4B",
               "city": "Springfield",
               "county": "Hampden",
-              "state": "MA",
-              "country": "USA",
-              "postCode": "01103",
-              "zipCode": "01103"
+              "postCode": "01103"
             },
             "upcomingAppointments": [
               {
