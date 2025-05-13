@@ -1,0 +1,32 @@
+.core-information {
+    display: flex;
+    flex-direction: column;
+    align-items: right; 
+    justify-content: right; 
+    width: 50%; 
+    margin: 0 auto; 
+}
+
+.info-item {
+    display: flex;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+    align-items: left;
+    flex-direction: column;
+}
+
+.info-item input {
+   margin-bottom: 5px;
+   color: #ccc;
+   background-color: white;
+   border: 2px solid #ccc;
+   border-radius: 5px;
+}
+
+.info-item textarea {
+   margin-bottom: 5px;
+   color: #ccc;
+   background-color: white;
+   border: 1px solid #ccc;
+   border-radius: 5px;
+}
