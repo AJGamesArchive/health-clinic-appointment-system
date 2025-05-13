@@ -42,9 +42,9 @@ type DB_Appointment = {
     temperature?: string;
   };
   preAppointmentNotes: string;
-  actionsTaken: string; //? Ensure this is translated to ERD
-  previousAppointmentId?: () => { _id: string}; //? Ensure this is translated to ERD
-  nextAppointmentId?: () => { _id: string}; //? Ensure this is translated to ERD
+  actionsTaken: string;
+  previousAppointmentId?: () => { _id: string};
+  nextAppointmentId?: () => { _id: string};
   postAppointmentNotes: string;
 };
 
@@ -130,7 +130,7 @@ type PatientData = {
     allergies: string[];
   };
   lifeStyleHistory: LifeStyleFactors;
-  importantNotes: string[]; //? Add this to ERD - This is for things like; homelessness, language barriers, criminal, aggressive tendencies, etc...
+  importantNotes: string[]; 
 };
 
 //TODO Work out how to represent nullability on the JSON LDS
