@@ -110,11 +110,8 @@ type PatientData = {
     addressLine1: string;
     addressLine2: string;
     city: string;
-    county?: string
-    state?: string;
-    country: string;
-    postCode?: string;
-    zipCode?: string;
+    county: string
+    postCode: string;
   };
   upcomingAppointments: {
     appointmentId: () => { _id: string};
