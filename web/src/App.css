@@ -3,25 +3,35 @@
   padding: 20px;
   margin-bottom: 20px;
   box-shadow: 0px 0px 5px black;
-
+  position: sticky;
+  top: 0;
+  background-color: white;
 }
 
 .footer {
-  height: 100px;
   width: 100%;
-  background-color: blue;
-  margin: 10px;
+  background-color: #333;
+  color: white;
+  padding: 50px 200px 30px 200px;
 }
 
 .layout {
-  padding: 0 100px;
+  padding: 30px 200px;
 }
 
 .two-content-container {
-  display: flex
-}
+  display: flex;
 
-.individual-content {
-  width: 50%;
-  flex: 1
+  .first {
+    flex: 1;
+    margin: auto;
+    vertical-align: middle;
+  }
+
+  .second {
+    flex: 2;
+    margin: auto;
+    text-align: right;
+    vertical-align: middle;
+  }
 }
