@@ -1,12 +1,20 @@
 // Imports
 import { FastifyRequest, FastifyReply } from 'fastify';
 import buildNum from '../../static/BuildNumber.js';
+import {
+  APIRootHeaders,
+  APIRootReply,
+} from '../../schema/core/SchemaAPIRoot.js';
 
 /**
- * Route to return active API version
+ * @summary Route to return general API information
+ * @route GET /
+ * @AJGamesArchive
  */
-const routeAPIBuild = async (
-	_req: FastifyRequest,
+const routeAPIRoot = async (
+	_req: FastifyRequest<{
+    Headers: APIRootHeaders;
+  }>,
 	rep: FastifyReply,
 ): Promise<void> => {
 	rep.status(200).send(JSON.stringify({
@@ -16,6 +24,7 @@ const routeAPIBuild = async (
       {
         name: "Alex Ward",
         email: "aw949@canterbury.ac.uk",
+        website: "portfolio.alexward.dev",
       },
       {
         name: "Jessica Excell",
@@ -34,8 +43,8 @@ const routeAPIBuild = async (
         email: "as2679@canterbury.ac.uk",
       },
     ],
-  }, null, 2));
+  } as APIRootReply, null, 2));
 	return;
 };
 
-export default routeAPIBuild;
+export default routeAPIRoot;
