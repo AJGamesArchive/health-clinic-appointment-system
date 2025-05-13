@@ -3,25 +3,69 @@
   padding: 20px;
   margin-bottom: 20px;
   box-shadow: 0px 0px 5px black;
-
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
 }
 
 .footer {
-  height: 100px;
   width: 100%;
-  background-color: blue;
-  margin: 10px;
+  background-color: #333;
+  color: white;
+  padding: 50px 200px 30px 200px;
+}
+
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; 
 }
 
 .layout {
-  padding: 0 100px;
+  padding: 30px 200px;
+  flex: 1;
 }
 
 .two-content-container {
-  display: flex
+  display: flex;
+
+  .first {
+    flex: 1;
+    margin: auto;
+    vertical-align: middle;
+  }
+
+  .second {
+    flex: 2;
+    margin: auto;
+    text-align: right;
+    vertical-align: middle;
+  }
 }
 
-.individual-content {
-  width: 50%;
-  flex: 1
+.card {
+  padding: 30px;
+  margin: 10px 0;
+  box-shadow: 0px 0px 10px #ccc;
+}
+
+.card:hover {
+  background-color: #444;
+  color: white;
+  transition: 0.2s ease-in-out;
+}
+
+h1 {
+  margin-bottom: 30px;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #444;
+  transition: 0.2s ease-in-out;
 }

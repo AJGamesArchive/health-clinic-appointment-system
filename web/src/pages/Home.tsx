@@ -16,8 +16,7 @@ const Home: React.FC = () => {
   // JSX
   return (
     <Layout>
-      <h1>Welcome!!</h1>
-      <h1>Health Clinic Appointment Management System</h1>
+      <h1>Health Clinic Appointment Management System (version {buildNum})</h1>
       <Alert variant="primary" className="w-100">
         Bootstrap Is Installed!
       </Alert>

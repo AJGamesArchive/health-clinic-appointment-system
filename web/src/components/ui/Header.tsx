@@ -1,15 +1,15 @@
 import { Button } from "react-bootstrap"
-import "../../App.css"
+
 const Header = () =>
     <div className="header">
         <div className="two-content-container">
-            <div className="individual-content">
-                <h4 style={{ padding: "auto"}}>Health Clinic Appointment Management System</h4>
+            <div className="first" style={{ width: "30%" }}>
+                <h4 style={{ padding: "auto"}}><a href="/">Health Clinic Appointment Management System</a></h4>
             </div>
-            <div className="individual-content" style={{ textAlign:"right" }}>
-                <Button variant="outline-secondary">Patients??? but this should change</Button>
-                <Button variant="outline-secondary" style={{ marginLeft: "10px" }}>Appointments</Button>
-                <Button variant="secondary" style={{ marginLeft: "10px" }}>Logout</Button>
+            <div className="second">
+                <Button variant="outline-secondary" href="/appointments">Temp appointment</Button>
+                <Button variant="outline-secondary" style={{ margin: "5px" }}>Temp 2</Button>
+                <Button variant="secondary">Login/logout button</Button>
             </div>
         </div>
     </div>

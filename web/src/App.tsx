@@ -3,6 +3,7 @@ import './App.css';
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import UpcomingAppointments from './pages/UpcomingAppointments';
 
 // Lazy load pages
 const Home = lazy(() => import('./pages/Home'));
@@ -16,6 +17,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/patient-profile" element={<PatientProfile />} />
+        <Route path="/appointments/" element={<UpcomingAppointments />}/>
       </Routes>
     </Suspense>
   );
