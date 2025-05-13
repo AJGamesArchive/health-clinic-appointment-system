@@ -11,7 +11,9 @@
 
 type DB_Account = {
   _id: () => { _id: string};
-  name: string; //? Moved here instead of being in all 3 account data types
+  title: string; //? Moved here instead of being in patient and doctor separately
+  forenames: string; //? New
+  surname: string; //? Changed from name to surname
   email: string;
   password: string;
   role: 'Patient' | 'Doctor' | 'Admin';
@@ -72,7 +74,6 @@ type AdminData = {
 
 type DoctorData = {
   _id: () => { _id: string};
-  title: string;
   specialty: string;
   upcomingAppointments: {
     appointmentId: () => { _id: string};
@@ -94,7 +95,6 @@ type DoctorData = {
 
 type PatientData = {
   _id: () => { _id: string};
-  title: string;
   gender: string;
   dateOfBirth: Date;
   contactInfo: {

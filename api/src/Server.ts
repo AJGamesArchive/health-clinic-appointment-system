@@ -1,74 +1,61 @@
 // Core imports
 import Fastify from 'fastify';
-import dotenv from 'dotenv';
+import { FastifyInstance } from 'fastify';
 import cors from '@fastify/cors';
-import mongoose from 'mongoose';
+import fastifyJwt from '@fastify/jwt';
+import fastifyCookie from '@fastify/cookie';
+import fastifyHelmet from '@fastify/helmet';
+import fastifyFormbody from '@fastify/formbody';
+import ENV from './types/core/ENV.js';
+
+// Import configs
+import configureENVs from './config/core/ConfigENVs.js';
+import connectDatabase from './config/core/ConnectDatabase.js';
+import setupProcessEventListeners from './config/core/ConfigProcesses.js';
+import CORSConfig from './config/core/ConfigCORS.js';
+import startupTasks from './config/core/ConfigStartup.js';
+
+// Import handlers
+import handlerRouteNotFound from './config/handlers/HandlerRouteNotFound.js';
 
 // Import routes
-import routeAPIBuild from './routes/core/APIBuild.js';
-import routeGetAllDOctors from './routes/GET/GetAllDoctors.js';
+import coreRoutes from './config/routes/core/CoreRoutes.js';
+import protectedInternalRoutes from './config/routes/protected/ProtectedInternalRoutes.js';
 
 // Load ENVs
-if(process.env.NODE_ENV === 'cloud') {
-  dotenv.config({ path: '.env.cloud' });
-};
-if(process.env.NODE_ENV === 'local') {
-  dotenv.config({ path: '.env.local' });
-};
-const dbURL: string | undefined = process.env.DB_URL;
-if(!dbURL) {
-  console.error("Failed to load database URL from ENVs");
-  process.exit(1);
-};
+const envs: ENV = configureENVs();
 
-// Connect to the database
-console.log("Connecting to the database...");
-try {
-  await mongoose.connect(dbURL);
-} catch (err) {
-  console.error(`Failed to connect to the database:\n\n${err}`);
-  process.exit(1);
-};
-console.log("Connected to the database");
+// Connect to database
+connectDatabase(envs);
 
-// Create API & Database Connection
-const server = Fastify({ logger: false });
-server.register(cors, {
-	origin: [
-    "http://localhost:5173",
-  ],
-});
+// Create API server
+const server: FastifyInstance = Fastify({ logger: false });
 
-// Create endpoints
-server.get('/', {}, routeAPIBuild);
-server.get('/doctors', {}, routeGetAllDOctors);
+// Setup server configurations
+server.register(cors, CORSConfig); // Setup CORS policy
+server.register(fastifyJwt, { secret: envs.JWT_SECRET }); // Enable JWT
+server.register(fastifyCookie); // Enable Cookies
+server.register(fastifyHelmet); // Enforce HTTPS
+server.register(fastifyFormbody); // Enable Form Body Parsing
+
+// Setup handlers
+server.setNotFoundHandler(handlerRouteNotFound);
+
+// Core routes
+server.register(coreRoutes);
+
+// Setup protected internal routes
+const protectedInternal = protectedInternalRoutes();
+server.register(protectedInternal.routes, { prefix: protectedInternal.prefix });
 
 // Start server
 server.listen({
-  port: 80,
-  host: '0.0.0.0'
-}, async (error: Error | null, address: string) => {
-		if (error) {
-			server.log.error(error);
-      await mongoose.disconnect();
-      process.exit(1);
-		};
-		console.log(`API ready on: (${address}) | (http://localhost:80)`);
-	},
-);
+  port: envs.PORT,
+  host: envs.HOST,
+}, startupTasks(envs));
 
-// Listen for process termination signals to close the server
-process.on('SIGTERM', () => {
-	server.close().then(async () => {
-		console.log('Server closed!');
-		await mongoose.disconnect();
-		process.exit(0);
-	});
-});
-process.on('SIGINT', () => {
-	server.close().then(async () => {
-		console.log('Server closed!');
-		await mongoose.disconnect();
-		process.exit(0);
-	});
-});
+// Setup process event listeners
+setupProcessEventListeners(server);
+
+export default server;
+export { envs };
