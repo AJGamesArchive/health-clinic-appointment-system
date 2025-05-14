@@ -34,7 +34,7 @@ const [formData, setFormData] = useState({
             <strong>Emergency Contact Information</strong>
             <div className="info-item">
                 <p>Emergency Contact Phone</p>
-                <input type="date" name="emergencyContactPhone" value={formData.emergencyContactPhone} onChange={handleChange} />
+                <input type="number" name="emergencyContactPhone" value={formData.emergencyContactPhone} onChange={handleChange} />
             </div>
             <div className="info-item">
                 <p>Emergency Contact Relationship:</p>
