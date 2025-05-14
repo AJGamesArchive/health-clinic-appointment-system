@@ -1,0 +1,36 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.add-entry-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 400px;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.entry-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.entry-form input,
+.entry-form textarea,
+.entry-form select {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+}

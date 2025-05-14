@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Layout from "../components/ui/Layout";
 import CoreInformationPatients from "../components/tabs/CoreInfromationPatients";
 import ContactInformationPatients from "../components/tabs/ContactInformationPatients";
+import UpcomingAppointmentsPatients from "../components/tabs/UpcomingAppointmentsPatients";
+import LifeStylePatients from "../components/tabs/LifeStylePatients";
 import "./PatientProfile.css"; 
 
 const PatientPage: React.FC = () => {
@@ -14,10 +16,10 @@ const PatientPage: React.FC = () => {
                 return <CoreInformationPatients />;
             case "ContactInformation":
                return <ContactInformationPatients />;
-           // case "MedicalHistory":
-               // return <MedicalHistoryPatients />;
-           // case "PreviousAppointments":
-               // return <PreviousAppointmentsPatients />;
+           case "LifeStyle":
+               return <LifeStylePatients />;
+            case "UpcomingAppointments":
+               return <UpcomingAppointmentsPatients />;
         }
     };
 
@@ -39,6 +41,14 @@ const PatientPage: React.FC = () => {
                         className={`tab ${activeTab === "ContactInformation" ? "active" : ""}`}
                         onClick={() => handleClick("ContactInformation")}
                         > Contact Information </button>
+                     <button
+                        className={`tab ${activeTab === "UpcomingAppointments" ? "active" : ""}`}
+                        onClick={() => handleClick("UpcomingAppointments")}
+                        > Upcoming Appointments </button>
+                    <button
+                        className={`tab ${activeTab === "LifeStyle" ? "active" : ""}`}
+                        onClick={() => handleClick("LifeStyle")}
+                        > Life Style</button>
                 </div>
         </div>
         {renderTabContent()}
