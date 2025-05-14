@@ -25,6 +25,7 @@ const Home: React.FC = () => {
 
       <h3>All links to pages</h3>
       <Button style={{margin: "10px"}} href="/patient-profile">Patient Profile</Button>
+      <Button style={{margin: "10px"}} href="/doctor-profile">Doctor Profile</Button>
       <Button style={{margin: "10px"}} href="/admin-profile">Admin Profile</Button>
       <Button style={{margin: "10px"}} href="/create-doctor">Create Doctor</Button>
       <Button style={{margin: "10px"}} href="/create-admin">Create Admin</Button>

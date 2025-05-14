@@ -1,34 +1,75 @@
 import { useState } from "react";
 import Layout from "../components/ui/Layout";
-import { Alert, Badge, Button, Table  } from "react-bootstrap";
+import { Badge, Button, Table  } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
-import PasswordStrengthChecker from "../components/ui/PasswordStrengthChecker";
 
-const daySchedule = () => {
-    const [startTime, setStartTime] = useState<string>();
-    const [endTime, setEndTime] = useState<string>();
+function getProfile () {
+    return {
+        email: "janesmith@gmail.com",
+        title: "Miss",
+        forename: "Jane",
+        surname: "Smith",
+        specialty: "Cardiovascular Health",
+        workEmail: "janesmith@hcams.com",
+        workPhone: "01234567890",
+        schedule: {
+            monday: {
+                startTime: "08:00",
+                endTime: "17:00"
+            },
+            tuesday: {
+                startTime: "08:00",
+                endTime: "17:00"
+            },
+            wednesday: {
+                startTime: null,
+                endTime: null
+            },
+            thursday: {
+                startTime: null,
+                endTime: null
+            },
+            friday: {
+                startTime: "10:00",
+                endTime: "15:00"
+            }
+        }
+    }
+};
+
+interface schedule {
+    start: string | null,
+    end: string | null
+}
+
+const daySchedule = ({start, end}: schedule) => {
+    if (!start) { start = "00:00"; };
+    if (!end) { end = "00:00"; };
+    const [startTime, setStartTime] = useState<string>(start);
+    const [endTime, setEndTime] = useState<string>(end);
     return { startTime, setStartTime, endTime, setEndTime };
 }
 
-const DoctorCreation: React.FC = () => {
-    const [ forename, setForename ] = useState<string>("");
-    const [ surname, setSurname ] = useState<string>("");
-    const [ email, setEmail ] = useState<string>("");
-    const [ title, setTitle ] = useState<string>("");
-    const [ specialism, setSpecialism ] = useState<string>(""); 
-    const [ workEmail, setWorkEmail ] = useState<string>("");
-    const [ workPhone, setWorkPhone ] = useState<string>("");
-    const [ password, setPassword ] = useState<string>("");
-    const [ confirmPassword, setConfirmPassword ] = useState<string>("");
-    const [ passwordStrength, setPasswordStrength ] = useState<boolean>(false);
+const DoctorProfile: React.FC = () => {
+    const profile = getProfile();
+    const [ forename, updateForename ] = useState<string>(profile.forename);
+    const [ surname, updateSurname ] = useState<string>(profile.surname);
+    const [ email, updateEmail ] = useState<string>(profile.email);
+    const [ title, updateTitle ] = useState<string>(profile.title);
+    const [ specialism, updateSpecialism ] = useState<string>(profile.specialty); 
+    const [ workEmail, updateWorkEmail ] = useState<string>(profile.email);
+    const [ workPhone, updateWorkPhone ] = useState<string>(profile.workPhone);
+    
+    // React makes all of these need their own variable, you can't put them all 
+    // in a dictionary or anything ☹️
 
-    const monday = daySchedule();
-    const tuesday = daySchedule();
-    const wednesday = daySchedule();
-    const thursday = daySchedule();
-    const friday = daySchedule();
+    const monday = daySchedule({start: profile.schedule.monday.startTime, end: profile.schedule.monday.endTime});
+    const tuesday = daySchedule({start: profile.schedule.tuesday.startTime, end: profile.schedule.tuesday.endTime});
+    const wednesday = daySchedule({start: profile.schedule.wednesday.startTime, end: profile.schedule.wednesday.endTime});
+    const thursday = daySchedule({start: profile.schedule.thursday.startTime, end: profile.schedule.thursday.endTime});
+    const friday = daySchedule({start: profile.schedule.friday.startTime, end: profile.schedule.friday.endTime});
 
-    function saveProfile () {
+    function updateProfile () {
         // Send all the information to the backend to save it
         var message = "Saved account with credentials";
         message += "\nForename: " + forename;
@@ -48,22 +89,11 @@ const DoctorCreation: React.FC = () => {
 
     return (
         <Layout>
-            <div style={{margin: "0 300px"}}>
-                <h2>Create Account <Badge style={{margin: "0 10px", }} bg="secondary">Doctor</Badge></h2>
+            <div style={{width: "600px", margin: "auto"}}>
+                <h2>{profile.forename} {profile.surname}<Badge style={{margin: "0 10px", }} bg="secondary">Doctor</Badge></h2>
                 <Form>
-                    <h3>Login Information</h3>
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control type="email" placeholder="name@example.com" value={email} onChange={(e) => setEmail(e.target.value)}/>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-                    { password && <PasswordStrengthChecker password={password} setPasswordStrength={setPasswordStrength}/>}
-                    <p style={{color: "red"}}>DEBUG: password strength is: {passwordStrength.toString()}</p>
-                    <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control type="password" placeholder="repeat password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
-                    { confirmPassword && password !== confirmPassword && <Alert variant="danger" style={{marginTop: "10px"}}>Error: Passwords do not match.</Alert>}
-<h3>Core Information</h3>
                     <Form.Label>Title</Form.Label>
-                    <Form.Select value={title} onChange={(e) => setTitle(e.target.value)}>
+                    <Form.Select value={title} onChange={(e) => updateTitle(e.target.value)}>
                         <option>Select a title</option>
                         <option>Ms</option>
                         <option>Mr</option>
@@ -72,20 +102,22 @@ const DoctorCreation: React.FC = () => {
                         <option>Miss</option>
                     </Form.Select>
                     <Form.Label>Forename</Form.Label>
-                    <Form.Control placeholder="forename" value={forename} onChange={(e) => setForename(e.target.value)}/>
+                    <Form.Control placeholder="forename" value={forename} onChange={(e) => updateForename(e.target.value)}/>
                     <Form.Label>Surname</Form.Label>
-                    <Form.Control placeholder="surname" value={surname} onChange={(e) => setSurname(e.target.value)}/>
+                    <Form.Control placeholder="surname" value={surname} onChange={(e) => updateSurname(e.target.value)}/>
+                    <Form.Label>Email Address</Form.Label>
+                    <Form.Control type="email" placeholder="name@example.com" value={email} onChange={(e) => updateEmail(e.target.value)}/>
                     <Form.Label>Specialty</Form.Label>
-                    <Form.Select value={specialism} onChange={(e) => setSpecialism(e.target.value)}>
+                    <Form.Select value={specialism} onChange={(e) => updateSpecialism(e.target.value)}>
                         <option>Select a specialism</option>
                         <option>Cardiovascular Health</option>
                     </Form.Select>
                     <Form.Label>Work Email</Form.Label>
-                    <Form.Control type="email" placeholder="name@example.com" value={workEmail} onChange={(e) => setWorkEmail(e.target.value)}/>
+                    <Form.Control type="email" placeholder="name@example.com" value={workEmail} onChange={(e) => updateWorkEmail(e.target.value)}/>
                     <Form.Label>Work Mobile</Form.Label>
-                    <Form.Control type="number" placeholder="01234567890" value={workPhone} onChange={(e) => setWorkPhone(e.target.value)}/>
+                    <Form.Control type="number" placeholder="01234567890" value={workPhone} onChange={(e) => updateWorkPhone(e.target.value)}/>
 
-                    <h3>Working Hours</h3>
+                    <Form.Label style={{paddingTop: "20px"}}>Work Schedule</Form.Label>
                     <Table borderless>
                         <tbody>
                             <tr>
@@ -122,11 +154,8 @@ const DoctorCreation: React.FC = () => {
                     </Table>
 
                     <div style={{textAlign: "center"}}>
-                        <Button 
-                        variant="secondary" 
-                        style={{margin: "10px"}}>
-                        Cancel</Button>
-                        <Button variant="success" style={{margin: "10px"}} onClick={() => saveProfile()}>Save</Button>
+                        <Button variant="secondary" style={{margin: "10px"}}>Cancel</Button>
+                        <Button variant="success" style={{margin: "10px"}} onClick={() => updateProfile()}>Save</Button>
                     </div>
                 </Form>
             </div>
@@ -134,4 +163,4 @@ const DoctorCreation: React.FC = () => {
     );
 };
 
-export default DoctorCreation;
+export default DoctorProfile;
