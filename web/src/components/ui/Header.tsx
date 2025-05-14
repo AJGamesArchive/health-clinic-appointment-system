@@ -9,8 +9,8 @@ const Header = () =>
                 </h4>
             </div>
             <div className="second">
-                <Button variant="outline-secondary" style={{ margin: "5px" }}>Temp 1</Button>
-                <Button variant="outline-secondary" style={{ margin: "5px" }}>Temp 2</Button>
+                <Button variant="outline-secondary" style={{ margin: "5px" }} href="/patient-profile">Profile</Button>
+                <Button variant="outline-secondary" style={{ margin: "5px" }} href="/appointments">Appointments</Button>
                 <Button variant="secondary">Login/logout button</Button>
             </div>
         </div>
