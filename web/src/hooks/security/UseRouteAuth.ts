@@ -4,8 +4,6 @@ import useAPIService, { APIResponse } from "../services/UseAPIService";
 import JWTAccountData from "../../types/data/JWTAccountData";
 import AccountRoles from "../../types/data/AccountRoles";
 
-//TODO Build refresh token system into this hook
-
 /**
  * Type to define the states exposed by the useAccessController hook
  */
@@ -28,7 +26,7 @@ function useRouteAuth(
   requiredRank: AccountRoles | 'Any',
   checkContinually?: number,
 ): UseRouteAuthHook {
-  // Hooks
+  // API Request Hooks
   const checkLogin: APIResponse<JWTAccountData> = useAPIService(
     'GET',
     "/auth/internal/session/current/user",
@@ -36,6 +34,19 @@ function useRouteAuth(
     {},
     {
       "Content-Type": "application/x-www-form-urlencoded",
+    },
+  );
+  const refreshReq: APIResponse<{ message: string }> = useAPIService(
+    'POST',
+    "/token/internal/cookie/refresh",
+    {},
+    {},
+    {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    {
+      immediate: false,
+      ignoreStatusCodes: [],
     },
   );
   const logoutReq: APIResponse<null> = useAPIService(
@@ -55,6 +66,7 @@ function useRouteAuth(
   // States
   const [access, setAccess] = useState<boolean | null | undefined>(undefined);
   const [user, setUser] = useState<JWTAccountData | null>(null);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   // Function to handle logout
   const logout = async () => {
@@ -64,8 +76,25 @@ function useRouteAuth(
     return;
   };
 
+  // Effect to fetch a refresh token
+  useEffect(() => {
+    if(refreshReq.status !== 200 && refreshReq.status !== 201) {
+      setAccess(null);
+      setRefreshing(false);
+      return;
+    };
+    checkLogin.reTrigger();
+    return;
+  }, [refreshReq.data, refreshReq.error]);
+
   // Effect to check for access
   useEffect(() => {
+    if(checkLogin.status === 401 && !refreshing) {
+      setRefreshing(true);
+      refreshReq.reTrigger();
+      return;
+    };
+    setRefreshing(false);
     if(checkLogin.error) {
       setAccess(null);
       return;

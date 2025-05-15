@@ -25,7 +25,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   fallback
 }) => {
   // Component hooks
-  const auth: UseRouteAuthHook = useRouteAUth(requiredRank,  300000);
+  const auth: UseRouteAuthHook = useRouteAUth(requiredRank,  61000); // 300000
 
   // Handle access states
   if(auth.access === true && !auth.error) {
