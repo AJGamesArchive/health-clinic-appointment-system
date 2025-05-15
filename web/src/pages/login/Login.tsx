@@ -136,6 +136,11 @@ const Login: React.FC = () => {
               id="login-button"
               type="submit"
               onClick={loginForm.onSubmit}
+              disabled={
+                loginForm.loading ||
+                !loginForm.email ||
+                !loginForm.password
+              }
             >
               Login
             </Button>

@@ -1,5 +1,6 @@
 // Imports
 import { useState, useCallback } from "react";
+import useAPIService from "../services/UseAPIService";
 
 /**
  * Type to define the states exposed by the useGetAllDoctors hook
@@ -19,12 +20,27 @@ export type UseLoginFormHook = {
  * Hook to fetch all doctors in the system
  */
 function useLoginForm(): UseLoginFormHook {
-  // Hooks & states
+  // states
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
+
+  // Hooks
+  const apiService = useAPIService(
+    'POST',
+    '/token/internal/cookie',
+    {},
+    {},
+    {
+      "Authorization": `Basic ${email}:${password}`,
+    },
+    {
+      immediate: false,
+      ignoreStatusCodes: [],
+    },
+  );
 
   // Function to handle email change
   const onEmailChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,12 +53,24 @@ function useLoginForm(): UseLoginFormHook {
   }, []);
 
   // Function to handle form submission
-  const onSubmit = useCallback(() => {
-    setLoading(false);
+  const onSubmit = useCallback(async () => {
+    // Set form states
+    setLoading(true);
     setSubmitted(true);
-    setError("Login Error");
+    setError(null);
+
+    // Validate inputs
     if(!email || !password) return;
-  }, []);
+
+    // Send login request
+    const status: number = await apiService.reTrigger();
+    if(status !== 200 && status !== 201) {
+      setError(apiService.message);
+      return;
+    };
+
+    //TODO Add redirect logic here
+  }, [email, password]);
 
   // Return states
   return {
