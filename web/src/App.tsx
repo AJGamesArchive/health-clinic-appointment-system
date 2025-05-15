@@ -8,6 +8,7 @@ import DoctorCreation from './pages/DoctorCreation';
 import AdminCreation from './pages/AdminCreation';
 import AdminProfile from './pages/AdminProfile';
 import DoctorProfile from './pages/DoctorProfile';
+import PatientCreation from './pages/PatientCreation';
 
 // Lazy load pages
 const Home = lazy(() => import('./pages/Home'));
@@ -27,6 +28,8 @@ const App: React.FC = () => {
         <Route path="/admin-profile" element={<AdminProfile />}/>
 
         <Route path="/appointments/" element={<UpcomingAppointments />}/>
+
+        <Route path="/create-patient/" element={<PatientCreation />}/>
         <Route path="/create-doctor/" element={<DoctorCreation />}/>
         <Route path="/create-admin/" element={<AdminCreation />}/>
       </Routes>

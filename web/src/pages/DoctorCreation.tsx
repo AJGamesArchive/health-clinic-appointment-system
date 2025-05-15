@@ -48,7 +48,7 @@ const DoctorCreation: React.FC = () => {
 
     return (
         <Layout>
-            <div style={{margin: "0 300px"}}>
+            <div>
                 <h2>Create Account <Badge style={{margin: "0 10px", }} bg="secondary">Doctor</Badge></h2>
                 <Form>
                     <h3>Login Information</h3>

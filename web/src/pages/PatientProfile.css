@@ -4,7 +4,6 @@
     flex-direction: column;
     align-items: right; 
     justify-content: right; 
-    width: 52%; 
     margin: 0 auto; 
 }
 
@@ -20,7 +19,7 @@ h2 {
 
 .tabs-section button {
     margin: 5px;
-    padding: 10px 20px;
+    padding: 10px;
     background-color: white;
     color: grey;
     border: none;

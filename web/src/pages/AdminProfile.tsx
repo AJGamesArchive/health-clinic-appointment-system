@@ -30,7 +30,7 @@ const AdminProfile: React.FC = () => {
     // access this page (or someone who is logged out)
     return (
         <Layout>
-            <div style={{width: "600px", margin: "auto"}}>
+            <div>
                 <h2>{profile.forename} {profile.surname}<Badge style={{margin: "0 10px", }} bg="success">Admin</Badge></h2>
                 <Form>
                     <Form.Label>Title</Form.Label>

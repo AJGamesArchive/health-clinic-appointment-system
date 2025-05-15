@@ -89,7 +89,7 @@ const DoctorProfile: React.FC = () => {
 
     return (
         <Layout>
-            <div style={{width: "600px", margin: "auto"}}>
+            <div>
                 <h2>{profile.forename} {profile.surname}<Badge style={{margin: "0 10px", }} bg="secondary">Doctor</Badge></h2>
                 <Form>
                     <Form.Label>Title</Form.Label>

@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 const Header = () =>
     <div className="header">
         <div className="two-content-container">
-            <div className="first" style={{ width: "30%" }}>
+            <div className="first">
                 <h4>
                     <a href="/">Health Clinic Appointment Management System</a>
                 </h4>

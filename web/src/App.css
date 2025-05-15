@@ -13,11 +13,20 @@ body {
   z-index: 1;
 }
 
-.footer {
-  width: 100%;
+.footer-container {
+  display: flex;
+  flex-direction: column;
   background-color: #333;
   color: white;
-  padding: 50px 200px 30px 200px;
+  width: 100%;
+  margin-top: 30px;
+  padding: 50px 80px 10px;
+}
+
+.footer {
+  align-self: center;
+  padding: 0 auto;
+  max-width: 1200px;
 }
 
 .layout-container {
@@ -27,7 +36,11 @@ body {
 }
 
 .layout {
-  padding: 30px 200px;
+  min-width: 400px;
+  width: 1000px;
+  max-width: max-content;
+  align-self: center;
+  padding: 30px auto;
   flex: 1;
 }
 
@@ -38,13 +51,15 @@ body {
     flex: 1;
     margin: auto;
     vertical-align: middle;
+    flex-basis: auto;
   }
 
   .second {
-    flex: 2;
+    flex: 1;
     margin: auto;
     text-align: right;
     vertical-align: middle;
+    flex-basis: auto;
   }
 }
 
@@ -86,4 +101,16 @@ a:hover {
 
 label {
   padding-top: 10px
+}
+
+@media (max-width: 950px) {
+  .header {
+    padding: 20px;
+    .two-content-container {
+      display: inline;
+      .second {
+        text-align: left;
+      }
+    }
+  }
 }

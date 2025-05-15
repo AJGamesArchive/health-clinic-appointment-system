@@ -28,7 +28,7 @@ const AdminCreation: React.FC = () => {
 
     return (
         <Layout>
-            <div style={{width: "600px", margin: "auto"}}>
+            <div>
                 <h2>Create Account <Badge style={{margin: "0 10px", }} bg="success">Admin</Badge></h2>
                 <Form>
                     <h3 style={{margin: "20px 0 10px 0"}}>Login Information</h3>
