@@ -44,6 +44,7 @@ export type APIResponse<T> = {
  * @param endpoint Server API endpoint to target
  * @param body Object to pass as request body
  * @param options Additional request options
+ * @param headers Optional headers to add to the request
  * @param queries Optional queries to add to the URL
  */
 function useAPIService<T>(

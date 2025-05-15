@@ -4,6 +4,8 @@ import useAPIService, { APIResponse } from "../services/UseAPIService";
 import JWTAccountData from "../../types/data/JWTAccountData";
 import AccountRoles from "../../types/data/AccountRoles";
 
+//TODO Build refresh token system into this hook
+
 /**
  * Type to define the states exposed by the useAccessController hook
  */
@@ -13,6 +15,8 @@ export type UseRouteAuthHook = {
   loading: boolean;
   error: string | null;
   status: number;
+  logout: () => Promise<void>;
+  loadingLogout: boolean;
 };
 
 /**
@@ -25,41 +29,64 @@ function useRouteAuth(
   checkContinually?: number,
 ): UseRouteAuthHook {
   // Hooks
-  const response: APIResponse<JWTAccountData> = useAPIService(
+  const checkLogin: APIResponse<JWTAccountData> = useAPIService(
     'GET',
     "/auth/internal/session/current/user",
     {},
     {},
+    {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  );
+  const logoutReq: APIResponse<null> = useAPIService(
+    'DELETE',
+    "/token/internal/cookie/logout",
     {},
+    {},
+    {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    {
+      immediate: false,
+      ignoreStatusCodes: [],
+    },
   );
 
   // States
   const [access, setAccess] = useState<boolean | null | undefined>(undefined);
   const [user, setUser] = useState<JWTAccountData | null>(null);
 
+  // Function to handle logout
+  const logout = async () => {
+    // Call the logout request
+    await logoutReq.reTrigger();
+    window.location.href = '/login';
+    return;
+  };
+
   // Effect to check for access
   useEffect(() => {
-    if(response.error) {
+    if(checkLogin.error) {
       setAccess(null);
       return;
     };
-    if(response.data) {
-      if(requiredRank !== 'Any' && response.data.role !== requiredRank) {
+    if(checkLogin.data) {
+      if(requiredRank !== 'Any' && checkLogin.data.role !== requiredRank) {
         setAccess(false);
         return;
       };
-      setUser(response.data);
+      setUser(checkLogin.data);
       setAccess(true);
     };
     return;
-  }, [response.data]);
+  }, [checkLogin.data, checkLogin.error]);
 
   // Effect to setup access listener if param is passed
   useEffect(() => {
     if(checkContinually) {
       // Setup an interval to check for access
       const interval = setInterval(() => {
-        response.reTrigger();
+        checkLogin.reTrigger();
       }, checkContinually);
 
       // Clear the interval on unmount
@@ -70,9 +97,11 @@ function useRouteAuth(
   return {
     access,
     user,
-    loading: response.loading,
-    error: response.error,
-    status: response.status,
+    loading: checkLogin.loading,
+    error: checkLogin.error,
+    status: checkLogin.status,
+    logout,
+    loadingLogout: logoutReq.loading,
   };
 };
 

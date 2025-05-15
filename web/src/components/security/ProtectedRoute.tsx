@@ -3,6 +3,8 @@ import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import useRouteAUth, { UseRouteAuthHook } from '../../hooks/security/UseRouteAuth';
 import AccountRoles from '../../types/data/AccountRoles';
+import { AuthContext } from '../../contexts/AuthContext';
+import { Button } from 'react-bootstrap';
 
 // Component Props Interface
 interface ProtectedRouteProps {
@@ -27,11 +29,36 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   // Handle access states
   if(auth.access === true && !auth.error) {
-    return <Outlet/>;
+    return (
+      <AuthContext.Provider value={auth}>
+        <Outlet/>
+      </AuthContext.Provider>
+    );
   } else if (auth.access === false && !auth.error) {
     return redirect ? <Navigate to={redirect}/> : fallback;
   } else if (auth.access === null) {
-    return <Navigate to="/login"/>;
+    return (
+      <div>
+        <h1>{auth.status}</h1>
+        <h2>{auth.error}</h2><br/>
+        {auth.status !== 401 && (
+          <Button
+            variant="warning"
+            onClick={() => window.location.reload()}
+          >
+            Retry
+          </Button>
+        )}
+        {auth.status === 401 && (
+          <Button
+            variant="primary"
+            onClick={() => window.location.href = '/login'}
+          >
+            Login
+          </Button>
+        )}
+      </div>
+    );
   } else {
     return loading;
   };

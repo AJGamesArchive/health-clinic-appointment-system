@@ -3,6 +3,7 @@ import "./Login.css";
 import buildNum from "../../static/BuildNumber";
 import { Alert, Button, } from 'react-bootstrap';
 import useLoginForm, { UseLoginFormHook } from "../../hooks/login/UseLoginForm";
+import { Spinner } from "react-bootstrap";
 
 /**
  * React function to render the login page
@@ -117,6 +118,14 @@ const Login: React.FC = () => {
             {
               //* Login Error Alert
             }
+            {loginForm.message && (
+              <Alert
+                variant="success"
+                className="w-100"
+              >
+                {loginForm.message}
+              </Alert>
+            )}
             {loginForm.error && (
               <Alert
                 variant="danger"
@@ -142,7 +151,16 @@ const Login: React.FC = () => {
                 !loginForm.password
               }
             >
-              Login
+              {loginForm.loading && (
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              )}
+              <span> Login</span>
             </Button>
           </div>
         </div>
