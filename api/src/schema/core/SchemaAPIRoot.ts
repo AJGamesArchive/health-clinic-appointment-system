@@ -22,7 +22,7 @@ const schemaAPIRoot = {
     properties: {
       'content-type': { type: 'string', enum: ['application/json'] },
     },
-    required: ['content-type'],
+    required: [],
   },
   response: {
     200: {
