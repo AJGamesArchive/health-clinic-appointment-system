@@ -58,7 +58,6 @@ const schemaGetProfile = {
 //Define what's being returned in the respone
   response: {
     200: {
-      type: 'array',
       items: {
         type: 'object',
         properties: {
