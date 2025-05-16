@@ -18,7 +18,7 @@ import AccountData, { JWTAccountData } from '../../types/data/AccountData.js';
 
 /**
  * @summary Route to return all account data from a given ID, must be from the self
- * @route GET /
+ * @route GET /auth/internal/profile/:id
  * @HammerCyclone
  */
 
@@ -30,7 +30,6 @@ const routeGetProfile = async (
   }>,
 	rep: FastifyReply,
 ): Promise<void> => {
-
 	// Type user object
 	const user = req.user as JWTAccountData;
 	const id = req.params.id

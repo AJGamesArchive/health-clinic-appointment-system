@@ -26,7 +26,7 @@ export interface GetSingleAccountReply {
 
 /**
  * @summary API Endpoint Schema
- * @route GET /Account
+ * @route GET /auth/internal/admin/account/:id
  * @HammerCyclone
  */
 
@@ -38,14 +38,8 @@ const schemaGetSingleAccount = {
       'content-type': { type: 'string', enum: ['application/json'] },
       'origin': { type: 'string' },
     },
-    required: ['content-type', 'origin'],
+    required: ['origin'],
   },
-
-  //Querystrings are variable inputs in the URL that are taken after ?
-  //Enums are used to strictly type and contain what are the only options
-
-
-  //Id used as parameter to use to grab progile
   params: {
     type: 'object',
     properties: {
@@ -53,12 +47,8 @@ const schemaGetSingleAccount = {
     },
     required: ['id'],
   },
-
-
-//Define what's being returned in the respone
   response: {
     200: {
-      items: {
         type: 'object',
         properties: {
           id: { type: 'string' },
@@ -85,7 +75,6 @@ const schemaGetSingleAccount = {
           'updatedAt',
           'data',
         ],
-      },
     },
     400: {
       type: 'object',

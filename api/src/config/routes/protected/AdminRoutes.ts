@@ -24,12 +24,6 @@ const protectedAdminRoutes = (): {
     // Guards
     protectedAdminRoutes.addHook("onRequest", guardIsAdmin);
 
-    // Test endpoints
-    protectedAdminRoutes.get("/test", //TODO Replace with actual admin endpoints
-      {},
-      endpointTimeout(async (_req, rep) => rep.status(200).send(JSON.stringify({ message: "Hello Admin!" }, null, 2)), 5000), // 5 seconds
-    );
-
     //Get account endpoint
     protectedAdminRoutes.get("/account/:id",
       {schema: schemaGetSingleAccount },

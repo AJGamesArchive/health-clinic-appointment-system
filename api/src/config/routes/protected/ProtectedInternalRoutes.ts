@@ -60,7 +60,6 @@ const protectedInternalRoutes = (): {
 			{schema: schemaGetProfile },
 			endpointTimeout(routeGetProfile, 5000), // 5 Seconds
 		);
-
   },
   prefix: '/auth/internal',
 });

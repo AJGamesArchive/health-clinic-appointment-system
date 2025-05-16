@@ -1,6 +1,5 @@
 import PatientViewDoctor from "../../types/data/PatientViewDoctor";
 
-
 //Make interfaces based on the objects defined earlier
 export interface GetDoctorHeaders {
   'content-type': string;
@@ -36,7 +35,7 @@ export interface GetDoctorReply {
 
 /**
  * @summary API Endpoint Schema
- * @route GET /Account
+ * @route GET /auth/internal/patient/profile/:id
  * @HammerCyclone
  */
 
@@ -48,14 +47,8 @@ const schemaGetDoctor = {
       'content-type': { type: 'string', enum: ['application/json'] },
       'origin': { type: 'string' },
     },
-    required: ['content-type', 'origin'],
+    required: ['origin'],
   },
-
-  //Querystrings are variable inputs in the URL that are taken after ?
-  //Enums are used to strictly type and contain what are the only options
-
-
-  //Id used as parameter to use to grab progile
   params: {
     type: 'object',
     properties: {
@@ -63,125 +56,127 @@ const schemaGetDoctor = {
     },
     required: ['id'],
   },
-
-
-  //Define what's being returned in the respone
   response: {
     200: {
-      items: {
-        type: 'object',
-        properties: {
-          id: { type: 'string' },
-          title: { type: 'string' },
-          forenames: { type: 'string' },
-          surname: { type: 'string' },
-          email: { type: 'string' },
-          role: { type: 'string', enum: ['Patient', 'Doctor', 'Admin'] },
-          createdAt: { type: 'string', format: 'date-time' },
-          updatedAt: { type: 'string', format: 'date-time' },
-          data: {
-            type: 'object',
-            properties: {
-              specialty: { type: 'string' },
-              upcomingAppointments: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    appointmentId: { type: 'string' },
-                    date: { type: 'string' },
-                    time: { type: 'string' },
-                    patientId: { type: 'string' },
-                    patientName: { type: 'string' },
-                  },
-                  required: [
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        title: { type: 'string' },
+        forenames: { type: 'string' },
+        surname: { type: 'string' },
+        email: { type: 'string' },
+        role: { type: 'string', enum: ['Patient', 'Doctor', 'Admin'] },
+        createdAt: { type: 'string', format: 'date-time' },
+        updatedAt: { type: 'string', format: 'date-time' },
+        data: {
+          type: 'object',
+          properties: {
+            specialty: { type: 'string' },
+            upcomingAppointments: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  appointmentId: { type: 'string' },
+                  date: { type: 'string' },
+                  time: { type: 'string' },
+                  patientId: { type: 'string' },
+                  patientName: { type: 'string' },
+                },
+                required: [
                   'appointmentId',
                   'date',
                   'time',
                   'patientId',
                   'patientName',
-                  ],
-                },
+                ],
               },
-              workingHours: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    day: { type: 'string' },
-                    startTime: { type: 'string' },
-                    endTime: { type: 'string' },
-                  },
-                  required: ['day','startTime','endTime'],
-                }
-              },
-              contactInfo: {
+            },
+            workingHours: {
+              type: 'array',
+              items: {
                 type: 'object',
                 properties: {
-                  workEmail: { type: 'string' },
-                  workPhone: { type: 'string' },
+                  day: { type: 'string' },
+                  startTime: { type: 'string' },
+                  endTime: { type: 'string' },
                 },
-                required: ['workEmail','workPhone'],
+                required: ['day','startTime','endTime'],
               }
             },
-            required: ['specialty'],
+            contactInfo: {
+              type: 'object',
+              properties: {
+                workEmail: { type: 'string' },
+                workPhone: { type: 'string' },
+              },
+              required: ['workEmail','workPhone'],
+            }
           },
           required: [
-          'id',
-          'title',
-          'forenames',
-          'surname',
-          'email',
-          'role',
-          'createdAt',
-          'updatedAt',
-          'data',
+            'specialty',
+            'upcomingAppointments',
+            'workingHours',
+            'contactInfo',
           ],
         },
       },
+      required: [
+        'id',
+        'title',
+        'forenames',
+        'surname',
+        'email',
+        'role',
+        'createdAt',
+        'updatedAt',
+        'data',
+      ],
     },
-        206: {
-      items: {
-        type: 'object',
-        properties: {
-          title: { type: 'string' },
-          forenames: { type: 'string' },
-          surname: { type: 'string' },
-          data: {
-            type: 'object',
-            properties: {
-              specialty: { type: 'string' },
-              workingHours: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    day: { type: 'string' },
-                    startTime: { type: 'string' },
-                    endTime: { type: 'string' },
-                  },
-                  required: ['day','startTime','endTime'],
-                }
-              },
-              contactInfo: {
+    206: {
+      type: 'object',
+      properties: {
+        title: { type: 'string' },
+        forenames: { type: 'string' },
+        surname: { type: 'string' },
+        data: {
+          type: 'object',
+          properties: {
+            specialty: { type: 'string' },
+            workingHours: {
+              type: 'array',
+              items: {
                 type: 'object',
                 properties: {
-                  workEmail: { type: 'string' },
-                  workPhone: { type: 'string' },
+                  day: { type: 'string' },
+                  startTime: { type: 'string' },
+                  endTime: { type: 'string' },
                 },
-                required: ['workEmail','workPhone'],
+                required: ['day','startTime','endTime'],
               }
             },
-            required: ['specialty'],
+            contactInfo: {
+              type: 'object',
+              properties: {
+                workEmail: { type: 'string' },
+                workPhone: { type: 'string' },
+              },
+              required: ['workEmail','workPhone'],
+            }
           },
           required: [
-          'title',
-          'forenames',
-          'surname',
-          'data',
+            'specialty',
+            'workingHours',
+            'contactInfo',
           ],
         },
       },
+      required: [
+        'title',
+        'forenames',
+        'surname',
+        'data',
+      ],
     },
     400: {
       type: 'object',

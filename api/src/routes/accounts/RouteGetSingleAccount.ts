@@ -18,7 +18,7 @@ import AccountData, { JWTAccountData } from '../../types/data/AccountData.js';
 
 /**
  * @summary Route to return all account data from a given ID, this is an admin only endpoint
- * @route GET /
+ * @route GET /auth/internal/admin/account/:id
  * @HammerCyclone
  */
 
@@ -30,7 +30,6 @@ const routeGetSingleAccount = async (
   }>,
 	rep: FastifyReply,
 ): Promise<void> => {
-
 	// Type user object
 	const user = req.user as JWTAccountData;
 	const id = req.params.id
@@ -59,6 +58,8 @@ const routeGetSingleAccount = async (
 		} as GetSingleAccountReply);
 		return;
 	};
+
+	console.info(SingleAccount); //! Remove later
 
 	// Filter and return data
 	rep.status(200).send({

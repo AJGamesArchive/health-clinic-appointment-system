@@ -25,20 +25,11 @@ const protectedPatientRoutes = (): {
     // Guards
     protectedPatientRoutes.addHook("onRequest", guardIsPatient);
 
-    // Test endpoints
-    protectedPatientRoutes.get("/test", //TODO Replace with actual patient endpoints
-      {},
-      endpointTimeout(async (_req, rep) => rep.status(200).send(JSON.stringify({ message: "Hello Patient!" }, null, 2)), 5000), // 5 seconds
-    );
-
-
     //Get Doctor endpoint
 		protectedPatientRoutes.get("/profile/:id",
 			{schema: schemaGetDoctor },
 			endpointTimeout(routeGetDoctor, 5000), // 5 Seconds
 		);
-
-
   },
   prefix: '/patient',
 });

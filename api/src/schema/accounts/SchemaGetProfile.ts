@@ -26,7 +26,7 @@ export interface GetProfileReply {
 
 /**
  * @summary API Endpoint Schema
- * @route GET /profile
+ * @route GET /auth/internal/profile/:id
  * @HammerCyclone
  */
 
@@ -38,14 +38,8 @@ const schemaGetProfile = {
       'content-type': { type: 'string', enum: ['application/json'] },
       'origin': { type: 'string' },
     },
-    required: ['content-type', 'origin'],
+    required: ['origin'],
   },
-
-  //Querystrings are variable inputs in the URL that are taken after ?
-  //Enums are used to strictly type and contain what are the only options
-
-
-  //Id used as parameter to use to grab progile
   params: {
     type: 'object',
     properties: {
@@ -53,39 +47,34 @@ const schemaGetProfile = {
     },
     required: ['id'],
   },
-
-
-//Define what's being returned in the respone
   response: {
     200: {
-      items: {
-        type: 'object',
-        properties: {
-          id: { type: 'string' },
-          title: { type: 'string' },
-          forenames: { type: 'string' },
-          surname: { type: 'string' },
-          email: { type: 'string' },
-          role: { type: 'string', enum: ['Patient', 'Doctor', 'Admin'] },
-          createdAt: { type: 'string', format: 'date-time' },
-          updatedAt: { type: 'string', format: 'date-time' },
-          data: {
-            type: 'object',
-            additionalProperties: true,
-          },
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        title: { type: 'string' },
+        forenames: { type: 'string' },
+        surname: { type: 'string' },
+        email: { type: 'string' },
+        role: { type: 'string', enum: ['Patient', 'Doctor', 'Admin'] },
+        createdAt: { type: 'string', format: 'date-time' },
+        updatedAt: { type: 'string', format: 'date-time' },
+        data: {
+          type: 'object',
+          additionalProperties: true,
         },
-        required: [
-          'id',
-          'title',
-          'forenames',
-          'surname',
-          'email',
-          'role',
-          'createdAt',
-          'updatedAt',
-          'data',
-        ],
       },
+      required: [
+        'id',
+        'title',
+        'forenames',
+        'surname',
+        'email',
+        'role',
+        'createdAt',
+        'updatedAt',
+        'data',
+      ],
     },
     400: {
       type: 'object',
