@@ -1,15 +1,13 @@
 
 //Make interfaces based on the objects defined earlier
-export interface GetSingleAccountHeaders {
+export interface GetProfileHeaders {
   'content-type': string;
   'origin': string;
 };
-export interface GetSingleAccountQuerystring {
-  page?: number;
-  type?: string;
-  onlyIds?: boolean;
+export interface GetProfileParams {
+  id: string;
 };
-export interface GetSingleAccountReply200 {
+export interface GetProfileReply200 {
   id: string;
   title: string;
   forenames: string;
@@ -20,19 +18,20 @@ export interface GetSingleAccountReply200 {
   updatedAt: Date;
   data: object;
 };
-export interface GetSingleAccountReply {
+
+export interface GetProfileReply {
   error: string;
   message: string;
 };
 
 /**
  * @summary API Endpoint Schema
- * @route GET /account
+ * @route GET /profile
  * @HammerCyclone
  */
 
 //Define what should be expected to be returned for the API
-const schemaGetSingleAccount = {
+const schemaGetProfile = {
   headers: {
     type: 'object',
     properties: {
@@ -44,15 +43,10 @@ const schemaGetSingleAccount = {
 
   //Querystrings are variable inputs in the URL that are taken after ?
   //Enums are used to strictly type and contain what are the only options
-  querystring: {
-    type: 'object',
-    properties: {
-      includeMedHistory: { type: 'boolean' },
-    },
-    required: [],
-  },
 
-    params: {
+
+  //Id used as parameter to use to grab progile
+  params: {
     type: 'object',
     properties: {
       id: { type: 'string' },
@@ -85,7 +79,6 @@ const schemaGetSingleAccount = {
           'id',
           'title',
           'forenames',
-          'surname',
           'surname',
           'email',
           'role',
@@ -122,4 +115,4 @@ const schemaGetSingleAccount = {
   },
 };
 
-export default schemaGetSingleAccount;
+export default schemaGetProfile;
