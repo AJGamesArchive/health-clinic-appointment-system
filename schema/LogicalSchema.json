@@ -21,7 +21,6 @@
         {
           "type": "object",
           "properties": {
-            "_id": "64f1a2b3c4d5e6f7g8h9i0j2",
             "specialty": "Cardiology",
             "upcomingAppointments": [
               {
@@ -48,7 +47,6 @@
         {
           "type": "object",
           "properties": {
-            "_id": "64f1a2b3c4d5e6f7g8h9i0j5",
             "gender": "Male",
             "dateOfBirth": "1980-05-15",
             "contactInfo": {

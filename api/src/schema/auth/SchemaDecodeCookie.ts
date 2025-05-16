@@ -26,7 +26,7 @@ const schemaDecodeCookie = {
       'content-type': { type: 'string', const: 'application/json' },
       'origin': { type: 'string' },
     },
-    required: ['content-type', 'origin'],
+    required: ['origin'],
   },
   response: {
     200: {

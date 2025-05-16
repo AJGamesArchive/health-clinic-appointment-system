@@ -35,7 +35,7 @@ const schemaGetAccounts = {
       'content-type': { type: 'string', enum: ['application/json'] },
       'origin': { type: 'string' },
     },
-    required: ['content-type', 'origin'],
+    required: ['origin'],
   },
   querystring: {
     type: 'object',

@@ -19,8 +19,18 @@ const routeInternalLogout = async (
   // Clear all HTTP JWT Cookies
   rep
     .status(200)
-    .clearCookie("access_token")
-    .clearCookie("refresh_token")
+    .clearCookie("access_token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      path: '/',
+    })
+    .clearCookie("refresh_token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      path: '/',
+    })
     .send(JSON.stringify({
       message: 'Logout Successful',
     } as InternalLogoutReply200, null, 2));
