@@ -6,6 +6,7 @@ import axios from "axios";
  */
 const api = axios.create({
   baseURL: import.meta.env.API_URL,
+  withCredentials: true,
   timeout: 90000, // 90 seconds
   timeoutErrorMessage: 'The HTTPS request to the API timed out. This is likely due to poor internet connection.',
 });
