@@ -71,13 +71,13 @@ const routeInternalCookie = async (
     .setCookie('access_token', jwt, {
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
+      sameSite: 'none',
       path: '/',
     })
     .setCookie('refresh_token', refreshJwt, {
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
+      sameSite: 'none',
       path: '/',
     })
     .send(JSON.stringify({

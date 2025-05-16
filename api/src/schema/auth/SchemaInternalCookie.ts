@@ -24,7 +24,7 @@ const schemaInternalCookie = {
       'content-type': { type: 'string', const: 'application/x-www-form-urlencoded' },
       'origin': { type: 'string' },
     },
-    required: ['authorization', 'content-type', 'origin'],
+    required: ['authorization', 'origin'],
   },
   response: {
     200: {

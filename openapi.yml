@@ -1,0 +1,1033 @@
+openapi: 3.0.3
+info:
+  title: Health Clinic Appointment Management System API
+  description: API for processing data in the HCAMS.
+  version: 0.1.0
+servers:
+  - url: http://localhost:3950
+    description: Local Development Server
+  - url: https://development.alexward.xyz
+    description: Development Server
+paths:
+  /:
+    get:
+      summary: Core Endpoint
+      tags:
+        - Core
+      description: Retrieve API metadata including version and authors.
+      operationId: getApiRoot
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  api:
+                    type: string
+                  version:
+                    type: string
+                  authors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        email:
+                          type: string
+                        website:
+                          type: string
+                      required:
+                        - name
+                        - email
+                required:
+                  - api
+                  - version
+                  - authors
+  /token/internal/cookie:
+    post:
+      summary: Get an access Cookie
+      tags:
+        - Auth
+      description: Endpoint to handle login operations & returning internal access cookies.
+      operationId: postInternalCookie
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: Basic base64 authorization
+          schema:
+            type: string
+            format: base64
+        - name: Origin
+          in: header
+          required: true
+          description: Origin of the request
+          schema:
+            type: string
+            format: string
+        - name: content-type
+          in: header
+          required: false
+          description: Content type of the request
+          schema:
+            type: string
+            enum: ['application/x-www-form-urlencoded']
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '401':
+          description: Unauthorized error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+  /token/internal/cookie/refresh:
+    post:
+      summary: Refresh your access cookie
+      tags:
+        - Auth
+      description: Endpoint to refresh internal access cookies.
+      operationId: postInternalCookieRefresh
+      parameters:
+        - name: content-type
+          in: header
+          required: false
+          description: Content type of the request
+          schema:
+            type: string
+            enum: ['application/x-www-form-urlencoded']
+        - name: Origin
+          in: header
+          required: true
+          description: Origin of the request
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '401':
+          description: Unauthorized error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+  /token/internal/cookie/logout:
+    delete:
+      summary: Logout / Clear Access Cookies
+      tags:
+        - Auth
+      description: Endpoint to handle logout operations and invalidate internal access cookies.
+      operationId: deleteInternalCookieLogout
+      parameters:
+        - name: content-type
+          in: header
+          required: false
+          description: Content type of the request
+          schema:
+            type: string
+            enum: ['application/x-www-form-urlencoded']
+        - name: Origin
+          in: header
+          required: true
+          description: Origin of the request
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '401':
+          description: Unauthorized error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+  /auth/internal/session/current/user:
+    get:
+      summary: Get logged in users top level account data
+      tags:
+        - Auth
+      description: Retrieve the current user's session details.
+      operationId: getCurrentUserSession
+      parameters:
+        - name: content-type
+          in: header
+          required: false
+          description: Content type of the request
+          schema:
+            type: string
+            enum: ['application/json']
+        - name: Origin
+          in: header
+          required: true
+          description: Origin of the request
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  forenames:
+                    type: string
+                  surname:
+                    type: string
+                  email:
+                    type: string
+                  role:
+                    type: string
+                    enum:
+                      - Patient
+                      - Doctor
+                      - Admin
+                required:
+                  - id
+                  - title
+                  - forenames
+                  - surname
+                  - email
+                  - role
+        '401':
+          description: Unauthorized error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+  /auth/internal/accounts:
+    get:
+      summary: Bulk fetch & filter accounts
+      tags:
+        - Accounts
+      description: Retrieve a list of accounts with optional filters.
+      operationId: getAccounts
+      parameters:
+        - name: content-type
+          in: header
+          required: false
+          description: Content type of the request
+          schema:
+            type: string
+            enum: ['application/json']
+        - name: origin
+          in: header
+          required: true
+          description: Origin of the request
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          description: Page number for pagination
+          schema:
+            type: number
+        - name: type
+          in: query
+          required: false
+          description: Filter by account type
+          schema:
+            type: string
+            enum: ['Patient', 'Doctor', 'Admin']
+        - name: onlyIds
+          in: query
+          required: false
+          description: Return only account IDs
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    title:
+                      type: string
+                    forenames:
+                      type: string
+                    surname:
+                      type: string
+                    email:
+                      type: string
+                    role:
+                      type: string
+                      enum: ['Patient', 'Doctor', 'Admin']
+                    createdAt:
+                      type: string
+                      format: date-time
+                    updatedAt:
+                      type: string
+                      format: date-time
+                    data:
+                      type: object
+                      additionalProperties: true
+                  required:
+                    - id
+                    - title
+                    - forenames
+                    - surname
+                    - email
+                    - role
+                    - createdAt
+                    - updatedAt
+                    - data
+        '206':
+          description: Successful partial response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    title:
+                      type: string
+                    forenames:
+                      type: string
+                    surname:
+                      type: string
+                  required:
+                    - id
+                    - title
+                    - forenames
+                    - surname
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+  /auth/internal/patient/doctor/{id}:
+    get:
+      summary: Get doctor details for patients
+      tags:
+        - Accounts
+        - Patient
+      description: Retrieve a filtered doctors account data for a patient by a given doctor ID
+      operationId: getPatientProfile
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the patient
+          schema:
+            type: string
+        - name: content-type
+          in: header
+          required: false
+          description: Content type of the request
+          schema:
+            type: string
+            enum: ['application/json']
+        - name: origin
+          in: header
+          required: true
+          description: Origin of the request
+          schema:
+            type: string
+      responses:
+        '206':
+          description: Partial response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  forenames:
+                    type: string
+                  surname:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      specialty:
+                        type: string
+                      workingHours:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            day:
+                              type: string
+                            startTime:
+                              type: string
+                            endTime:
+                              type: string
+                          required:
+                            - day
+                            - startTime
+                            - endTime
+                      contactInfo:
+                        type: object
+                        properties:
+                          workEmail:
+                            type: string
+                          workPhone:
+                            type: string
+                        required:
+                          - workEmail
+                          - workPhone
+                    required:
+                      - specialty
+                      - workingHours
+                      - contactInfo
+                required:
+                  - title
+                  - forenames
+                  - surname
+                  - data
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+  /auth/internal/profile:
+    get:
+      summary: Retrieve Profiles
+      tags:
+        - Accounts
+      description: Retrieve detailed profile information for the logged in user
+      operationId: getProfile
+      parameters:
+        - name: content-type
+          in: header
+          required: false
+          description: Content type of the request
+          schema:
+            type: string
+            enum: ['application/json']
+        - name: origin
+          in: header
+          required: true
+          description: Origin of the request
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  forenames:
+                    type: string
+                  surname:
+                    type: string
+                  email:
+                    type: string
+                  role:
+                    type: string
+                    enum: ['Patient', 'Doctor', 'Admin']
+                  createdAt:
+                    type: string
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    format: date-time
+                  data:
+                    type: object
+                    additionalProperties: true
+                required:
+                  - id
+                  - title
+                  - forenames
+                  - surname
+                  - email
+                  - role
+                  - createdAt
+                  - updatedAt
+                  - data
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+  /auth/internal/admin/account/{id}:
+    get:
+      summary: Retrieve a single account by ID
+      tags:
+        - Accounts
+        - Admin
+      description: Retrieve detailed account information for a specific user by ID.
+      operationId: getSingleAccount
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the account
+          schema:
+            type: string
+        - name: content-type
+          in: header
+          required: false
+          description: Content type of the request
+          schema:
+            type: string
+            enum: ['application/json']
+        - name: origin
+          in: header
+          required: true
+          description: Origin of the request
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  forenames:
+                    type: string
+                  surname:
+                    type: string
+                  email:
+                    type: string
+                  role:
+                    type: string
+                    enum: ['Patient', 'Doctor', 'Admin']
+                  createdAt:
+                    type: string
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    format: date-time
+                  data:
+                    type: object
+                    additionalProperties: true
+                required:
+                  - id
+                  - title
+                  - forenames
+                  - surname
+                  - email
+                  - role
+                  - createdAt
+                  - updatedAt
+                  - data
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+components:
+  schemas:
+    PatientData:
+      type: object
+      properties:
+        gender:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        contactInfo:
+          type: object
+          properties:
+            email:
+              type: string
+            phone:
+              type: string
+        emergencyContact:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              phone:
+                type: string
+              relationship:
+                type: string
+        address:
+          type: object
+          properties:
+            addressLine1:
+              type: string
+            addressLine2:
+              type: string
+            city:
+              type: string
+            county:
+              type: string
+            postCode:
+              type: string
+        upcomingAppointments:
+          type: array
+          items:
+            type: object
+            properties:
+              appointmentId:
+                type: string
+              date:
+                type: string
+              time:
+                type: string
+              doctorId:
+                type: string
+              doctorName:
+                type: string
+        medicalInformation:
+          type: object
+          properties:
+            bloodType:
+              type: string
+            sexAtBirth:
+              type: string
+            conditions:
+              type: array
+              items:
+                type: string
+            allergies:
+              type: array
+              items:
+                type: string
+        lifeStyleHistory:
+          $ref: '#/components/schemas/LifeStyleFactors'
+        importantNotes:
+          type: array
+          items:
+            type: string
+    DoctorData:
+      type: object
+      properties:
+        specialty:
+          type: string
+        upcomingAppointments:
+          type: array
+          items:
+            type: object
+            properties:
+              appointmentId:
+                type: string
+              date:
+                type: string
+              time:
+                type: string
+              patientId:
+                type: string
+              patientName:
+                type: string
+        workingHours:
+          type: array
+          items:
+            type: object
+            properties:
+              day:
+                type: string
+              startTime:
+                type: string
+              endTime:
+                type: string
+        contactInfo:
+          type: object
+          properties:
+            workEmail:
+              type: string
+            workPhone:
+              type: string
+    AdminData:
+      type: object
+      properties:
+        staffRole:
+          type: string
+    LifeStyleFactors:
+      type: object
+      properties:
+        smokingStatus:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: string
+              statusAsOf:
+                type: string
+                format: date
+              notes:
+                type: string
+        alcoholConsumption:
+          type: array
+          items:
+            type: object
+            properties:
+              consumption:
+                type: string
+              consumptionAsOf:
+                type: string
+                format: date
+              notes:
+                type: string
+        recreationalDrugUse:
+          type: array
+          items:
+            type: object
+            properties:
+              drug:
+                type: string
+              usage:
+                type: string
+              useAsOf:
+                type: string
+                format: date
+              notes:
+                type: string
+        exerciseFrequency:
+          type: array
+          items:
+            type: object
+            properties:
+              exercise:
+                type: string
+              frequency:
+                type: string
+              frequencyAsOf:
+                type: string
+                format: date
+              notes:
+                type: string
+        sleepQuality:
+          type: array
+          items:
+            type: object
+            properties:
+              quality:
+                type: string
+              qualityAsOf:
+                type: string
+                format: date
+              notes:
+                type: string
+        stressLevel:
+          type: array
+          items:
+            type: object
+            properties:
+              level:
+                type: string
+              levelAsOf:
+                type: string
+                format: date
+              notes:
+                type: string
+        socialSupport:
+          type: array
+          items:
+            type: object
+            properties:
+              support:
+                type: string
+              supportAsOf:
+                type: string
+                format: date
+              notes:
+                type: string
+        travelHistory:
+          type: array
+          items:
+            type: object
+            properties:
+              location:
+                type: string
+              date:
+                type: string
+                format: date
+              duration:
+                type: string
+              notes:
+                type: string
+        familyConditionals:
+          type: array
+          items:
+            type: object
+            properties:
+              condition:
+                type: string
+              typicalCause:
+                type: string
+              typicalAgeOfDiagnosis:
+                type: number
+              notes:
+                type: string
+        environmentalFactors:
+          type: array
+          items:
+            type: object
+            properties:
+              factor:
+                type: string
+              exposure:
+                type: string
+              exposureAsOf:
+                type: string
+                format: date
+              notes:
+                type: string

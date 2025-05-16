@@ -18,6 +18,7 @@ const DebugBlock: React.FC<DebugBlock> = ({
     <pre style={{
       minHeight: 'fit-content',
       textWrap: 'wrap',
+      color: 'white',
     }}>
       {children}
     </pre>
