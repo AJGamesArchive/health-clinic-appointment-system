@@ -82,7 +82,7 @@ abstract class AccountService {
       });
 
       // Insert document
-      const document = (await newAccount.save());
+      const document = await newAccount.save();
 
       // Map created document
       let mappedDocument: AccountData = {
