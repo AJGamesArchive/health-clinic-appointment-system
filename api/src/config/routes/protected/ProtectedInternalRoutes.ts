@@ -49,17 +49,18 @@ const protectedInternalRoutes = (): {
       endpointTimeout(routeDecodeCookie, 5000), // 5 seconds
     );
 
-    // Account endpoints
+    // Get All Account endpoint
     protectedInternalRoutes.get("/accounts",
       { schema: schemaGetAccounts },
       endpointTimeout(routeGetAccounts, 10000), // 10 seconds
     );
 
-		//Profile endpoint
+		//Get Profile endpoint
 		protectedInternalRoutes.get("/profile/:id",
 			{schema: schemaGetProfile },
 			endpointTimeout(routeGetProfile, 5000), // 5 Seconds
 		);
+
   },
   prefix: '/auth/internal',
 });

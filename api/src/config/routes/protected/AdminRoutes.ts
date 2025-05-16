@@ -4,6 +4,8 @@ import endpointTimeout from "../../../utilities/core/EndpointTimeout.js";
 
 // Imports guards
 import guardIsAdmin from "../../../guards/IsAdmin.js";
+import schemaGetSingleAccount from "../../../schema/accounts/SchemaGetSingleAccount.js";
+import routeGetSingleAccount from "../../../routes/accounts/RouteGetSingleAccount.js";
 
 // Import routes & schemas
 //TODO Insert admin endpoints here
@@ -26,6 +28,12 @@ const protectedAdminRoutes = (): {
     protectedAdminRoutes.get("/test", //TODO Replace with actual admin endpoints
       {},
       endpointTimeout(async (_req, rep) => rep.status(200).send(JSON.stringify({ message: "Hello Admin!" }, null, 2)), 5000), // 5 seconds
+    );
+
+    //Get account endpoint
+    protectedAdminRoutes.get("/account/:id",
+      {schema: schemaGetSingleAccount },
+      endpointTimeout(routeGetSingleAccount, 5000), // 5 Seconds
     );
   },
   prefix: '/admin',
