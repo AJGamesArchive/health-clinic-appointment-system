@@ -20,6 +20,8 @@ const PatientPage: React.FC = () => {
                return <LifeStylePatients />;
             case "UpcomingAppointments":
                return <UpcomingAppointmentsPatients />;
+            //case "MedicalHistory":
+               //return <MedicalHistoryPatients />;
         }
     };
 
@@ -49,6 +51,7 @@ const PatientPage: React.FC = () => {
                         className={`tab ${activeTab === "LifeStyle" ? "active" : ""}`}
                         onClick={() => handleClick("LifeStyle")}
                         > Life Style</button>
+                    
                 </div>
         </div>
         {renderTabContent()}
