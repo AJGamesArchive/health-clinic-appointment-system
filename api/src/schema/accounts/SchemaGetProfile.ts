@@ -4,9 +4,6 @@ export interface GetProfileHeaders {
   'content-type': string;
   'origin': string;
 };
-export interface GetProfileParams {
-  id: string;
-};
 export interface GetProfileReply200 {
   id: string;
   title: string;
@@ -26,11 +23,9 @@ export interface GetProfileReply {
 
 /**
  * @summary API Endpoint Schema
- * @route GET /auth/internal/profile/:id
+ * @route GET /auth/internal/profile
  * @HammerCyclone
  */
-
-//Define what should be expected to be returned for the API
 const schemaGetProfile = {
   headers: {
     type: 'object',
@@ -39,13 +34,6 @@ const schemaGetProfile = {
       'origin': { type: 'string' },
     },
     required: ['origin'],
-  },
-  params: {
-    type: 'object',
-    properties: {
-      id: { type: 'string' },
-    },
-    required: ['id'],
   },
   response: {
     200: {

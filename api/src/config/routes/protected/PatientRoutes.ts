@@ -25,8 +25,8 @@ const protectedPatientRoutes = (): {
     // Guards
     protectedPatientRoutes.addHook("onRequest", guardIsPatient);
 
-    //Get Doctor endpoint
-		protectedPatientRoutes.get("/profile/:id",
+    // Get Doctor Endpoint
+		protectedPatientRoutes.get("/doctor/:id",
 			{schema: schemaGetDoctor },
 			endpointTimeout(routeGetDoctor, 5000), // 5 Seconds
 		);

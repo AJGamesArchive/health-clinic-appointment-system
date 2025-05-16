@@ -35,11 +35,9 @@ export interface GetDoctorReply {
 
 /**
  * @summary API Endpoint Schema
- * @route GET /auth/internal/patient/profile/:id
+ * @route GET /auth/internal/patient/doctor/:id
  * @HammerCyclone
  */
-
-//Define what should be expected to be returned for the API
 const schemaGetDoctor = {
   headers: {
     type: 'object',
@@ -57,7 +55,7 @@ const schemaGetDoctor = {
     required: ['id'],
   },
   response: {
-    200: {
+    200: { //TODO Move this elsewhere when required
       type: 'object',
       properties: {
         id: { type: 'string' },

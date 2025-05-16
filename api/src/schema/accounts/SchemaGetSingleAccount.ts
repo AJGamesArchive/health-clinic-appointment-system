@@ -29,8 +29,6 @@ export interface GetSingleAccountReply {
  * @route GET /auth/internal/admin/account/:id
  * @HammerCyclone
  */
-
-//Define what should be expected to be returned for the API
 const schemaGetSingleAccount = {
   headers: {
     type: 'object',
@@ -49,32 +47,32 @@ const schemaGetSingleAccount = {
   },
   response: {
     200: {
-        type: 'object',
-        properties: {
-          id: { type: 'string' },
-          title: { type: 'string' },
-          forenames: { type: 'string' },
-          surname: { type: 'string' },
-          email: { type: 'string' },
-          role: { type: 'string', enum: ['Patient', 'Doctor', 'Admin'] },
-          createdAt: { type: 'string', format: 'date-time' },
-          updatedAt: { type: 'string', format: 'date-time' },
-          data: {
-            type: 'object',
-            additionalProperties: true,
-          },
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        title: { type: 'string' },
+        forenames: { type: 'string' },
+        surname: { type: 'string' },
+        email: { type: 'string' },
+        role: { type: 'string', enum: ['Patient', 'Doctor', 'Admin'] },
+        createdAt: { type: 'string', format: 'date-time' },
+        updatedAt: { type: 'string', format: 'date-time' },
+        data: {
+          type: 'object',
+          additionalProperties: true,
         },
-        required: [
-          'id',
-          'title',
-          'forenames',
-          'surname',
-          'email',
-          'role',
-          'createdAt',
-          'updatedAt',
-          'data',
-        ],
+      },
+      required: [
+        'id',
+        'title',
+        'forenames',
+        'surname',
+        'email',
+        'role',
+        'createdAt',
+        'updatedAt',
+        'data',
+      ],
     },
     400: {
       type: 'object',

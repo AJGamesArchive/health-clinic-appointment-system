@@ -55,8 +55,8 @@ const protectedInternalRoutes = (): {
       endpointTimeout(routeGetAccounts, 10000), // 10 seconds
     );
 
-		//Get Profile endpoint
-		protectedInternalRoutes.get("/profile/:id",
+		// Get Profile endpoint
+		protectedInternalRoutes.get("/profile",
 			{schema: schemaGetProfile },
 			endpointTimeout(routeGetProfile, 5000), // 5 Seconds
 		);

@@ -17,8 +17,8 @@ import AccountService from '../../services/database/AccountService.js';
 import AccountData, { JWTAccountData } from '../../types/data/AccountData.js';
 
 /**
- * @summary Route to return all account data from a given ID, this is an admin only endpoint
- * @route GET /auth/internal/patient/profile/:id
+ * @summary Route to a filtered doctors account data for a patient by a given doctor id
+ * @route GET /auth/internal/patient/doctor/:id
  * @HammerCyclone
  */
 

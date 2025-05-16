@@ -17,7 +17,7 @@ import AccountService from '../../services/database/AccountService.js';
 import AccountData, { JWTAccountData } from '../../types/data/AccountData.js';
 
 /**
- * @summary Route to return all account data from a given ID, this is an admin only endpoint
+ * @summary Route to return all account data from an account based on a given ID, this is an admin only endpoint
  * @route GET /auth/internal/admin/account/:id
  * @HammerCyclone
  */
@@ -58,8 +58,6 @@ const routeGetSingleAccount = async (
 		} as GetSingleAccountReply);
 		return;
 	};
-
-	console.info(SingleAccount); //! Remove later
 
 	// Filter and return data
 	rep.status(200).send({
