@@ -1,0 +1,58 @@
+.build-number {
+  color:rgb(53, 53, 53);
+  font-weight: bold;
+  position: fixed;
+  padding: 10px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.login-card {
+  padding: 3%;
+  border-radius: 5px; 
+  background-color: #cecece;
+  border: #929292 solid 2px;
+  display: flex;
+  width: 700px;
+  flex-direction: row;
+}
+
+.logo {
+  padding: 20px;
+  width: 300px;
+  max-height: 100%;
+  border-radius: 8px; 
+  object-fit: cover;
+}
+
+.top-div {
+  display: flex;
+  height: 50%; 
+  align-items: center; 
+  justify-content: center;
+}
+
+.left-div {
+  display: flex;
+  width: 50%; 
+  align-items: center; 
+  justify-content: center;
+}
+
+.bottom-div {
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center;
+  height: 50%;
+  padding: 15px;
+}
+
+.right-div {
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between;
+  border-left: #b8b8b8 solid 2px;
+  width: 50%;
+  padding: 15px;
+}

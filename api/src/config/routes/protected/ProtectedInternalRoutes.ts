@@ -14,6 +14,9 @@ import protectedAdminRoutes from "./AdminRoutes.js";
 import schemaDecodeCookie from "../../../schema/auth/SchemaDecodeCookie.js";
 import routeDecodeCookie from "../../../routes/auth/RouteDecodeCookie.js";
 
+import schemaGetAccounts from "../../../schema/accounts/SchemaGetAccounts.js";
+import routeGetAccounts from "../../../routes/accounts/RouteGetAccounts.js";
+
 /**
  * Function to declare all internally protected routes
  * @AJGamesArchive
@@ -40,6 +43,12 @@ const protectedInternalRoutes = (): {
     protectedInternalRoutes.get("/session/current/user",
       { schema: schemaDecodeCookie },
       endpointTimeout(routeDecodeCookie, 5000), // 5 seconds
+    );
+
+    // Account endpoints
+    protectedInternalRoutes.get("/accounts",
+      { schema: schemaGetAccounts },
+      endpointTimeout(routeGetAccounts, 10000), // 10 seconds
     );
   },
   prefix: '/auth/internal',

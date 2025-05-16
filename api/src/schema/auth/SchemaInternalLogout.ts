@@ -18,7 +18,7 @@ const schemaInternalLogout = {
       'content-type': { type: 'string', const: 'application/x-www-form-urlencoded' },
       'origin': { type: 'string' },
     },
-    required: ['content-type', 'origin'],
+    required: ['origin'],
   },
   response: {
     200: {
