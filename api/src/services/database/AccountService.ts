@@ -190,7 +190,7 @@ abstract class AccountService {
       console.error(`Failed to delete account:\n\n${err}`);
       return false;
     };
-  }
+  };
 
   /**
    * @static async function to get an account from the database
@@ -232,7 +232,7 @@ abstract class AccountService {
       console.error(`Failed to get account:\n\n${err}`);
       return 500; // Internal Server Error
     };
-  }
+  };
 
   /**
    * @static async function to get a selection of accounts based on a 'paged' system
@@ -273,7 +273,7 @@ abstract class AccountService {
       console.error(`Failed to get accounts:\n\n${err}`);
       return 500; // Internal Server Error
     };
-  }
+  };
 
   /**
    * @static async function to get an account from the database by email

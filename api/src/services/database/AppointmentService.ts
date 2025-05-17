@@ -129,6 +129,58 @@ abstract class AppointmentService {
       return 500;
     };
   };
+
+  /**
+   * @static async function to get an appointment from the database
+   * @param id - The appointment ID to get
+   * @returns An appointment data object, otherwise returns error status code
+   * @AJGamesArchive
+   */
+  static async getOne(id: string): Promise<AppointmentData | number> {
+    // Ensure required data is present
+    if(!id) return 400;
+
+    // DB opts
+    try {
+      // Get document
+      const document = await DB_Appointments.findById(id);
+
+      // Handle silent failure
+      if(!document) return 404; // Not Found
+
+      // Map updated document
+      const appointment: AppointmentData = {
+        id: document._id.toString(),
+        doctorId: document.doctorId,
+        patientId: document.patientId,
+        upcoming: document.upcoming,
+        canceled: document.canceled,
+        date: document.date,
+        time: document.time,
+        bookedBy: document.bookedBy,
+        bookedAt: document.bookedAt,
+        updatedAt: document.updatedAt,
+        vitals: (document.vitals) ? {
+          height: document.vitals.height ?? undefined,
+          weight: document.vitals.weight ?? undefined,
+          bloodPressure: document.vitals.bloodPressure ?? undefined,
+          heartRate: document.vitals.heartRate ?? undefined,
+          temperature: document.vitals.temperature ?? undefined
+        } : undefined,
+        preAppointmentNotes: document.preAppointmentNotes,
+        actionsTaken: document.actionsTaken,
+        previousAppointmentId: document.previousAppointmentId ?? undefined,
+        nextAppointmentId: document.nextAppointmentId ?? undefined,
+        postAppointmentNotes: document.postAppointmentNotes
+      };
+
+      // Return account class
+      return appointment;
+    } catch (err: any) {
+      console.error(`Failed to get account:\n\n${err}`);
+      return 500; // Internal Server Error
+    };
+  };
 };
 
 export default AppointmentService;

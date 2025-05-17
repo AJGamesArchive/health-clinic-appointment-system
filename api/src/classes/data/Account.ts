@@ -246,6 +246,30 @@ class Account extends AccountService {
   };
 
   /**
+   * @public function to check if an appointment is present in the accounts upcoming appointments
+   * @param appointmentId the appointment ID to check
+   * @returns Returns true if the appointment is present, false if the appointment is not present
+   * @note Function will fail if account is Admin or if embedded data is not present
+   * @AJGamesArchive
+   */
+  public hasAppointment(appointmentId: string): boolean {
+    switch(this.role) {
+      case "Patient":
+        if(!this.patientData) return false;
+        return this.patientData.upcomingAppointments.some(
+          (appointment) => appointment.appointmentId === appointmentId
+        );
+      case "Doctor":
+        if(!this.doctorData) return false;
+        return this.doctorData.upcomingAppointments.some(
+          (appointment) => appointment.appointmentId === appointmentId
+        );
+      default:
+        return false;
+    };
+  };
+
+  /**
    * @public function to add an upcoming appointment to embedded patient or doctor data
    * @param appointment the appointment to add
    * @returns Returns true if the appointment was added successfully, false if the appointment failed to add
