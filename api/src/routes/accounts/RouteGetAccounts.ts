@@ -69,7 +69,7 @@ const routeGetAccounts = async (
 	};
 
 	// Filter and return data
-	rep.status(200).send(
+	rep.status((!req.query.onlyIds) ? 200 : 206).send(
 		(!req.query.onlyIds) ?
 			accounts.map((acc) => ({
 				...acc,
