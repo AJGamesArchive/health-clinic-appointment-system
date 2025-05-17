@@ -4,7 +4,7 @@ import { useAuthContext } from "../../contexts/AuthContext";
 
 type PatientRole = "Patient" | "Doctor" | "Admin";
 
-const LoggedInUser = useAuthContext();
+
 
 interface PatientFormData {
     notes: string[];
@@ -24,6 +24,7 @@ interface PatientFormData {
 
 
 const CoreInformationPatients: React.FC = () => {
+    const LoggedInUser = useAuthContext();
     const [formData, setFormData] = useState({
         notes: [],
         title: "",
