@@ -36,7 +36,7 @@ const routeGetDoctor = async (
 
 	// Validate if logged in user is requesting their own information
 	let reject: boolean = false;
-	if (user.role !== 'Doctor') reject = true;
+	if (user.role === 'Doctor') reject = true;
 
 	if(reject) {
 		rep.status(403).send({
