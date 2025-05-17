@@ -14,8 +14,8 @@ type AppointmentData = {
   date: string;
   time: string;
   bookedBy: AccountRoles;
-  bookedAt: Date;
-  updatedAt: Date;
+  bookedAt?: Date;
+  updatedAt?: Date;
   vitals?: {
     height?: string;
     weight?: string;

@@ -1,4 +1,5 @@
 // Imports
+import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import DB_Accounts from "../../models/Accounts.js";
 import AccountData, { JWTAccountData } from "../../types/data/AccountData.js";
@@ -59,10 +60,11 @@ abstract class AccountService {
   /**
    * @protected async function to save the account to the database as a new document
    * @param data - The account data to save
+   * @param session - Optional mongoose session to run the operation in
    * @returns The saved account data, otherwise returns error status code
    * @AJGamesArchive
    */
-  protected async save(data: AccountData): Promise<AccountData | number> {
+  protected async save(data: AccountData, session?: mongoose.mongo.ClientSession): Promise<AccountData | number> {
     // Ensure required data is present
     if(!data.password) return 400;
     const accountData: Object | undefined = this.detectAccountData(data); 
@@ -82,7 +84,7 @@ abstract class AccountService {
       });
 
       // Insert document
-      const document = await newAccount.save();
+      const document = await newAccount.save({ session });
 
       // Map created document
       let mappedDocument: AccountData = {
@@ -110,10 +112,11 @@ abstract class AccountService {
   /**
    * @protected async function update the existing account in the database
    * @param data - The new account data to set
+   * @param session - Optional mongoose session to run the operation in
    * @returns The updated account data, otherwise returns error status code
    * @AJGamesArchive
    */
-  protected async update(data: AccountData): Promise<AccountData | number> {
+  protected async update(data: AccountData, session?: mongoose.mongo.ClientSession): Promise<AccountData | number> {
     // Ensure required data is present
     if(!data.id) return 400;
     const accountData: Object | undefined = this.detectAccountData(data);
@@ -129,9 +132,11 @@ abstract class AccountService {
         email: data.email,
         password: data.password ?? undefined,
         role: data.role,
+        updatedAt: new Date(),
         accountData,
       }, {
         new: true,
+        session,
       });
 
       // Handle silent failure
@@ -163,17 +168,18 @@ abstract class AccountService {
   /**
    * @protected async function to delete the account from the database
    * @param id - The account ID to delete
+   * @param session - Optional mongoose session to run the operation in
    * @returns true if the account was deleted successfully, otherwise false
    * @AJGamesArchive
    */
-  protected async delete(id: string): Promise<boolean> {
+  protected async delete(id: string, session?: mongoose.mongo.ClientSession): Promise<boolean> {
     // Ensure required data is present
     if(!id) return false;
 
     // DB opts
     try {
       // Delete document
-      const result = await DB_Accounts.findByIdAndDelete(id);
+      const result = await DB_Accounts.findByIdAndDelete(id, { session });
 
       // Handle silent failure
       if(!result) return false;

@@ -1,8 +1,10 @@
+// Imports
+import LifeStyleFactors from "./LifeStyleFactors.js";
+import { PatientUpcomingAppointments } from "./UpcomingAppointmentData.js";
+
 /**
  * Type to define the full data object of an Patient user
  */
-import LifeStyleFactors from "./LifeStyleFactors";
-
 type PatientData = {
   gender: string;
   dateOfBirth: Date;
@@ -22,13 +24,7 @@ type PatientData = {
     county: string
     postCode: string;
   };
-  upcomingAppointments: {
-    appointmentId: string;
-    date: string;
-    time: string;
-    doctorId: string;
-    doctorName: string;
-  }[];
+  upcomingAppointments: PatientUpcomingAppointments[];
   medicalInformation: { //? This would be the patents current statuses, however, an entry could be made for these in Medical History to ensure past statuses are kept?
     bloodType: string;
     sexAtBirth: string;

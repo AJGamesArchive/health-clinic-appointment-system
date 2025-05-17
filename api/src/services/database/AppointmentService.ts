@@ -1,6 +1,6 @@
 // Imports
+import mongoose from "mongoose";
 import DB_Appointments from "../../models/Appointments.js";
-import DB_Accounts from "../../models/Accounts.js";
 import AppointmentData from "../../types/data/AppointmentData.js";
 
 /**
@@ -11,17 +11,22 @@ abstract class AppointmentService {
   /**
    * @protected async function to save an appointment to the database as a new document
    * @param appointmentData - The appointment data to save
+   * @param session - Optional mongoose session to run the operation in
    * @returns ID of created document, otherwise returns error status code
    * @AJGamesArchive
    */
-  protected async save(appointmentData: AppointmentData): Promise<string | number> {
+  protected async save(
+    appointmentData: AppointmentData,
+    session?: mongoose.mongo.ClientSession,
+  ): Promise<string | number> {
     // Reject creation if document already exists
     if(appointmentData.id) return 409;
 
     // DB Opts
     try {
+      // Start transaction
       const appointment = new DB_Appointments(appointmentData);
-      const document = await appointment.save();
+      const document = await appointment.save({ session });
       return document._id.toString();
     } catch (err: any) {
       console.error(`Error creating appointment document: ${err}`);
@@ -32,16 +37,23 @@ abstract class AppointmentService {
   /**
    * @protected async function to update an appointment in the database
    * @param appointmentData - The appointment data to update
+   * @param session - Optional mongoose session to run the operation in
    * @returns The old document data BEFORE updates were applied, otherwise returns error status code
    * @AJGamesArchive
    */
-  protected async update(appointmentData: AppointmentData): Promise<AppointmentData | number> {
+  protected async update(
+    appointmentData: AppointmentData,
+    session?: mongoose.mongo.ClientSession,
+  ): Promise<AppointmentData | number> {
     // Reject update if document does not exist
     if(!appointmentData.id) return 404;
 
     // DB Opts
     try {
-      const originalDocument = await DB_Appointments.findByIdAndUpdate(appointmentData.id, appointmentData);
+      const originalDocument = await DB_Appointments.findByIdAndUpdate(appointmentData.id, {
+        ...appointmentData,
+        updatedAt: new Date(),
+      }, { session });
       if(!originalDocument) return 404;
       return {
         id: originalDocument._id.toString(),
@@ -69,6 +81,51 @@ abstract class AppointmentService {
       };
     } catch (err: any) {
       console.error(`Error updating appointment document: ${err}`);
+      return 500;
+    };
+  };
+
+  /**
+   * @protected async function to delete an appointment in the database
+   * @param appointmentId - The appointment ID to delete
+   * @param session - Optional mongoose session to run the operation in
+   * @returns The deleted document data, otherwise returns error status code
+   * @AJGamesArchive
+   */
+  protected async delete(
+    appointmentId: string,
+    session?: mongoose.mongo.ClientSession,
+  ): Promise<AppointmentData | number> {
+    // DB Opts
+    try {
+      const deletedDocument = await DB_Appointments.findByIdAndDelete(appointmentId, { session });
+      if(!deletedDocument) return 404;
+      return {
+        id: deletedDocument._id.toString(),
+        doctorId: deletedDocument.doctorId,
+        patientId: deletedDocument.patientId,
+        upcoming: deletedDocument.upcoming,
+        canceled: deletedDocument.canceled,
+        date: deletedDocument.date,
+        time: deletedDocument.time,
+        bookedBy: deletedDocument.bookedBy,
+        bookedAt: deletedDocument.bookedAt,
+        updatedAt: deletedDocument.updatedAt,
+        vitals: (deletedDocument.vitals) ? {
+          height: deletedDocument.vitals.height ?? undefined,
+          weight: deletedDocument.vitals.weight ?? undefined,
+          bloodPressure: deletedDocument.vitals.bloodPressure ?? undefined,
+          heartRate: deletedDocument.vitals.heartRate ?? undefined,
+          temperature: deletedDocument.vitals.temperature ?? undefined
+        } : undefined,
+        preAppointmentNotes: deletedDocument.preAppointmentNotes,
+        actionsTaken: deletedDocument.actionsTaken,
+        previousAppointmentId: deletedDocument.previousAppointmentId ?? undefined,
+        nextAppointmentId: deletedDocument.nextAppointmentId ?? undefined,
+        postAppointmentNotes: deletedDocument.postAppointmentNotes
+      };
+    } catch (err: any) {
+      console.error(`Error deleting appointment document: ${err}`);
       return 500;
     };
   };

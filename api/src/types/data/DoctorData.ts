@@ -1,15 +1,12 @@
+// Imports
+import { DoctorUpcomingAppointments } from "./UpcomingAppointmentData.js";
+
 /**
  * Type to define the full data object of a Doctor user
  */
 type DoctorData = {
   specialty: string;
-  upcomingAppointments: {
-    appointmentId: string;
-    date: string;
-    time: string;
-    patientId: string;
-    patientName: string;
-  }[];
+  upcomingAppointments: DoctorUpcomingAppointments[];
   workingHours: {
     day: string;
     startTime: string;
