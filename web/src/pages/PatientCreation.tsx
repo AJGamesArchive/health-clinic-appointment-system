@@ -26,7 +26,6 @@ const PatientCreation: React.FC = () => {
                     <Form.Label>Confirm Password</Form.Label>
                     <Form.Control type="password" placeholder="repeat password" value={patientCreation.confirmPassword} onChange={(e) => patientCreation.setConfirmPassword(e.target.value)}/>
                     { patientCreation.confirmPassword && patientCreation.patient.password !== patientCreation.confirmPassword && <Alert variant="danger" style={{marginTop: "10px"}}>Error: Passwords do not match.</Alert>}
-                    <strong style={{color:"red"}}>confirm pwd (debug): {patientCreation.confirmPassword}</strong>
                     
                     <h3>Core Information</h3>
                     <Form.Label>Title</Form.Label>
