@@ -7,6 +7,9 @@ import DebugBlock from "../../components/utilities/DebugBlock";
 import Spinner from 'react-bootstrap/Spinner';
 import Layout from "../../components/ui/Layout";
 import buildNum from "../../static/BuildNumber";
+import AdminProfile from "../AdminProfile";
+import DoctorProfile from "../DoctorProfile";
+import PatientPage from "../PatientProfile";
 
 /**
  * React function to render the 'My Profile' page
@@ -15,9 +18,19 @@ const Profile: React.FC = () => {
   // Hooks
   const auth: UseRouteAuthHook = useAuthContext();
 
+  switch (auth.user?.role) {
+    case "Admin":
+      return <AdminProfile />;
+    case "Doctor":
+      return <DoctorProfile />;
+    case "Patient":
+      return <PatientPage />;
+  }
+
   // Return JSX
   return (
     <Layout>
+      
       <h1>Health Clinic Appointment Management System (version {buildNum})</h1>
       <h2>Heading 2</h2>
       <h3>Heading 3</h3>
