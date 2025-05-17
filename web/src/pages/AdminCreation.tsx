@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import PasswordStrengthChecker from "../components/ui/PasswordStrengthChecker";
 import { useAdminCreation } from "../hooks/UseAdminCreation";
+import BackButton from "../components/core/BackButton";
 
 const AdminCreation: React.FC = () => {
     const adminCreation = useAdminCreation()
@@ -48,10 +49,7 @@ const AdminCreation: React.FC = () => {
                     </Form.Select>
 
                     <div style={{textAlign: "center"}}>
-                        <Button 
-                        variant="secondary" 
-                        style={{margin: "10px"}}>
-                        Cancel</Button>
+                        <BackButton backFactor={-1} variant="secondary" label="Cancel"/>
                         <Button variant="success" style={{margin: "10px"}} onClick={() => adminCreation.saveAccount()}>Save</Button>
                     </div>
                 </Form>

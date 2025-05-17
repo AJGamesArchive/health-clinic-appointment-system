@@ -3,6 +3,7 @@ import { Alert, Badge, Button, Toast  } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import PasswordStrengthChecker from "../components/ui/PasswordStrengthChecker";
 import { usePatientCreation } from "../hooks/UsePatientCreation";
+import BackButton from "../components/core/BackButton";
 
 const PatientCreation: React.FC = () => {
     const patientCreation = usePatientCreation();
@@ -109,10 +110,7 @@ const PatientCreation: React.FC = () => {
                     </Form.Select>
 
                     <div style={{textAlign: "center", paddingTop: "20px"}}>
-                        <Button 
-                        variant="secondary" 
-                        style={{margin: "10px"}}>
-                        Cancel</Button>
+                        <BackButton backFactor={-1} variant="secondary" label="Cancel"/>
                         <Button variant="success" style={{margin: "10px"}} onClick={patientCreation.saveProfile}>Save</Button>
                     </div>
                 </Form>

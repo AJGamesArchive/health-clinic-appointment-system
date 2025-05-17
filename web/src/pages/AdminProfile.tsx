@@ -11,7 +11,8 @@ const AdminProfile: React.FC = () => {
     // access this page (or someone who is logged out)
     return (
         <Layout>
-            <div>
+            <div className="two-content-container">
+                <div className="first" style={{padding: "20px", border: "1px solid lightgray", borderRadius: "5px", margin: "5px"}}>
                 <h2>{adminProfile.forename} {adminProfile.surname}<Badge style={{margin: "0 10px", }} bg="success">Admin</Badge></h2>
                 <Form>
                     <Form.Label>Title</Form.Label>
@@ -47,6 +48,18 @@ const AdminProfile: React.FC = () => {
                         }
                     </div>
                 </Form>
+                </div>
+                <div className="second" style={{textAlign: "left", padding: "10px"}}>
+                    <h2>Menu</h2>
+                    <h3 style={{fontSize: "large", marginBottom: "5px"}}>Manage Accounts</h3>
+                    <Button style={{margin: "2px"}}>Go to Patients</Button><br/>
+                    <Button style={{margin: "2px"}} variant="secondary">Go to Doctors</Button><br/>
+                    <Button style={{margin: "2px"}} variant="success">Go to Administrators</Button><br/>
+                    <h3 style={{fontSize: "large", marginBottom: "5px"}}>Create Accounts</h3>
+                    <Button style={{margin: "2px"}} href="/create-patient">Create a Patient</Button><br/>
+                    <Button style={{margin: "2px"}} href="/create-doctor" variant="secondary">Create a Doctor</Button><br/>
+                    <Button style={{margin: "2px"}} href="/create-admin" variant="success">Create an Administrator</Button><br/>
+                </div>
             </div>
         </Layout>
     );

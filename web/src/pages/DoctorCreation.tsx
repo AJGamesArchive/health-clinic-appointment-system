@@ -3,6 +3,7 @@ import { Alert, Badge, Button, Table, Toast  } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import PasswordStrengthChecker from "../components/ui/PasswordStrengthChecker";
 import { useDoctorCreation } from "../hooks/UseDoctorCreation";
+import BackButton from "../components/core/BackButton";
 
 const DoctorCreation: React.FC = () => {
     const doctorCreation = useDoctorCreation();
@@ -87,10 +88,7 @@ const DoctorCreation: React.FC = () => {
                     </Table>
 
                     <div style={{textAlign: "center"}}>
-                        <Button 
-                        variant="secondary" 
-                        style={{margin: "10px"}}>
-                        Cancel</Button>
+                        <BackButton backFactor={-1} variant="secondary" label="Cancel"/>
                         <Button variant="success" style={{margin: "10px"}} onClick={() => doctorCreation.saveAccount()}>Save</Button>
                     </div>
                 </Form>
