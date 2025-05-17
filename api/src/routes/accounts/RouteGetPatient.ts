@@ -60,7 +60,7 @@ const routeGetPatient = async (
 	};
 
 	// Filter and return data
-	rep.status(206).send({
+	rep.status(200).send({
 		...Patient,
 		data: {
 			...Patient.patientData,
