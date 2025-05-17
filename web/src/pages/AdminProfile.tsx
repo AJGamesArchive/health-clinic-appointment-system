@@ -66,9 +66,10 @@ const AdminProfile: React.FC = () => {
                 <div className="second" style={{textAlign: "left", padding: "10px"}}>
                     <h2>Menu</h2>
                     <h3 style={{fontSize: "large", marginBottom: "5px"}}>Manage Accounts</h3>
-                    <Button style={{margin: "2px"}}>Go to Patients</Button><br/>
-                    <Button style={{margin: "2px"}} variant="secondary">Go to Doctors</Button><br/>
-                    <Button style={{margin: "2px"}} variant="success">Go to Administrators</Button><br/>
+                    <Button style={{margin: "2px"}} href="/patients">Go to Patients</Button><br/>
+                    <Button style={{margin: "2px"}} href="/doctors" variant="secondary">Go to Doctors</Button><br/>
+                    <Button style={{margin: "2px"}} href="/admins" variant="success">Go to Administrators</Button><br/>
+
                     <h3 style={{fontSize: "large", marginBottom: "5px"}}>Create Accounts</h3>
                     <Button style={{margin: "2px"}} href="/create-patient">Create a Patient</Button><br/>
                     <Button style={{margin: "2px"}} href="/create-doctor" variant="secondary">Create a Doctor</Button><br/>

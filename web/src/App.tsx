@@ -5,6 +5,9 @@ import { Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './components/security/ProtectedRoute';
 import PageLoading from './components/core/PageLoading';
 import PageAccessDenied from './components/core/PageAccessDenied';
+import PatientList from './pages/PatientList';
+import DoctorList from './pages/DoctorList';
+import AdminList from './pages/AdminList';
 
 // Lazy load pages
 const Login = lazy(() => import('./pages/login/Login'));
@@ -47,6 +50,9 @@ const App: React.FC = () => {
           <Route path="/create-patient" element={<PatientCreation />}/>
           <Route path="/create-doctor" element={<DoctorCreation />}/>
           <Route path="/create-admin" element={<AdminCreation />}/>
+          <Route path="/patients" element={<PatientList/>}/>
+          <Route path="/doctors" element={<DoctorList />}/>
+          <Route path="/admins" element={<AdminList />}/>
         </Route>
         {
           //* Admin Only Routes

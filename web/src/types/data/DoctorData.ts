@@ -7,15 +7,19 @@ import { DoctorUpcomingAppointments } from "./UpcomingAppointmentData";
 type DoctorData = {
   specialty: string;
   upcomingAppointments: DoctorUpcomingAppointments[];
-  workingHours: {
-    day: string;
-    startTime: string;
-    endTime: string;
-  }[];
-  contactInfo: {
-    workEmail: string;
-    workPhone: string;
-  };
+  workingHours: DoctorWorkingHours[];
+  contactInfo: DoctorContactInfo;
+};
+
+export type DoctorWorkingHours = {
+  day: string;
+  startTime: string;
+  endTime: string;
+};
+
+export type DoctorContactInfo = {
+  workEmail: string;
+  workPhone: string;
 };
 
 /**
@@ -23,15 +27,8 @@ type DoctorData = {
  */
 export type PatientViewDoctor = {
   specialty: string;
-  workingHours: {
-    day: string;
-    startTime: string;
-    endTime: string;
-  }[];
-  contactInfo: {
-    workEmail: string;
-    workPhone: string;
-  };
+  workingHours: DoctorWorkingHours[];
+  contactInfo: DoctorContactInfo;
 };
 
 export default DoctorData;
