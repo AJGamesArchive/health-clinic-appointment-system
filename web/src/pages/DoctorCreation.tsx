@@ -1,69 +1,35 @@
-import { useState } from "react";
 import Layout from "../components/ui/Layout";
-import { Alert, Badge, Button, Table  } from "react-bootstrap";
+import { Alert, Badge, Button, Table, Toast  } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import PasswordStrengthChecker from "../components/ui/PasswordStrengthChecker";
-
-const daySchedule = () => {
-    const [startTime, setStartTime] = useState<string>();
-    const [endTime, setEndTime] = useState<string>();
-    return { startTime, setStartTime, endTime, setEndTime };
-}
+import { useDoctorCreation } from "../hooks/UseDoctorCreation";
+import BackButton from "../components/core/BackButton";
 
 const DoctorCreation: React.FC = () => {
-    const [ forename, setForename ] = useState<string>("");
-    const [ surname, setSurname ] = useState<string>("");
-    const [ email, setEmail ] = useState<string>("");
-    const [ title, setTitle ] = useState<string>("");
-    const [ specialism, setSpecialism ] = useState<string>(""); 
-    const [ workEmail, setWorkEmail ] = useState<string>("");
-    const [ workPhone, setWorkPhone ] = useState<string>("");
-    const [ password, setPassword ] = useState<string>("");
-    const [ confirmPassword, setConfirmPassword ] = useState<string>("");
-    const [ passwordStrength, setPasswordStrength ] = useState<boolean>(false);
-
-    const monday = daySchedule();
-    const tuesday = daySchedule();
-    const wednesday = daySchedule();
-    const thursday = daySchedule();
-    const friday = daySchedule();
-
-    function saveProfile () {
-        // Send all the information to the backend to save it
-        var message = "Saved account with credentials";
-        message += "\nForename: " + forename;
-        message += "\nSurname: " + surname;
-        message += "\nEmail: " + email;
-        message += "\nTitle: " + title;
-        message += "\nSpecialism: " + specialism;
-        message += "\nWork Email: " + workEmail;
-        message += "\nWork Phone: " + workPhone;
-        message += "\nMonday Schedule: " + monday.startTime + " to " + monday.endTime;
-        message += "\nTuesday Schedule: " + tuesday.startTime + " to " + tuesday.endTime;
-        message += "\nWednesday Schedule: " + wednesday.startTime + " to " + wednesday.endTime;
-        message += "\nThursday Schedule: " + thursday.startTime + " to " + thursday.endTime;
-        message += "\nFriday Schedule: " + friday.startTime + " to " + friday.endTime;        
-        console.log(message)
-    }
+    const doctorCreation = useDoctorCreation();
 
     return (
         <Layout>
             <div>
+                <Toast className="toast" bg="danger" show={doctorCreation.toastVisible} onClose={() => doctorCreation.setToastVisible(false)}>
+                    <Toast.Header style={{backgroundColor: "#9C1C28", color: "white"}}><strong className="me-auto">Error</strong></Toast.Header>
+                    <Toast.Body style={{color: "white"}}>{doctorCreation.toastMessage}</Toast.Body>
+                </Toast>
                 <h2>Create Account <Badge style={{margin: "0 10px", }} bg="secondary">Doctor</Badge></h2>
                 <Form>
                     <h3>Login Information</h3>
                     <Form.Label>Email Address</Form.Label>
-                    <Form.Control type="email" placeholder="name@example.com" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                    <Form.Control type="email" placeholder="name@example.com" value={doctorCreation.email} onChange={(e) => doctorCreation.setEmail(e.target.value)}/>
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-                    { password && <PasswordStrengthChecker password={password} setPasswordStrength={setPasswordStrength}/>}
-                    <p style={{color: "red"}}>DEBUG: password strength is: {passwordStrength.toString()}</p>
+                    <Form.Control type="password" placeholder="password" value={doctorCreation.password} onChange={(e) => doctorCreation.setPassword(e.target.value)}/>
+                    { doctorCreation.password && <PasswordStrengthChecker password={doctorCreation.password} setPasswordStrength={doctorCreation.setPasswordStrength}/>}
                     <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control type="password" placeholder="repeat password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
-                    { confirmPassword && password !== confirmPassword && <Alert variant="danger" style={{marginTop: "10px"}}>Error: Passwords do not match.</Alert>}
-<h3>Core Information</h3>
+                    <Form.Control type="password" placeholder="repeat password" value={doctorCreation.confirmPassword} onChange={(e) => doctorCreation.setConfirmPassword(e.target.value)}/>
+                    { doctorCreation.confirmPassword && doctorCreation.password !== doctorCreation.confirmPassword && <Alert variant="danger" style={{marginTop: "10px"}}>Error: Passwords do not match.</Alert>}
+                    
+                    <h3>Core Information</h3>
                     <Form.Label>Title</Form.Label>
-                    <Form.Select value={title} onChange={(e) => setTitle(e.target.value)}>
+                    <Form.Select value={doctorCreation.title} onChange={(e) => doctorCreation.setTitle(e.target.value)}>
                         <option>Select a title</option>
                         <option>Ms</option>
                         <option>Mr</option>
@@ -72,18 +38,18 @@ const DoctorCreation: React.FC = () => {
                         <option>Miss</option>
                     </Form.Select>
                     <Form.Label>Forename</Form.Label>
-                    <Form.Control placeholder="forename" value={forename} onChange={(e) => setForename(e.target.value)}/>
+                    <Form.Control placeholder="forename" value={doctorCreation.forename} onChange={(e) => doctorCreation.setForename(e.target.value)}/>
                     <Form.Label>Surname</Form.Label>
-                    <Form.Control placeholder="surname" value={surname} onChange={(e) => setSurname(e.target.value)}/>
+                    <Form.Control placeholder="surname" value={doctorCreation.surname} onChange={(e) => doctorCreation.setSurname(e.target.value)}/>
                     <Form.Label>Specialty</Form.Label>
-                    <Form.Select value={specialism} onChange={(e) => setSpecialism(e.target.value)}>
+                    <Form.Select value={doctorCreation.specialism} onChange={(e) => doctorCreation.setSpecialism(e.target.value)}>
                         <option>Select a specialism</option>
                         <option>Cardiovascular Health</option>
                     </Form.Select>
                     <Form.Label>Work Email</Form.Label>
-                    <Form.Control type="email" placeholder="name@example.com" value={workEmail} onChange={(e) => setWorkEmail(e.target.value)}/>
+                    <Form.Control type="email" placeholder="name@example.com" value={doctorCreation.workEmail} onChange={(e) => doctorCreation.setWorkEmail(e.target.value)}/>
                     <Form.Label>Work Mobile</Form.Label>
-                    <Form.Control type="number" placeholder="01234567890" value={workPhone} onChange={(e) => setWorkPhone(e.target.value)}/>
+                    <Form.Control type="number" placeholder="01234567890" value={doctorCreation.workPhone} onChange={(e) => doctorCreation.setWorkPhone(e.target.value)}/>
 
                     <h3>Working Hours</h3>
                     <Table borderless>
@@ -95,38 +61,35 @@ const DoctorCreation: React.FC = () => {
                             </tr>
                             <tr>
                                 <td style={{paddingLeft: 0, verticalAlign: "middle"}}>Monday</td>
-                                <td><Form.Control type="time" value={monday.startTime} onChange={(e) => monday.setStartTime(e.target.value)}/></td>
-                                <td><Form.Control type="time" value={monday.endTime} onChange={(e) => monday.setEndTime(e.target.value)}/></td>
+                                <td><Form.Control type="time" value={doctorCreation.monday.startTime} onChange={(e) => doctorCreation.monday.setStartTime(e.target.value)}/></td>
+                                <td><Form.Control type="time" value={doctorCreation.monday.endTime} onChange={(e) => doctorCreation.monday.setEndTime(e.target.value)}/></td>
                             </tr>
                             <tr>
                                 <td style={{paddingLeft: 0, verticalAlign: "middle"}}>Tuesday</td>
-                                <td><Form.Control type="time" value={tuesday.startTime} onChange={(e) => tuesday.setStartTime(e.target.value)}/></td>
-                                <td><Form.Control type="time" value={tuesday.endTime} onChange={(e) => tuesday.setEndTime(e.target.value)}/></td>
+                                <td><Form.Control type="time" value={doctorCreation.tuesday.startTime} onChange={(e) => doctorCreation.tuesday.setStartTime(e.target.value)}/></td>
+                                <td><Form.Control type="time" value={doctorCreation.tuesday.endTime} onChange={(e) => doctorCreation.tuesday.setEndTime(e.target.value)}/></td>
                             </tr>
                             <tr>
                                 <td style={{paddingLeft: 0, verticalAlign: "middle"}}>Wednesday</td>
-                                <td><Form.Control type="time" value={wednesday.startTime} onChange={(e) => wednesday.setStartTime(e.target.value)}/></td>
-                                <td><Form.Control type="time" value={wednesday.endTime} onChange={(e) => wednesday.setEndTime(e.target.value)}/></td>
+                                <td><Form.Control type="time" value={doctorCreation.wednesday.startTime} onChange={(e) => doctorCreation.wednesday.setStartTime(e.target.value)}/></td>
+                                <td><Form.Control type="time" value={doctorCreation.wednesday.endTime} onChange={(e) => doctorCreation.wednesday.setEndTime(e.target.value)}/></td>
                             </tr>
                             <tr>
                                 <td style={{paddingLeft: 0, verticalAlign: "middle"}}>Thursday</td>
-                                <td><Form.Control type="time" value={thursday.startTime} onChange={(e) => thursday.setStartTime(e.target.value)}/></td>
-                                <td><Form.Control type="time" value={thursday.endTime} onChange={(e) => thursday.setEndTime(e.target.value)}/></td>
+                                <td><Form.Control type="time" value={doctorCreation.thursday.startTime} onChange={(e) => doctorCreation.thursday.setStartTime(e.target.value)}/></td>
+                                <td><Form.Control type="time" value={doctorCreation.thursday.endTime} onChange={(e) => doctorCreation.thursday.setEndTime(e.target.value)}/></td>
                             </tr>
                             <tr>
                                 <td style={{paddingLeft: 0, verticalAlign: "middle"}}>Friday</td>
-                                <td><Form.Control type="time" value={friday.startTime} onChange={(e) => friday.setStartTime(e.target.value)}/></td>
-                                <td><Form.Control type="time" value={friday.endTime} onChange={(e) => friday.setEndTime(e.target.value)}/></td>
+                                <td><Form.Control type="time" value={doctorCreation.friday.startTime} onChange={(e) => doctorCreation.friday.setStartTime(e.target.value)}/></td>
+                                <td><Form.Control type="time" value={doctorCreation.friday.endTime} onChange={(e) => doctorCreation.friday.setEndTime(e.target.value)}/></td>
                             </tr>
                         </tbody>
                     </Table>
 
                     <div style={{textAlign: "center"}}>
-                        <Button 
-                        variant="secondary" 
-                        style={{margin: "10px"}}>
-                        Cancel</Button>
-                        <Button variant="success" style={{margin: "10px"}} onClick={() => saveProfile()}>Save</Button>
+                        <BackButton backFactor={-1} variant="secondary" label="Cancel"/>
+                        <Button variant="success" style={{margin: "10px"}} onClick={() => doctorCreation.saveAccount()}>Save</Button>
                     </div>
                 </Form>
             </div>

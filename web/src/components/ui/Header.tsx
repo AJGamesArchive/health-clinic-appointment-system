@@ -1,20 +1,53 @@
-import { Button } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
+import { useAuthContext } from "../../contexts/AuthContext";
+import { UseRouteAuthHook } from "../../hooks/security/UseRouteAuth";
 
-const Header = () =>
+const Header = () => {
+  const auth: UseRouteAuthHook = useAuthContext();
+
+  return (
     <div className="header">
-        <div className="two-content-container">
-            <div className="first">
-                <h4>
-                    <a href="/">Health Clinic Appointment Management System</a>
-                </h4>
-            </div>
-            <div className="second">
-                <Button variant="outline-secondary" style={{ margin: "5px" }} href="/patient-profile">Profile</Button>
-                <Button variant="outline-secondary" style={{ margin: "5px" }} href="/appointments">Appointments</Button>
-                <Button variant="secondary">Login/logout button</Button>
-            </div>
+      <div className="two-content-container">
+        <div className="first">
+          <h4>
+            <a href="/home">Health Clinic Appointment Management System</a>
+          </h4>
         </div>
+        <div className="second">
+          <Button
+            variant="outline-secondary"
+            style={{ margin: "5px" }}
+            href="/profile"
+          >
+            Profile
+          </Button>
+          <Button
+            variant="outline-secondary"
+            style={{ margin: "5px" }}
+            href="/appointments"
+          >
+            Appointments
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={auth.logout}
+            disabled={auth.loadingLogout}
+          >
+            {auth.loadingLogout && (
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            )}
+            <span> Logout</span>
+          </Button>
+        </div>
+      </div>
     </div>
+  );
+};
 
-
-export default Header
+export default Header;

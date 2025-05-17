@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./CoreInfromationPatients.css"; 
 
+
 type PatientRole = "Patient" | "Doctor" | "Admin";
 
 interface PatientFormData {
@@ -22,7 +23,7 @@ interface PatientFormData {
 
 const CoreInformationPatients: React.FC = () => {
     const [formData, setFormData] = useState({
-        notes: ["weekly checkup", "no allergies"],
+        notes: [],
         title: "",
         age: "",
         dob: "",

@@ -103,6 +103,12 @@ label {
   padding-top: 10px
 }
 
+.toast {
+  z-index: 1;
+  position: fixed;
+  right: 10px; 
+}
+
 @media (max-width: 950px) {
   .header {
     padding: 20px;
