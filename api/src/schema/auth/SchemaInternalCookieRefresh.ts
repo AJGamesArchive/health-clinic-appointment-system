@@ -25,7 +25,7 @@ const schemaInternalCookieRefresh = {
     required: ['origin'],
   },
   response: {
-    200: {
+    205: {
       type: 'object',
       properties: {
         message: { type: 'string' },

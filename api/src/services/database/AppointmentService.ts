@@ -181,6 +181,78 @@ abstract class AppointmentService {
       return 500; // Internal Server Error
     };
   };
+
+  /**
+   * @static function to fetch all appointments that match given criteria for a given user from the database
+   * @param userType - The type of user to fetch appointments for
+   * @param userId - The ID of the user to fetch appointments for
+   * @param type - The type of appointments to fetch
+   * @param page - The page number to fetch
+   * @param limit - The number of appointments to fetch per page
+   * @param sort - The sort order to fetch appointments in
+   * @returns An array of appointment data objects, otherwise returns error status code
+   * @AJGamesArchive
+   */
+  static async getManyByUserId(
+    userType: "Patient" | "Doctor",
+    userId: string,
+    type: 'upcoming' | 'past' | 'all' | 'cancelled',
+    page: number,
+    limit: number,
+    sort: string,
+  ): Promise<AppointmentData[] | number> {
+    // Ensure required data is present
+    if(!userId) return 400;
+
+    // DB opts
+    try {
+      // Get documents
+      const documents = await DB_Appointments
+        .find({
+          [userType.toLowerCase() + 'Id']: userId,
+          ...(type !== 'all' && { upcoming: type === 'upcoming' }),
+          ...(type !== 'all' && { canceled: type === 'cancelled' }),
+        })
+        .sort({ date: sort === 'asc' ? 1 : -1 })
+        .skip((page - 1) * limit)
+        .limit(limit);
+
+      // Handle silent failure
+      if(!documents) return 404; // Not Found
+
+      // Map updated document
+      const appointments: AppointmentData[] = documents.map((document) => ({
+        id: document._id.toString(),
+        doctorId: document.doctorId,
+        patientId: document.patientId,
+        upcoming: document.upcoming,
+        canceled: document.canceled,
+        date: document.date,
+        time: document.time,
+        bookedBy: document.bookedBy,
+        bookedAt: document.bookedAt,
+        updatedAt: document.updatedAt,
+        vitals: (document.vitals) ? {
+          height: document.vitals.height ?? undefined,
+          weight: document.vitals.weight ?? undefined,
+          bloodPressure: document.vitals.bloodPressure ?? undefined,
+          heartRate: document.vitals.heartRate ?? undefined,
+          temperature: document.vitals.temperature ?? undefined
+        } : undefined,
+        preAppointmentNotes: document.preAppointmentNotes,
+        actionsTaken: document.actionsTaken,
+        previousAppointmentId: document.previousAppointmentId ?? undefined,
+        nextAppointmentId: document.nextAppointmentId ?? undefined,
+        postAppointmentNotes: document.postAppointmentNotes
+      }));
+
+      // Return appointments
+      return appointments;
+    } catch (err: any) {
+      console.error(`Failed to get account:\n\n${err}`);
+      return 500; // Internal Server Error
+    };
+  };
 };
 
 export default AppointmentService;

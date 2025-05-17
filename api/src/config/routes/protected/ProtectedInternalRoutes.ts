@@ -13,13 +13,12 @@ import protectedAdminRoutes from "./AdminRoutes.js";
 // Import routes & schemas
 import schemaDecodeCookie from "../../../schema/auth/SchemaDecodeCookie.js";
 import routeDecodeCookie from "../../../routes/auth/RouteDecodeCookie.js";
-
 import schemaGetAccounts from "../../../schema/accounts/SchemaGetAccounts.js";
 import routeGetAccounts from "../../../routes/accounts/RouteGetAccounts.js";
-
 import schemaGetProfile from "../../../schema/accounts/SchemaGetProfile.js";
 import routeGetProfile from "../../../routes/accounts/RouteGetProfile.js";
-
+import schemaMyAppointments from "../../../schema/appointments/SchemaMyAppointments.js";
+import routeMyAppointments from "../../../routes/appointments/RouteMyAppointments.js";
 
 /**
  * Function to declare all internally protected routes
@@ -60,6 +59,12 @@ const protectedInternalRoutes = (): {
 			{schema: schemaGetProfile },
 			endpointTimeout(routeGetProfile, 5000), // 5 Seconds
 		);
+
+    // Appointment endpoints
+    protectedInternalRoutes.get("/profile/appointments/:type",
+      { schema: schemaMyAppointments },
+      endpointTimeout(routeMyAppointments, 10000), // 10 seconds
+    );
   },
   prefix: '/auth/internal',
 });
