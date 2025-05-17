@@ -6,7 +6,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import {
 	GetPatientHeaders,
 	GetPatientParams,
-	GetPatientReply206,
+	GetPatientReply200,
 	GetPatientReply,
 } from '../../schema/accounts/SchemaGetPatient.js';
 
@@ -65,7 +65,7 @@ const routeGetPatient = async (
 		data: {
 			...Patient.patientData,
 		},
-	} as GetPatientReply206);
+	} as GetPatientReply200);
 };
 
 export default routeGetPatient;

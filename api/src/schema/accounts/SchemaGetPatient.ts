@@ -20,7 +20,6 @@ export interface GetPatientReply200 {
   createdAt: Date;
   updatedAt: Date;
   data: PatientData;
-  medicalHistory: MedicalHistoryDetails | undefined;
 };
 
 export interface GetPatientReply206 {
@@ -294,14 +293,6 @@ const schemaGetPatient = {
         'updatedAt',
         'data',
       ],
-
-      medicalHistory: {
-        type: 'array',
-        items: {
-          type: 'object',
-          additionalProperties: true,
-        },
-      },
     },
     206: {
       type: 'object',
