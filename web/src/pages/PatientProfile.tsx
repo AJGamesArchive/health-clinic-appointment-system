@@ -33,7 +33,7 @@ const PatientPage: React.FC = () => {
   return (
     <Layout>
         <div className="patient-Profile-container">
-            <h1>Patient Name</h1> <h2>Patient</h2>
+            <h1 className="patient-h1">Patient Name</h1> <h2 className="patient-h2">Patient</h2>
                 <div className="tabs-section">
                     <button
                         className={`tab ${activeTab === "CoreInfromation" ? "active" : ""}`}
