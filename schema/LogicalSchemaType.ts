@@ -73,7 +73,6 @@ type AdminData = {
 };
 
 type DoctorData = {
-  _id: () => { _id: string};
   specialty: string;
   upcomingAppointments: {
     appointmentId: () => { _id: string};
@@ -94,7 +93,6 @@ type DoctorData = {
 };
 
 type PatientData = {
-  _id: () => { _id: string};
   gender: string;
   dateOfBirth: Date;
   contactInfo: {

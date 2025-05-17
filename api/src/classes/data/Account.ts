@@ -1,4 +1,5 @@
 // Imports
+import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import saltRounds from "../../static/SaltRounds.js";
 import AccountRoles from "../../types/data/AccountRoles.js";
@@ -7,6 +8,10 @@ import PatientData from "../../types/data/PatientData.js";
 import DoctorData from "../../types/data/DoctorData.js";
 import AdminData from "../../types/data/AdminData.js";
 import AccountService from "../../services/database/AccountService.js";
+import UpcomingAppointmentData, {
+  PatientUpcomingAppointments,
+  DoctorUpcomingAppointments,
+} from "../../types/data/UpcomingAppointmentData.js";
 
 /**
  * Class to represent an users account data
@@ -15,19 +20,19 @@ import AccountService from "../../services/database/AccountService.js";
 class Account extends AccountService {
   // Data props
   private id: string | null;
-  private title: string;
-  private forenames: string;
-  private surname: string;
-  private email: string;
-  private password: string | null; // Should be null unless a new password is being passed
-  private role: AccountRoles;
+  public title: string;
+  public forenames: string;
+  public surname: string;
+  public email: string;
+  public password: string | null; // Should be null unless a new password is being passed
+  public role: AccountRoles;
   private createdAt?: Date;
   private updatedAt?: Date;
 
   // Embedded props - split up programmatically to allow safer typing
-  private patientData?: PatientData; //? Should probably be it's own class
-  private doctorData?: DoctorData; //? Should probably be it's own class
-  private adminData?: AdminData; //? Should probably be it's own class
+  private patientData?: PatientData;
+  private doctorData?: DoctorData;
+  private adminData?: AdminData;
 
   // Flag props
   private errors: string[] = [];
@@ -113,66 +118,6 @@ class Account extends AccountService {
   };
 
   /**
-   * @public function to update the account title
-   * @param title the new title to set
-   * @AJGamesArchive
-   */
-  public setTitle(title: string): void {
-    this.title = title;
-    return;
-  };
-
-  /**
-   * @public function to update the account forenames
-   * @param forenames the new forenames to set
-   * @AJGamesArchive
-   */
-  public setForenames(forenames: string): void {
-    this.forenames = forenames;
-    return;
-  };
-
-  /**
-   * @public function to update the account surname
-   * @param surname the new surname to set
-   * @AJGamesArchive
-   */
-  public setSurname(surname: string): void {
-    this.surname = surname;
-    return;
-  };
-
-  /**
-   * @public function to update the account email
-   * @param email the new email to set
-   * @AJGamesArchive
-   */
-  public setEmail(email: string): void {
-    this.email = email;
-    return;
-  };
-
-  /**
-   * @public function to update the account password
-   * @param password the new password to set
-   * @AJGamesArchive
-   */
-  public setPassword(password: string): void {
-    this.password = password;
-    return;
-  };
-
-  /**
-   * @public function to update the account role
-   * @param role the new role to set
-   * @AJGamesArchive
-   */
-  public setRole(role: AccountRoles): void {
-    this.role = role;
-    return;
-  };
-
-  /**
    * @public function to update the account patient data
    * @param data the new patient data to set
    * @AJGamesArchive
@@ -204,10 +149,11 @@ class Account extends AccountService {
 
   /**
    * @public async function to save the account data to the database as a new document
+   * @param session - Optional mongoose session to run the operation in
    * @returns true if the data was saved successfully, false if the data failed to save
    * @AJGamesArchive
    */
-  public async createDoc(): Promise<boolean> {
+  public async createDoc(session?: mongoose.mongo.ClientSession): Promise<boolean> {
     // Trigger DB insert
     const result: AccountData | number = await super.save({
       id: null,
@@ -220,7 +166,7 @@ class Account extends AccountService {
       patientData: this.patientData,
       doctorData: this.doctorData,
       adminData: this.adminData,
-    });
+    }, session);
 
     // Handle result
     if(typeof result === "number") {
@@ -239,10 +185,11 @@ class Account extends AccountService {
 
   /**
    * @public async function to update the existing account data to the database
+   * @param session - Optional mongoose session to run the operation in
    * @returns true if the data was saved successfully, false if the data failed to save
    * @AJGamesArchive
    */
-  public async updateDoc(): Promise<boolean> {
+  public async updateDoc(session?: mongoose.mongo.ClientSession): Promise<boolean> {
     // Trigger DB update
     const result: AccountData | number = await super.update({
       id: this.id,
@@ -255,7 +202,7 @@ class Account extends AccountService {
       patientData: this.patientData,
       doctorData: this.doctorData,
       adminData: this.adminData,
-    });
+    }, session);
 
     // Handle result
     if(typeof result === "number") {
@@ -273,10 +220,11 @@ class Account extends AccountService {
 
   /**
    * @public async function to delete the account data from the database
+   * @param session - Optional mongoose session to run the operation in
    * @returns true if the data was deleted successfully, false if the data failed to delete
    * @AJGamesArchive
    */
-  public async deleteDoc(): Promise<boolean> {
+  public async deleteDoc(session?: mongoose.mongo.ClientSession): Promise<boolean> {
     // Ensure ID is not null
     if(!this.id) {
       this.errors.push("No ID loaded");
@@ -284,7 +232,7 @@ class Account extends AccountService {
     };
 
     // Trigger DB delete
-    const result: boolean = await super.delete(this.id);
+    const result: boolean = await super.delete(this.id, session);
 
     // Handle result
     if(!result) {
@@ -295,6 +243,154 @@ class Account extends AccountService {
     // Save result
     this.id = null;
     return true;
+  };
+
+  /**
+   * @public function to check if an appointment is present in the accounts upcoming appointments
+   * @param appointmentId the appointment ID to check
+   * @returns Returns true if the appointment is present, false if the appointment is not present
+   * @note Function will fail if account is Admin or if embedded data is not present
+   * @AJGamesArchive
+   */
+  public hasAppointment(appointmentId: string): boolean {
+    switch(this.role) {
+      case "Patient":
+        if(!this.patientData) return false;
+        return this.patientData.upcomingAppointments.some(
+          (appointment) => appointment.appointmentId === appointmentId
+        );
+      case "Doctor":
+        if(!this.doctorData) return false;
+        return this.doctorData.upcomingAppointments.some(
+          (appointment) => appointment.appointmentId === appointmentId
+        );
+      default:
+        return false;
+    };
+  };
+
+  /**
+   * @public function to add an upcoming appointment to embedded patient or doctor data
+   * @param appointment the appointment to add
+   * @returns Returns true if the appointment was added successfully, false if the appointment failed to add
+   * @note Function will fail if account is Admin or if embedded data is not present
+   * @AJGamesArchive
+   */
+  public addAppointment(appointment: UpcomingAppointmentData): boolean {
+    switch(this.role) {
+      case "Patient":
+        if(!this.patientData) return false;
+        this.patientData.upcomingAppointments.push({
+          appointmentId: appointment.appointmentId,
+          date: appointment.date,
+          time: appointment.time,
+          doctorId: appointment.accountId,
+          doctorName: appointment.accountName,
+        });
+        return true;
+      case "Doctor":
+        if(!this.doctorData) return false;
+        this.doctorData.upcomingAppointments.push({
+          appointmentId: appointment.appointmentId,
+          date: appointment.date,
+          time: appointment.time,
+          patientId: appointment.accountId,
+          patientName: appointment.accountName,
+        });
+        return true;
+      default:
+        return false;
+    };
+  };
+
+  /**
+   * @public function to remove an upcoming appointment by id
+   * @param appointmentId the appointment ID to remove
+   * @returns Returns true if the appointment was removed successfully, false if the appointment failed to remove
+   * @note Function will fail if account is Admin or if embedded data is not present
+   * @AJGamesArchive
+   */
+  public removeAppointment(appointmentId: string): boolean {
+    switch(this.role) {
+      case "Patient":
+        if(!this.patientData) return false;
+        this.patientData.upcomingAppointments = this.patientData.upcomingAppointments.filter(
+          (appointment) => appointment.appointmentId !== appointmentId
+        );
+        return true;
+      case "Doctor":
+        if(!this.doctorData) return false;
+        this.doctorData.upcomingAppointments = this.doctorData.upcomingAppointments.filter(
+          (appointment) => appointment.appointmentId !== appointmentId
+        );
+        return true;
+      default:
+        return false;
+    };
+  };
+
+  /**
+   * @public function to update an upcoming appointment by appointment ID
+   * @param appointment the new appointment data to set
+   * @returns Returns true if the appointment was updated successfully, false if the appointment failed to update
+   * @note Function will fail if account is Admin or if embedded data is not present
+   * @note Function will fail if the appointment ID does not exist in the account data
+   * @AJGamesArchive
+   */
+  public updateAppointment(appointment: UpcomingAppointmentData): boolean {
+    switch(this.role) {
+      case "Patient":
+        if(!this.patientData) return false;
+        const patientIndex: number = this.patientData.upcomingAppointments.findIndex(
+          (app) => app.appointmentId === appointment.appointmentId
+        );
+        if(patientIndex === -1) return false;
+        this.patientData.upcomingAppointments[patientIndex] = {
+          appointmentId: appointment.appointmentId,
+          date: appointment.date,
+          time: appointment.time,
+          doctorId: appointment.accountId,
+          doctorName: appointment.accountName,
+        };
+        return true;
+      case "Doctor":
+        if(!this.doctorData) return false;
+        const doctorIndex: number = this.doctorData.upcomingAppointments.findIndex(
+          (app) => app.appointmentId === appointment.appointmentId
+        );
+        if(doctorIndex === -1) return false;
+        this.doctorData.upcomingAppointments[doctorIndex] = {
+          appointmentId: appointment.appointmentId,
+          date: appointment.date,
+          time: appointment.time,
+          patientId: appointment.accountId,
+          patientName: appointment.accountName,
+        };
+        return true;
+      default:
+        return false;
+    };
+  };
+
+  /**
+   * @public function to fetch the array of upcoming appointments
+   * @returns Returns the array of upcoming appointments, or null if the account is an admin or if the embedded data is not present
+   */
+  public getUpcomingAppointments():
+    PatientUpcomingAppointments[] |
+    DoctorUpcomingAppointments[] |
+    null
+  {
+    switch(this.role) {
+      case "Patient":
+        if(!this.patientData) return null;
+        return this.patientData.upcomingAppointments;
+      case "Doctor":
+        if(!this.doctorData) return null;
+        return this.doctorData.upcomingAppointments;
+      default:
+        return null;
+    };
   };
 };
 

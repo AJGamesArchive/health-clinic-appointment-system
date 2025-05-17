@@ -25,7 +25,7 @@ export interface GetAccountsReply {
 
 /**
  * @summery API Endpoint Schema
- * @route GET /accounts
+ * @route GET /auth/internal/accounts
  * @AJGamesArchive
  */
 const schemaGetAccounts = {
@@ -64,6 +64,29 @@ const schemaGetAccounts = {
             type: 'object',
             additionalProperties: true,
           },
+        },
+        required: [
+          'id',
+          'title',
+          'forenames',
+          'surname',
+          'email',
+          'role',
+          'createdAt',
+          'updatedAt',
+          'data',
+        ],
+      },
+    },
+    206: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          title: { type: 'string' },
+          forenames: { type: 'string' },
+          surname: { type: 'string' },
         },
         required: [
           'id',

@@ -1,6 +1,6 @@
 // Imports
-import LifeStyleFactors from "./LifeStyleFactors.js";
-import { PatientUpcomingAppointments } from "./UpcomingAppointmentData.js";
+import LifeStyleFactors from "./LifeStyleFactors";
+import { PatientUpcomingAppointments } from "./UpcomingAppointmentData";
 
 /**
  * Type to define the full data object of an Patient user

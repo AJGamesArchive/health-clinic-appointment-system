@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 
 /**
  * Accounts schema
+ * @AJGamesArchive
  */
 const accountsSchema = new mongoose.Schema({
   title: {
@@ -29,6 +30,7 @@ const accountsSchema = new mongoose.Schema({
   role: {
     type: String,
     required: true,
+    enum: ['Doctor', 'Patient', 'Admin'],
   },
   createdAt: {
     type: Date,
@@ -55,6 +57,7 @@ const accountsSchema = new mongoose.Schema({
 
 /**
  * Accounts model
+ * @AJGamesArchive
  */
 const DB_Accounts = mongoose.model('accounts', accountsSchema);
 
