@@ -14,6 +14,30 @@ const Header = () => {
           </h4>
         </div>
         <div className="second">
+          { auth.user?.role === "Admin" && 
+            <>
+            <Button
+                variant="outline-secondary"
+                style={{ margin: "5px" }}
+                href="/admins"
+              >
+                Administrators
+              </Button>
+              <Button
+                variant="outline-secondary"
+                style={{ margin: "5px" }}
+                href="/doctors"
+              >
+                Doctors
+              </Button>
+              <Button
+                variant="outline-secondary"
+                style={{ margin: "5px" }}
+                href="/patients"
+              >
+                Patients
+              </Button>
+            </>}
           <Button
             variant="outline-secondary"
             style={{ margin: "5px" }}
