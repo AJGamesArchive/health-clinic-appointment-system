@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "./CoreInfromationPatients.css"; 
-
+import { useAuthContext } from "../../contexts/AuthContext";
 
 type PatientRole = "Patient" | "Doctor" | "Admin";
+
+const LoggedInUser = useAuthContext();
 
 interface PatientFormData {
     notes: string[];
