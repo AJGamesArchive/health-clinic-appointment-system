@@ -14,6 +14,7 @@ import AppointmentData from '../../types/data/AppointmentData.js';
  * @summary Route to an appointment for your self
  * @route POST /auth/internal/appointments/book
  * @note All Users Endpoint
+ * @note Admins can book for anyone
  * @AJGamesArchive
  */
 const routeBookAppointment = async (
