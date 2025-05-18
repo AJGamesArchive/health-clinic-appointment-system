@@ -20,6 +20,10 @@ import schemaPatchSingleAccount from "../../../schema/accounts/SchemaPatchAccoun
 import routePatchSingleAccount from "../../../routes/accounts/RoutePatchAccount.js";
 import schemaPatchPatient from "../../../schema/accounts/SchemaPatchPatient.js";
 import routePatchPatient from "../../../routes/accounts/RoutePatchPatient.js";
+import schemaPatchDoctor from "../../../schema/accounts/SchemaPatchDoctor.js";
+import routePatchDoctor from "../../../routes/accounts/RoutePatchDoctor.js";
+import schemaPatchAdmin from "../../../schema/accounts/SchemaPatchAdmin.js";
+import routePatchAdmin from "../../../routes/accounts/RoutePatchAdmin.js";
 
 /**
  * Function to declare all internally protected admin routes
@@ -55,7 +59,18 @@ const protectedAdminRoutes = (): {
       endpointTimeout(routePatchPatient, 10000), // 10 Seconds
     );
 
-    
+    //Update doctor details to an account by ID
+    protectedAdminRoutes.patch("/doctor/:id",
+      { schema: schemaPatchDoctor},
+      endpointTimeout(routePatchDoctor, 10000), // 10 Seconds
+    );
+
+    //Update admin details to an account by ID
+    protectedAdminRoutes.patch("/admin/:id",
+      { schema: schemaPatchAdmin},
+      endpointTimeout(routePatchAdmin, 10000), // 10 Seconds
+    );
+
     // Appointment endpoints
     protectedAdminRoutes.get("/appointments/:type",
       { schema: schemaAnyAppointments },
