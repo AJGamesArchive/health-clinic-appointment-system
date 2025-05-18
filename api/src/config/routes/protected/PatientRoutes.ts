@@ -5,11 +5,9 @@ import endpointTimeout from "../../../utilities/core/EndpointTimeout.js";
 // Imports guards
 import guardIsPatient from "../../../guards/IsPatient.js";
 
+// Import account endpoints
 import schemaGetDoctor from "../../../schema/accounts/SchemaGetDoctor.js";
 import routeGetDoctor from "../../../routes/accounts/RouteGetDoctor.js";
-
-// Import routes & schemas
-//TODO Insert patient endpoints here
 
 /**
  * Function to declare all internally protected patient routes

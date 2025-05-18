@@ -10,7 +10,7 @@ import protectedPatientRoutes from "./PatientRoutes.js";
 import protectedDoctorRoutes from "./DoctorRoutes.js";
 import protectedAdminRoutes from "./AdminRoutes.js";
 
-// Import routes & schemas
+// Import account endpoints
 import schemaDecodeCookie from "../../../schema/auth/SchemaDecodeCookie.js";
 import routeDecodeCookie from "../../../routes/auth/RouteDecodeCookie.js";
 import schemaGetAccounts from "../../../schema/accounts/SchemaGetAccounts.js";
@@ -52,13 +52,11 @@ const protectedInternalRoutes = (): {
       endpointTimeout(routeDecodeCookie, 5000), // 5 seconds
     );
 
-    // Get All Account endpoint
+    // Account endpoints
     protectedInternalRoutes.get("/accounts",
       { schema: schemaGetAccounts },
       endpointTimeout(routeGetAccounts, 10000), // 10 seconds
     );
-
-		// Get Profile endpoint
 		protectedInternalRoutes.get("/profile",
 			{schema: schemaGetProfile },
 			endpointTimeout(routeGetProfile, 5000), // 5 Seconds
