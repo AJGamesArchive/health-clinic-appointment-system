@@ -69,7 +69,9 @@ const App: React.FC = () => {
           <Route path="/create-admin" element={<AdminCreation />}/>
           <Route path="/patients" element={<PatientList/>}/>
           <Route path="/doctors" element={<DoctorList />}/>
+          <Route path="/doctors/:id" element={<DoctorProfile/>}/>
           <Route path="/admins" element={<AdminList />}/>
+          <Route path="/admins/:id" element={<AdminProfile />}/>
         </Route>
       </Routes>
     </Suspense>

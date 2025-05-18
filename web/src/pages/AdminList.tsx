@@ -22,9 +22,11 @@ const AdminList: React.FC = () => {
     )
 
     const adminCards = admins.data.map((admin) => (
-        <Card key={admin.id} onClick={() => console.log("Open admin with ID " + admin.id)}>
-            <h5>{admin.forenames} {admin.surname}</h5>
-        </Card>
+        <a href={"/admins/" + admin.id}>
+            <Card key={admin.id}>
+                <h5>{admin.forenames} {admin.surname}</h5>
+            </Card>
+        </a>
     ));
 
     return (

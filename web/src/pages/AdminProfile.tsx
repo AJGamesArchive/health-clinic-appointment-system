@@ -2,7 +2,6 @@ import Layout from "../components/ui/Layout";
 import { Badge, Button  } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import { useAdminProfile } from "../hooks/UseAdminProfile";
-import DebugBlock from "../components/utilities/DebugBlock";
 
 const AdminProfile: React.FC = () => {
     const adminProfile = useAdminProfile();

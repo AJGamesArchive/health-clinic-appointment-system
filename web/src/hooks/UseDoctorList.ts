@@ -5,12 +5,13 @@ import DoctorData from "../types/data/DoctorData";
 
 
 export function useDoctorList() {
+    
     const [ data, setData ] = useState<AccountData[] | null>();
     const apiService: APIResponse<AccountData[]> = useAPIService<AccountData[]>(
         "GET",
-        "/auth/internal/accounts?type=Doctor",
+        "/auth/internal/accounts",
         {},
-        {},
+        { "type": "Doctor" },
         {
             "Content-Type": "application/json",
         },

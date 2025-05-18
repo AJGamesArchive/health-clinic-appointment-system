@@ -3,14 +3,13 @@ import AccountData from "../types/data/AccountData";
 import useAPIService, { APIResponse } from "./services/UseAPIService";
 import PatientData from "../types/data/PatientData";
 
-
 export function usePatientList() {
     const [ data, setData ] = useState<AccountData[] | null>();
     const apiService: APIResponse<AccountData[]> = useAPIService<AccountData[]>(
         "GET",
-        "/auth/internal/accounts?type=Patient",
+        "/auth/internal/accounts",
         {},
-        {},
+        { "type": "Patient" },
         {
             "Content-Type": "application/json",
         },

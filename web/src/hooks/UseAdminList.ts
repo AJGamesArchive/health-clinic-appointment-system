@@ -4,13 +4,15 @@ import useAPIService, { APIResponse } from "./services/UseAPIService";
 import AdminData from "../types/data/AdminData";
 
 
-export function useAdminList() {
+export function useAdminList(id?: number) {
     const [ data, setData ] = useState<AccountData[] | null>();
+    const apiString = id ? "/auth/internal/accounts/" + id : "/auth/internal/accounts";
+    
     const apiService: APIResponse<AccountData[]> = useAPIService<AccountData[]>(
         "GET",
-        "/auth/internal/accounts?type=Admin",
+        apiString,
         {},
-        {},
+        { "type": "Admin" },
         {
             "Content-Type": "application/json",
         },

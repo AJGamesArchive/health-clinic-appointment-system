@@ -3,6 +3,7 @@ import { useAccountProfile, UseProfileHook } from "./UseProfileHook";
 import { cloneDeep } from "lodash";
 import AccountData from "../types/data/AccountData";
 import DoctorData, { DoctorWorkingHours, DoctorContactInfo } from "../types/data/DoctorData";
+import { useParams } from "react-router-dom";
 
 interface UseAdminProfileHook {
     profile: UseProfileHook;
@@ -16,7 +17,9 @@ interface UseAdminProfileHook {
 
 export function useDoctorProfile(): UseAdminProfileHook {
     // States
-    const useProfile = useAccountProfile();
+    const { id } = useParams();
+    
+    const useProfile = id? useAccountProfile(id, "Doctor") : useAccountProfile();
     const [ updateDisabled, setUpdateDisabled ] = useState<boolean>(true);
     const [ modifiedProfile, setModifiedProfile ] = useState<AccountData | undefined>(undefined);
 
