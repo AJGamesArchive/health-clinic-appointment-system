@@ -13,6 +13,18 @@
       ],
       "cache": false
     },
+    "data:cloud": {
+      "outputs": [
+        "dist"
+      ],
+      "cache": false
+    },
+    "data:local": {
+      "outputs": [
+        "dist"
+      ],
+      "cache": false
+    },
     "start:cloud": {
       "dependsOn": [
         "^build"
