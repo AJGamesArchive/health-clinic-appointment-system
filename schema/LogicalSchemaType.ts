@@ -1,8 +1,8 @@
 type DB_Account = {
   _id: () => { _id: string};
   title: string;
-  forenames: string; //? New
-  surname: string; //? Changed from name to surname
+  forenames: string;
+  surname: string;
   email: string;
   password: string;
   role: 'Patient' | 'Doctor' | 'Admin';
@@ -22,7 +22,7 @@ type DB_Appointment = {
   bookedBy: 'Doctor' | 'Patient' | 'Admin';
   bookedAt: Date;
   updatedAt: Date;
-  vitals?: { //! Key missing from ER
+  vitals?: {
     height?: string;
     weight?: string;
     bloodPressure?: string;
@@ -87,7 +87,7 @@ type PatientData = {
     phone: string;
     relationship: string;
   }[];
-  address: { //! Key missing from ER
+  address: {
     addressLine1: string;
     addressLine2: string;
     city: string;
@@ -101,13 +101,13 @@ type PatientData = {
     doctorId: () => { _id: string};
     doctorName: string;
   }[];
-  medicalInformation: { //! Key missing from ER
+  medicalInformation: {
     bloodType: string;
     sexAtBirth: string;
     conditions: string[];
     allergies: string[];
   };
-  lifeStyleHistory: LifeStyleFactors; //! Key missing from ER
+  lifeStyleHistory: LifeStyleFactors;
   importantNotes: string[]; 
 };
 
@@ -201,7 +201,7 @@ type LabTestResults = {
   testName: string;
   result: string;
   resultsDate: Date;
-  requestedBy: { //! Key missing on ER
+  requestedBy: {
     doctorId: () => { _id: string};
     doctorName: string;
   };
@@ -212,7 +212,7 @@ type Diagnoses = {
   notes: string;
   severity: string;
   date: Date;
-  diagnosedBy: { //! Key missing on ER
+  diagnosedBy: {
     doctorId: () => { _id: string};
     doctorName: string;
   };
@@ -222,7 +222,7 @@ type DietaryRestrictions = {
   restriction: string;
   notes: string;
   date: Date;
-  prescribedBy: { //! Key missing on ER
+  prescribedBy: {
     doctorId: () => { _id: string};
     doctorName: string;
   };
@@ -241,7 +241,7 @@ type ChronicConditions = {
   dateDiagnosed: Date;
   severity: string;
   notes: string;
-  diagnosedBy: { //! Key missing on ER
+  diagnosedBy: {
     doctorId: () => { _id: string};
     doctorName: string;
   };
@@ -252,7 +252,7 @@ type PastSurgeries = {
   emergency: boolean;
   date: Date;
   notes: string;
-  performedBy: { //! Key missing on ER
+  performedBy: {
     doctorId: () => { _id: string};
     doctorName: string;
   }[];
@@ -270,7 +270,7 @@ type Medications = {
   frequency: string;
   startDate: Date;
   endDate: Date | null;
-  prescribedBy: { //! Key missing on ER
+  prescribedBy: {
     doctorId: () => { _id: string};
     doctorName: string;
   };
@@ -279,7 +279,7 @@ type Medications = {
   notes: string;
 };
 
-type Treatments = { //! Full Embed Table Missing On ER
+type Treatments = {
   treatment: string;
   schedule: {
     dateAdministered: Date;
@@ -298,14 +298,14 @@ type Referrals = {
   referralTo: string;
   dateReferred: Date;
   reason: string;
-  referredBy: { //! Key and embed missing on ER
+  referredBy: {
     doctorId: () => { _id: string};
     doctorName: string;
   };
   status: 'Pending' | 'Completed' | 'Declined';
   followUpDate: Date | undefined;
   followUpNotes: string | undefined;
-  followUpBy: { //! Key and embed missing on ER
+  followUpBy: {
     doctorId: () => { _id: string};
     doctorName: string;
   } | undefined;
