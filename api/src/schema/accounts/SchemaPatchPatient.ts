@@ -57,7 +57,6 @@ const schemaPatchPatient = {
           email: { type: 'string', format: 'email' },
           phone: { type: 'string' },
         },
-        minProperties: 1,
       },
       emergencyContact: {
         type: 'array',
@@ -69,7 +68,6 @@ const schemaPatchPatient = {
             phone:        { type: 'string' },
             relationship: { type: 'string' },
           },
-          minProperties: 1,
         },
       },
       address: {
@@ -82,7 +80,6 @@ const schemaPatchPatient = {
           county:       { type: 'string' },
           postCode:     { type: 'string' },
         },
-        minProperties: 1,
       },
       medicalInformation: {
         type: 'object',
@@ -99,161 +96,149 @@ const schemaPatchPatient = {
             items: { type: 'string' },
           },
         },
-        minProperties: 1,
       },
-    lifeStyleHistory: {
-      type: 'object',
-      additionalProperties: false,
-      properties: {
-        smokingStatus: {
-          type: 'array',
-          items: {
-            type: 'object',
-            additionalProperties: false,
-            properties: {
-              status:       { type: 'string' },
-              statusAsOf:   { type: 'string', format: 'date' },
-              notes:        { type: 'string' },
+      lifeStyleHistory: {
+        type: 'object',
+        additionalProperties: false,
+        properties: {
+          smokingStatus: {
+            type: 'array',
+            items: {
+              type: 'object',
+              additionalProperties: false,
+              properties: {
+                status:       { type: 'string' },
+                statusAsOf:   { type: 'string', format: 'date' },
+                notes:        { type: 'string' },
+              },
             },
-            minProperties: 1,
           },
-        },
 
-        alcoholConsumption: {
-          type: 'array',
-          items: {
-            type: 'object',
-            additionalProperties: false,
-            properties: {
-              consumption:     { type: 'string' },
-              consumptionAsOf: { type: 'string', format: 'date' },
-              notes:           { type: 'string' },
+          alcoholConsumption: {
+            type: 'array',
+            items: {
+              type: 'object',
+              additionalProperties: false,
+              properties: {
+                consumption:     { type: 'string' },
+                consumptionAsOf: { type: 'string', format: 'date' },
+                notes:           { type: 'string' },
+              },
             },
-            minProperties: 1,
           },
-        },
 
-        recreationalDrugUse: {
-          type: 'array',
-          items: {
-            type: 'object',
-            additionalProperties: false,
-            properties: {
-              drug:     { type: 'string' },
-              usage:    { type: 'string' },
-              useAsOf:  { type: 'string', format: 'date' },
-              notes:    { type: 'string' },
+          recreationalDrugUse: {
+            type: 'array',
+            items: {
+              type: 'object',
+              additionalProperties: false,
+              properties: {
+                drug:     { type: 'string' },
+                usage:    { type: 'string' },
+                useAsOf:  { type: 'string', format: 'date' },
+                notes:    { type: 'string' },
+              },
             },
-            minProperties: 1,
           },
-        },
 
-        exerciseFrequency: {
-          type: 'array',
-          items: {
-            type: 'object',
-            additionalProperties: false,
-            properties: {
-              exercise:        { type: 'string' },
-              frequency:       { type: 'string' },
-              frequencyAsOf:   { type: 'string', format: 'date' },
-              notes:           { type: 'string' },
+          exerciseFrequency: {
+            type: 'array',
+            items: {
+              type: 'object',
+              additionalProperties: false,
+              properties: {
+                exercise:        { type: 'string' },
+                frequency:       { type: 'string' },
+                frequencyAsOf:   { type: 'string', format: 'date' },
+                notes:           { type: 'string' },
+              },
             },
-            minProperties: 1,
           },
-        },
 
-        sleepQuality: {
-          type: 'array',
-          items: {
-            type: 'object',
-            additionalProperties: false,
-            properties: {
-              quality:     { type: 'string' },
-              qualityAsOf: { type: 'string', format: 'date' },
-              notes:       { type: 'string' },
+          sleepQuality: {
+            type: 'array',
+            items: {
+              type: 'object',
+              additionalProperties: false,
+              properties: {
+                quality:     { type: 'string' },
+                qualityAsOf: { type: 'string', format: 'date' },
+                notes:       { type: 'string' },
+              },
             },
-            minProperties: 1,
           },
-        },
 
-        stressLevel: {
-          type: 'array',
-          items: {
-            type: 'object',
-            additionalProperties: false,
-            properties: {
-              level:     { type: 'string' },
-              levelAsOf: { type: 'string', format: 'date' },
-              notes:     { type: 'string' },
+          stressLevel: {
+            type: 'array',
+            items: {
+              type: 'object',
+              additionalProperties: false,
+              properties: {
+                level:     { type: 'string' },
+                levelAsOf: { type: 'string', format: 'date' },
+                notes:     { type: 'string' },
+              },
             },
-            minProperties: 1,
           },
-        },
 
-        socialSupport: {
-          type: 'array',
-          items: {
-            type: 'object',
-            additionalProperties: false,
-            properties: {
-              support:     { type: 'string' },
-              supportAsOf: { type: 'string', format: 'date' },
-              notes:       { type: 'string' },
+          socialSupport: {
+            type: 'array',
+            items: {
+              type: 'object',
+              additionalProperties: false,
+              properties: {
+                support:     { type: 'string' },
+                supportAsOf: { type: 'string', format: 'date' },
+                notes:       { type: 'string' },
+              },
             },
-            minProperties: 1,
           },
-        },
 
-        travelHistory: {
-          type: 'array',
-          items: {
-            type: 'object',
-            additionalProperties: false,
-            properties: {
-              location:  { type: 'string' },
-              date:      { type: 'string', format: 'date' },
-              duration:  { type: 'string' },
-              notes:     { type: 'string' },
+          travelHistory: {
+            type: 'array',
+            items: {
+              type: 'object',
+              additionalProperties: false,
+              properties: {
+                location:  { type: 'string' },
+                date:      { type: 'string', format: 'date' },
+                duration:  { type: 'string' },
+                notes:     { type: 'string' },
+              },
             },
-            minProperties: 1,
           },
-        },
 
-        familyConditionals: {
-          type: 'array',
-          items: {
-            type: 'object',
-            additionalProperties: false,
-            properties: {
-              condition:             { type: 'string' },
-              typicalCause:          { type: 'string' },
-              typicalAgeOfDiagnosis: { type: 'number' },
-              notes:                 { type: 'string' },
+          familyConditionals: {
+            type: 'array',
+            items: {
+              type: 'object',
+              additionalProperties: false,
+              properties: {
+                condition:             { type: 'string' },
+                typicalCause:          { type: 'string' },
+                typicalAgeOfDiagnosis: { type: 'number' },
+                notes:                 { type: 'string' },
+              },
             },
-            minProperties: 1,
           },
-        },
-        environmentalFactors: {
-          type: 'array',
-          items: {
-            type: 'object',
-            additionalProperties: false,
-            properties: {
-              factor:       { type: 'string' },
-              exposure:     { type: 'string' },
-              exposureAsOf: { type: 'string', format: 'date' },
-              notes:        { type: 'string' },
+          environmentalFactors: {
+            type: 'array',
+            items: {
+              type: 'object',
+              additionalProperties: false,
+              properties: {
+                factor:       { type: 'string' },
+                exposure:     { type: 'string' },
+                exposureAsOf: { type: 'string', format: 'date' },
+                notes:        { type: 'string' },
+              },
             },
-            minProperties: 1,
           },
         },
       },
-      minProperties: 1,
     },
+    minProperties: 1,        
   },
-  minProperties: 1,        
-},
   response: {
     200: {
       type: 'object',
