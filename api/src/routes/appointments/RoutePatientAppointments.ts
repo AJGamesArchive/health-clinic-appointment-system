@@ -1,51 +1,37 @@
 // Imports
 import { FastifyRequest, FastifyReply } from 'fastify';
 import {
-  AnyAppointmentsHeaders,
-  AnyAppointmentsParams,
-  AnyAppointmentsQuerystring,
-  AnyAppointmentsReply200,
-  AnyAppointmentsReplyError,
-} from '../../schema/appointments/SchemaAnyAppointments.js';
+  PatientAppointmentsHeaders,
+  PatientAppointmentsParams,
+  PatientAppointmentsQuerystring,
+  PatientAppointmentsReply200,
+  PatientAppointmentsReplyError,
+} from '../../schema/appointments/SchemaPatientAppointments.js';
 import AppointmentService from '../../services/database/AppointmentService.js';
 import AppointmentData from '../../types/data/AppointmentData.js';
 
 /**
- * @summary Route to fetch appointment data for the current user
- * @route GET /auth/internal/admin/appointments/:type
- * @note Admin Endpoint
+ * @summary Route to fetch appointment data for a given patient
+ * @route GET /auth/internal/doctor/patient/:patientId/appointments/:type
+ * @note Doctor Endpoint
  * @AJGamesArchive
  */
-const routeAnyAppointments = async (
+const routePatientAppointments = async (
 	req: FastifyRequest<{
-    Headers: AnyAppointmentsHeaders;
-    Params: AnyAppointmentsParams;
-    Querystring: AnyAppointmentsQuerystring;
+    Headers: PatientAppointmentsHeaders;
+    Params: PatientAppointmentsParams;
+    Querystring: PatientAppointmentsQuerystring;
   }>,
 	rep: FastifyReply,
 ): Promise<void> => {
-  // Ensure valid filters are passed
-  if(
-    (req.query.role && !req.query.userId) ||
-    (!req.query.role && req.query.userId)
-  ) {
-    rep.status(400).send(JSON.stringify({
-      error: 'BAD_REQUEST',
-      message: `Invalid query parameters. Must pass either both or neither of 'role' and 'userId'.`,
-    } as AnyAppointmentsReplyError, null, 2));
-    return;
-  };
-
   // Fetch appointments
-  const appointments: AppointmentData[] | number = await AppointmentService.getMany(
+  const appointments: AppointmentData[] | number = await AppointmentService.getManyByUserId(
+    "Patient",
+    req.params.patientId,
+    req.params.type,
     req.query.page ?? 1,
     50,
     req.query.sort,
-    (req.query.role && req.query.userId) ? {
-      role: req.query.role,
-      id: req.query.userId,
-    } : undefined,
-    req.params.type,
   );
 
   // Handle error
@@ -57,7 +43,7 @@ const routeAnyAppointments = async (
         code: appointments,
         err: null,
       },
-    } as AnyAppointmentsReplyError, null, 2));
+    } as PatientAppointmentsReplyError, null, 2));
     return;
   };
 
@@ -70,12 +56,12 @@ const routeAnyAppointments = async (
   };
 
   // Send response
-  rep.status(200).send(JSON.stringify({
+  rep.status(200).send({
     appointments: req.params.type === 'all' ? undefined : appointments,
     upcomingAppointments: req.params.type === 'all' ? upcomingAppointments : undefined,
     pastAppointments: req.params.type === 'all' ? pastAppointments : undefined,
-  } as AnyAppointmentsReply200, null, 2));
+  } as PatientAppointmentsReply200);
 	return;
 };
 
-export default routeAnyAppointments;
+export default routePatientAppointments;

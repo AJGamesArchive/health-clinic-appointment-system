@@ -12,6 +12,7 @@ import AppointmentData from '../../types/data/AppointmentData.js';
 /**
  * @summary Route to fetch specific appointment data based on a given appointment id
  * @route GET /auth/internal/admin/appointment/:id
+ * @note Admin Endpoint
  * @AJGamesArchive
  */
 const routeAnyAppointment = async (
