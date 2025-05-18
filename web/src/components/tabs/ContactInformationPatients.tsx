@@ -1,20 +1,17 @@
 import React, { useState } from "react";
+import accountData from "../../types/data/AccountData";
 
-interface ContactInformationForm{
-    personalPhone:string;
-    personalEmail:string;
-    address:string;
-    emergencyContactPhone:string;
-    emergencyContactRelation:string;
-}
+interface ContactInformationPatientsProps {
+    accountData: accountData;
+};
 
-const ContactInformation: React.FC = () => {
+const ContactInformation: React.FC<ContactInformationPatientsProps>= ({ accountData }) => {
 const [formData, setFormData] = useState({
-        personalPhone: "",
-        personalEmail: "",
-        address: "",
-        emergencyContactPhone: "",
-        emergencyContactRelation: "",
+        personalPhone: accountData.patientData?.contactInfo.phone || "",
+        personalEmail: accountData.patientData?.contactInfo.email || "",
+        address: accountData.patientData?.address.addressLine1 || "",
+        emergencyContactPhone: accountData.patientData?.emergencyContact[0]?.phone || "",
+        emergencyContactRelation: accountData.patientData?.emergencyContact[0]?.relationship || "",
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

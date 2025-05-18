@@ -4,30 +4,34 @@ import CoreInformationPatients from "../components/tabs/CoreInfromationPatients"
 import ContactInformationPatients from "../components/tabs/ContactInformationPatients";
 import UpcomingAppointmentsPatients from "../components/tabs/UpcomingAppointmentsPatients";
 import LifeStylePatients from "../components/tabs/LifeStylePatients";
-import "./PatientProfile.css"; 
 import { useAuthContext } from "../contexts/AuthContext";
 import { UseRouteAuthHook } from "../hooks/security/UseRouteAuth";
+import { useAccountProfile } from "../hooks/UseProfileHook";
+import "./PatientProfile.css"; 
 
 
 
 const PatientPage: React.FC = () => {
 
     const loggedInUser: UseRouteAuthHook = useAuthContext();
+    const {data: accountData, loading } = useAccountProfile();
+    
   
    const [activeTab, setActiveTab] = useState<string>("CoreInfromation");
 
-   const accountType = loggedInUser.user?.role;
-
     const renderTabContent = () => {
+        if (!accountData) return null;
+
+
         switch (activeTab) {
             case "CoreInfromation":
-                return <CoreInformationPatients />;
+                return <CoreInformationPatients accountData={accountData} />;
             case "ContactInformation":
-               return <ContactInformationPatients />;
+               return <ContactInformationPatients accountData={accountData} />;
            case "LifeStyle":
-               return <LifeStylePatients />;
+               return <LifeStylePatients/>;
             case "UpcomingAppointments":
-               return <UpcomingAppointmentsPatients />;
+               return <UpcomingAppointmentsPatients accountData={accountData}/>;
             //case "MedicalHistory":
                //return <MedicalHistoryPatients />;
         }
@@ -41,7 +45,7 @@ const PatientPage: React.FC = () => {
   return (
     <Layout>
         <div className="patient-Profile-container">
-            <h1>{loggedInUser.user?.forenames} {loggedInUser.user?.surname} </h1> <h2>{accountType}</h2>
+            <h1>{loggedInUser.user?.forenames} {loggedInUser.user?.surname} </h1> 
                 <div className="tabs-section">
                     <button
                         className={`tab ${activeTab === "CoreInfromation" ? "active" : ""}`}
@@ -62,6 +66,8 @@ const PatientPage: React.FC = () => {
                     
                 </div>
         </div>
+        {loading && <p>Loading...</p>}
+        
         {renderTabContent()}
     </Layout>
   );

@@ -1,39 +1,22 @@
 import React, { useState } from "react";
 import "./CoreInfromationPatients.css"; 
-import { useAuthContext } from "../../contexts/AuthContext";
+import accountData from "../../types/data/AccountData";
 
-type PatientRole = "Patient" | "Doctor" | "Admin";
-
-const LoggedInUser = useAuthContext();
-
-interface PatientFormData {
-    notes: string[];
-    title: string;
-    forname: string;
-    surname: string;
-    role: PatientRole;
-    age: string;
-    dob: string;
-    sexAtBirth: string;
-    bloodType: string;
-    gender: string;
-    conditions: string[];
-    allergies: string[];
+interface CoreInformationPatientsProps {
+  accountData: accountData;
 }
 
-
-
-const CoreInformationPatients: React.FC = () => {
+const CoreInformationPatients: React.FC<CoreInformationPatientsProps> = ({ accountData }) => {
     const [formData, setFormData] = useState({
-        notes: [],
-        title: "",
+        notes: accountData.patientData?.importantNotes || [],
+        title: accountData.title || "",
         age: "",
-        dob: "",
-        sexAtBirth: "",
-        bloodType: "",
-        gender: "",
-        conditions: [],
-        allergies: [],
+        dob: accountData.patientData?.dateOfBirth || "",
+        sexAtBirth: accountData.patientData?.medicalInformation.sexAtBirth || "",
+        bloodType: accountData.patientData?.medicalInformation.bloodType || "",
+        gender: accountData.patientData?.gender || "",
+        conditions: accountData.patientData?.medicalInformation.conditions || [],
+        allergies: accountData.patientData?.medicalInformation.allergies || [],
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -84,9 +67,9 @@ const CoreInformationPatients: React.FC = () => {
                 <input
                  type="date"
                  name="dob"
-                 value={formData.dob}
+                 value={formData.dob.toString()}
                  onChange={handleChange}
-                 readOnly={isReadOnly(formData.dob)}
+                 readOnly={isReadOnly(formData.dob.toString())}
                 />
             </div>
             <div className="info-item">
