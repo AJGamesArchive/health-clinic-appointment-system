@@ -13,6 +13,8 @@ import AppointmentData from "../types/data/AppointmentData.js";
  * @param data.doctors - The doctors to insert into the database
  * @param data.admins - The admins to insert into the database
  * @param data.appointments - The appointments to insert into the database
+ * @param localDB - Flag to indicate if the database is local or not
+ * @note Function will not use a transaction is database is local
  * @returns {Promise<void>} - A promise that resolves when the data has been inserted
  * @throws {Tomato} - Throws a Tomato error if the data could not be inserted
  * @description This function inserts data into the database and updates all corresponding IDs. It uses a transaction to ensure that all data is inserted successfully or none at all.
@@ -23,11 +25,12 @@ async function insertData(
     doctors: AccountData[];
     admins: AccountData[];
     appointments: AppointmentData[];
-  }
+  },
+  localDB?: boolean,
 ): Promise<void> {
   // Setup DB transaction
   const session = await mongoose.startSession();
-  session.startTransaction();
+  if(!localDB) session.startTransaction();
 
   // DB Opts
   try  {
@@ -44,7 +47,7 @@ async function insertData(
       password: p.password,
       role: p.role,
       accountData: p.patientData,
-    })), { session });
+    })), { session: (!localDB) ? session : undefined });
     console.log("Inserting doctors...");
     const doctorInsertionsPromises = await DB_Accounts.insertMany(doctors.map((d) => ({
       title: d.title,
@@ -54,7 +57,7 @@ async function insertData(
       password: d.password,
       role: d.role,
       accountData: d.doctorData,
-    })), { session });
+    })), { session: (!localDB) ? session : undefined });
     console.log("Inserting admins...");
     const adminInsertionsPromises = await DB_Accounts.insertMany(admins.map((a) => ({
       title: a.title,
@@ -64,7 +67,7 @@ async function insertData(
       password: a.password,
       role: a.role,
       accountData: a.adminData,
-    })), { session });
+    })), { session: (!localDB) ? session : undefined });
     console.log("Awaiting promises...");
     const [ patientInsertions, doctorInsertions, adminInsertions ] = await Promise.all([
       patientInsertionsPromises,
@@ -115,7 +118,7 @@ async function insertData(
       previousAppointmentId: app.previousAppointmentId,
       nextAppointmentId: app.nextAppointmentId,
       postAppointmentNotes: app.postAppointmentNotes,
-    })), { session });
+    })), { session: (!localDB) ? session : undefined });
     console.log("Appointments inserted!");
 
     // Map appointment IDs
@@ -136,7 +139,7 @@ async function insertData(
               nextAppointmentId: nextAppointmentId,
               previousAppointmentId: previousAppointmentId,
             },
-          }, { session });
+          }, { session: (!localDB) ? session : undefined });
         };
       };
 
@@ -187,16 +190,16 @@ async function insertData(
       // Update patient and doctor data in database
       await DB_Accounts.findByIdAndUpdate(appointment.patientId, {
         $push: { "accountData.upcomingAppointments": patientApp },
-      }, { session });
+      }, { session: (!localDB) ? session : undefined });
       await DB_Accounts.findByIdAndUpdate(appointment.doctorId, {
         $push: { "accountData.upcomingAppointments": doctorApp },
-      }, { session });
+      }, { session: (!localDB) ? session : undefined });
     };
     console.log("Referenced indexes updated!");
 
     // Commit transaction
-    await session.commitTransaction();
-    session.endSession();
+    if(!localDB) await session.commitTransaction();
+    if(!localDB) session.endSession();
 
     // Log created IDs
     console.log("Created IDs:");
@@ -218,8 +221,8 @@ async function insertData(
     });
     return;
   } catch (err: any) {
-    await session.abortTransaction();
-    session.endSession();
+    if(!localDB) await session.abortTransaction();
+    if(!localDB) session.endSession();
     throw new Tomato(`Failed to insert data into the database: ${err}`);
   };
   return;

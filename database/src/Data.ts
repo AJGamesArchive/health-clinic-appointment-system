@@ -46,7 +46,7 @@ async function data() {
 
     // Insert mock data into the database
     console.log("Inserting mock data into the database...");
-    await insertData(mockData);
+    await insertData(mockData, process.env.NODE_ENV === 'local');
     console.log("Mock data inserted successfully");
   } catch (err: any) {
     console.error(`Failed to setup the database:\n\n${err}`);
