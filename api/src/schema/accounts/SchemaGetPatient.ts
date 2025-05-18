@@ -1,5 +1,5 @@
 import PatientData from "../../types/data/PatientData";
-import MedicalHistoryDetails from "../../types/data/MedicalHistory";
+//import MedicalHistoryDetails from "../../types/data/MedicalHistory";
 
 //Make interfaces based on the objects defined earlier
 export interface GetPatientHeaders {

@@ -49,7 +49,7 @@ const schemaPatchAccount = {
   },
   body: {
     type: 'object',
-    additionalProperties: true,
+    additionalProperties: false,
     properties: { 
         title:      { type: 'string' },
         forenames:  { type: 'string' },
