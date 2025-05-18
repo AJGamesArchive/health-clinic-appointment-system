@@ -23,6 +23,8 @@ import schemaMyAppointments from "../../../schema/appointments/SchemaMyAppointme
 import routeMyAppointments from "../../../routes/appointments/RouteMyAppointments.js";
 import schemaMyAppointment from "../../../schema/appointments/SchemaMyAppointment.js";
 import routeMyAppointment from "../../../routes/appointments/RouteMyAppointment.js";
+import schemaBookAppointment from "../../../schema/appointments/SchemaBookAppointment.js";
+import routeBookAppointment from "../../../routes/appointments/RouteBookAppointment.js";
 
 /**
  * Function to declare all internally protected routes
@@ -70,6 +72,10 @@ const protectedInternalRoutes = (): {
     protectedInternalRoutes.get("/profile/appointment/:id",
       { schema: schemaMyAppointment },
       endpointTimeout(routeMyAppointment, 10000), // 10 seconds
+    );
+    protectedInternalRoutes.post("/appointments/book",
+      { schema: schemaBookAppointment },
+      endpointTimeout(routeBookAppointment, 10000), // 10 seconds
     );
   },
   prefix: '/auth/internal',

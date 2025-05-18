@@ -63,6 +63,60 @@ class AppointmentTransaction {
   };
 
   /**
+   * @public function to return any errors that occurred during the transaction
+   * @returns An array of errors that occurred during the transaction
+   * @AJGamesArchive
+   */
+  public getErrors(): string[] {
+    return this.errors;
+  };
+
+  /**
+   * @public function to return the current appointment data
+   * @returns The current appointment data
+   * @AJGamesArchive
+   */
+  public getAppointment(): AppointmentData {
+    return this.updatedAppointment?.toJSON() || this.appointment.toJSON();
+  };
+
+  /**
+   * @public function to return the current doctor details
+   * @returns The current doctor details
+   */
+  public getDoctor(): {
+    id: string;
+    title: string;
+    forenames: string;
+    surname: string;
+  } {
+    return {
+      id: this.doctor.getID() || "",
+      title: this.doctor.title,
+      forenames: this.doctor.forenames,
+      surname: this.doctor.surname,
+    };
+  };
+
+  /**
+   * @public function to return the current patient details
+   * @returns The current patient details
+   */
+  public getPatient(): {
+    id: string;
+    title: string;
+    forenames: string;
+    surname: string;
+  } {
+    return {
+      id: this.patient.getID() || "",
+      title: this.patient.title,
+      forenames: this.patient.forenames,
+      surname: this.patient.surname,
+    };
+  };
+
+  /**
     @static async function to prepare an appointment create transaction
     @param newAppointment - The new appointment data
     @returns TransactionAppointment object, or error status code
