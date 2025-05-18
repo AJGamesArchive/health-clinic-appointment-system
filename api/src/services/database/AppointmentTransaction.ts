@@ -1,6 +1,6 @@
 // Imports
 import mongoose from "mongoose";
-import { merge } from "lodash";
+import { merge } from "lodash-es";
 import Appointment from "../../classes/data/Appointment.js";
 import AppointmentData from "../../types/data/AppointmentData.js";
 import Account from "../../classes/data/Account.js";
