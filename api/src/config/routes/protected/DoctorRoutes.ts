@@ -8,6 +8,8 @@ import guardIsDoctor from "../../../guards/IsDoctor.js";
 // Import appointment endpoints
 import schemaPatientAppointments from "../../../schema/appointments/SchemaPatientAppointments.js";
 import routePatientAppointments from "../../../routes/appointments/RoutePatientAppointments.js";
+import schemaPatientAppointment from "../../../schema/appointments/SchemaPatientAppointment.js";
+import routePatientAppointment from "../../../routes/appointments/RoutePatientAppointment.js";
 
 /**
  * Function to declare all internally protected doctor routes
@@ -27,6 +29,10 @@ const protectedDoctorRoutes = (): {
     protectedDoctorRoutes.get("/patient/:patientId/appointments/:type",
       { schema: schemaPatientAppointments },
       endpointTimeout(routePatientAppointments, 10000), // 10 seconds
+    );
+    protectedDoctorRoutes.get("/patient/:patientId/appointment/:appointmentId",
+      { schema: schemaPatientAppointment },
+      endpointTimeout(routePatientAppointment, 10000), // 10 seconds
     );
   },
   prefix: '/doctor',
