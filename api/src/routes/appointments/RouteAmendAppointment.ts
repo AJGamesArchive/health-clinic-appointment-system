@@ -55,7 +55,7 @@ const routeAmendAppointment = async (
       message: 'Failed to amend appointment.',
       output: {
         code: transaction,
-        err: 'Failed to retrieve entities required for the creations to be initiated.',
+        err: 'Failed to retrieve entities required for the amendment to be initiated.',
       },
     } as AmendAppointmentReplyError);
     return;

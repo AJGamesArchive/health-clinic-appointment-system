@@ -14,6 +14,8 @@ import schemaAnyAppointments from "../../../schema/appointments/SchemaAnyAppoint
 import routeAnyAppointments from "../../../routes/appointments/RouteAnyAppointments.js";
 import schemaAnyAppointment from "../../../schema/appointments/SchemaAnyAppointment.js";
 import routeAnyAppointment from "../../../routes/appointments/RouteAnyAppointment.js";
+import schemaDeleteAppointment from "../../../schema/appointments/SchemaDeleteAppointment.js";
+import routeDeleteAppointment from "../../../routes/appointments/RouteDeleteAppointment.js";
 
 /**
  * Function to declare all internally protected admin routes
@@ -43,6 +45,10 @@ const protectedAdminRoutes = (): {
     protectedAdminRoutes.get("/appointment/:id",
       { schema: schemaAnyAppointment },
       endpointTimeout(routeAnyAppointment, 10000), // 10 Seconds
+    );
+    protectedAdminRoutes.delete("/appointment/:id",
+      { schema: schemaDeleteAppointment },
+      endpointTimeout(routeDeleteAppointment, 10000), // 10 Seconds
     );
   },
   prefix: '/admin',

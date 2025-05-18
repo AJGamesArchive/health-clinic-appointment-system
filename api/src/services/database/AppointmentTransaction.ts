@@ -9,6 +9,8 @@ import AppointmentService from "./AppointmentService.js";
 import AccountData from "../../types/data/AccountData.js";
 import UpcomingAppointmentData from "../../types/data/UpcomingAppointmentData.js";
 
+//TODO Update this to check for conflicting appointment times if time permits
+
 /**
  * Class to handle all DB appointment & account upcoming appointment operations atomically
  * @notes Create => init, apply, commit

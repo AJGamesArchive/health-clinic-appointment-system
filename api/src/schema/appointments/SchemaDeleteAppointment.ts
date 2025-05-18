@@ -1,26 +1,25 @@
 // Imports
 import AppointmentData from "../../types/data/AppointmentData.js";
 
-export interface AmendAppointmentHeaders {
+export interface DeleteAppointmentHeaders {
   'content-type'?: string;
   'origin': string;
 };
-export interface AmendAppointmentParams {
+export interface DeleteAppointmentParams {
   id: string;
 };
-export interface AmendAppointmentBody extends Partial<AppointmentData> {};
-export interface AmendAppointmentReply200 extends AppointmentData {};
-export interface AmendAppointmentReplyError {
+export interface DeleteAppointmentReply200 extends AppointmentData {};
+export interface DeleteAppointmentReplyError {
   error: string;
   message: string;
 };
 
 /**
  * @summery API Endpoint Schema
- * @route PATCH /auth/internal/appointment/:id/amend
+ * @route DELETE /auth/internal/admin/appointment/:id
  * @AJGamesArchive
  */
-const schemaAmendAppointment = {
+const schemaDeleteAppointment = {
   headers: {
     type: 'object',
     properties: {
@@ -35,38 +34,6 @@ const schemaAmendAppointment = {
       id: { type: 'string' },
     },
     required: ['id'],
-  },
-  body: {
-    type: 'object',
-    properties: {
-      doctorId: { type: 'string' },
-      patientId: { type: 'string' },
-      upcoming: { type: 'boolean' },
-      canceled: { type: 'boolean' },
-      date: { type: 'string' },
-      time: { type: 'string' },
-      bookedBy: { type: 'string' },
-      bookedAt: { type: 'string' },
-      updatedAt: { type: 'string' },
-      vitals: {
-        type: 'object',
-        properties: {
-          height: { type: 'string' },
-          weight: { type: 'string' },
-          bloodPressure: { type: 'string' },
-          heartRate: { type: 'string' },
-          temperature: { type: 'string' },
-          additionalProperties: false,
-        },
-        required: [],
-      },
-      preAppointmentNotes: { type: 'string' },
-      actionsTaken: { type: 'string' },
-      previousAppointmentId: { type: 'string' },
-      nextAppointmentId: { type: 'string' },
-      postAppointmentNotes: { type: 'string' },
-    },
-    required: [],
   },
   response: {
     200: {
@@ -123,7 +90,7 @@ const schemaAmendAppointment = {
       },
       required: ['error', 'message'],
     },
-    422: {
+    404: {
       type: 'object',
       properties: {
         error: { type: 'string' },
@@ -144,4 +111,4 @@ const schemaAmendAppointment = {
   },
 };
 
-export default schemaAmendAppointment;
+export default schemaDeleteAppointment;
