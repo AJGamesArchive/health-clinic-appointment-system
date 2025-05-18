@@ -41,7 +41,7 @@ const accountsSchema = new mongoose.Schema({
     default: Date.now,
   },
   accountData: {
-    type: Object,
+    type: Object, //TODO Properly type this if time permits
     required: true,
   },
 }, {
