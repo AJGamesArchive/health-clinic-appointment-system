@@ -49,7 +49,7 @@ const App: React.FC = () => {
         {/* No patient-only pages (I think?) */}
 
         <Route element={<ProtectedRoute
-          requiredRank="Doctor"
+          requiredRank={["Doctor", "Admin"]}
           loading={<PageLoading/>}
           fallback={<PageAccessDenied/>}
         />}>
@@ -57,7 +57,7 @@ const App: React.FC = () => {
           <Route path="/patient-profile" element={<PatientProfile />}/>
         </Route>
         <Route element={<ProtectedRoute
-          requiredRank="Admin"
+          requiredRank={["Admin"]}
           loading={<PageLoading/>}
           fallback={<PageAccessDenied/>}
         />}>
