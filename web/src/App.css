@@ -56,7 +56,6 @@ body {
 
   .second {
     flex: 1;
-    margin: auto;
     text-align: right;
     vertical-align: middle;
     flex-basis: auto;
@@ -67,6 +66,17 @@ body {
   padding: 30px;
   margin: 10px 0;
   box-shadow: 0px 0px 10px #ccc;
+}
+
+.account-card {
+  flex: 1;
+  min-width: 300px;
+  margin: 10px
+}
+
+.account-card-container {
+  display: flex; 
+  flex-wrap: wrap
 }
 
 .card:hover {

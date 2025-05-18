@@ -61,9 +61,6 @@ const App: React.FC = () => {
           loading={<PageLoading/>}
           fallback={<PageAccessDenied/>}
         />}>
-          <Route path="/patient-profile" element={<PatientProfile />}/>
-          <Route path="/doctor-profile" element={<DoctorProfile />}/>
-          <Route path="/admin-profile" element={<AdminProfile />}/>
           <Route path="/create-patient" element={<PatientCreation />}/>
           <Route path="/create-doctor" element={<DoctorCreation />}/>
           <Route path="/create-admin" element={<AdminCreation />}/>

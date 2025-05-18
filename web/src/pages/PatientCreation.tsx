@@ -15,7 +15,7 @@ const PatientCreation: React.FC = () => {
                     <Toast.Header style={{backgroundColor: "#9C1C28", color: "white"}}><strong className="me-auto">Error</strong></Toast.Header>
                     <Toast.Body style={{color: "white"}}>{patientCreation.toastMessage}</Toast.Body>
                 </Toast>
-                <h2>Create Account <Badge style={{margin: "0 10px"}} >Patient</Badge></h2>
+                <h2>Create Account { <Badge style={{margin: "0 10px"}} >Patient</Badge>}</h2>
                 <Form>
                     <h3>Login Information</h3>
                     <Form.Label>Email Address</Form.Label>
