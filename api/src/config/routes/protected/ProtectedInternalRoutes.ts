@@ -17,8 +17,12 @@ import schemaGetAccounts from "../../../schema/accounts/SchemaGetAccounts.js";
 import routeGetAccounts from "../../../routes/accounts/RouteGetAccounts.js";
 import schemaGetProfile from "../../../schema/accounts/SchemaGetProfile.js";
 import routeGetProfile from "../../../routes/accounts/RouteGetProfile.js";
+
+// Import appointment endpoints
 import schemaMyAppointments from "../../../schema/appointments/SchemaMyAppointments.js";
 import routeMyAppointments from "../../../routes/appointments/RouteMyAppointments.js";
+import schemaMyAppointment from "../../../schema/appointments/SchemaMyAppointment.js";
+import routeMyAppointment from "../../../routes/appointments/RouteMyAppointment.js";
 
 /**
  * Function to declare all internally protected routes
@@ -64,6 +68,10 @@ const protectedInternalRoutes = (): {
     protectedInternalRoutes.get("/profile/appointments/:type",
       { schema: schemaMyAppointments },
       endpointTimeout(routeMyAppointments, 10000), // 10 seconds
+    );
+    protectedInternalRoutes.get("/profile/appointment/:id",
+      { schema: schemaMyAppointment },
+      endpointTimeout(routeMyAppointment, 10000), // 10 seconds
     );
   },
   prefix: '/auth/internal',

@@ -2,6 +2,7 @@
 import mongoose from "mongoose";
 import DB_Appointments from "../../models/Appointments.js";
 import AppointmentData from "../../types/data/AppointmentData.js";
+import AccountRoles from "../../types/data/AccountRoles.js";
 
 /**
  * Service class to handel all appointment database operations
@@ -250,6 +251,64 @@ abstract class AppointmentService {
       return appointments;
     } catch (err: any) {
       console.error(`Failed to get account:\n\n${err}`);
+      return 500; // Internal Server Error
+    };
+  };
+
+  /**
+   * @static function to fetch specific appointment for a given user data based on a given appointment ID
+   * @param accountType - The type of user to fetch appointment for
+   * @param appointmentId - The ID of the appointment to fetch
+   * @param accountId - The ID of the user to fetch appointment for
+   * @returns An appointment data object, otherwise returns error status code
+   * @AJGamesArchive
+   */
+  static async getOneForAccount(
+    accountType: AccountRoles,
+    appointmentId: string,
+    accountId: string
+  ): Promise<AppointmentData | number> {
+    // DB Opts
+    try {
+      // Fetch document
+      const document = await DB_Appointments.findOne({
+        id: appointmentId,
+        [accountType.toLowerCase() + 'Id']: accountId,
+      });
+
+      // handle soft errors
+      if(!document) return 404; // Not Found
+
+      // Map document output
+      const appointment: AppointmentData = {
+        id: document._id.toString(),
+        doctorId: document.doctorId,
+        patientId: document.patientId,
+        upcoming: document.upcoming,
+        canceled: document.canceled,
+        date: document.date,
+        time: document.time,
+        bookedBy: document.bookedBy,
+        bookedAt: document.bookedAt,
+        updatedAt: document.updatedAt,
+        vitals: (document.vitals) ? {
+          height: document.vitals.height ?? undefined,
+          weight: document.vitals.weight ?? undefined,
+          bloodPressure: document.vitals.bloodPressure ?? undefined,
+          heartRate: document.vitals.heartRate ?? undefined,
+          temperature: document.vitals.temperature ?? undefined
+        } : undefined,
+        preAppointmentNotes: document.preAppointmentNotes,
+        actionsTaken: document.actionsTaken,
+        previousAppointmentId: document.previousAppointmentId ?? undefined,
+        nextAppointmentId: document.nextAppointmentId ?? undefined,
+        postAppointmentNotes: document.postAppointmentNotes
+      };
+      
+      // Return account class
+      return appointment;
+    } catch (err: any) {
+      console.error(`Failed to get appointment:\n\n${err}`);
       return 500; // Internal Server Error
     };
   };
