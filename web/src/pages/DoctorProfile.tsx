@@ -47,10 +47,7 @@ const DoctorProfile: React.FC = () => {
                     <Form.Label>Email Address</Form.Label>
                     <Form.Control type="email" placeholder="name@example.com" value={doctorProfile.modifiedProfile?.email} onChange={(e) => doctorProfile.updateField(e.target.value, "email")}/>
                     <Form.Label>Specialty</Form.Label>
-                    <Form.Select value={doctorProfile.modifiedProfile?.doctorData?.specialty} onChange={(e) => doctorProfile.updateField(e.target.value, "doctorData", "specialty")}>
-                        <option>Select a specialism</option>
-                        <option>Cardiovascular Health</option>
-                    </Form.Select>
+                    <Form.Control value={doctorProfile.modifiedProfile?.doctorData?.specialty} onChange={(e) => doctorProfile.updateField(e.target.value, "doctorData", "specialty")}/>
                     <Form.Label>Work Email</Form.Label>
                     <Form.Control type="email" placeholder="name@example.com" value={doctorProfile.modifiedProfile?.doctorData?.contactInfo.workEmail} onChange={(e) => doctorProfile.updateField(e.target.value, "doctorData", "contactInfo", "workEmail")}/>
                     <Form.Label>Work Mobile</Form.Label>

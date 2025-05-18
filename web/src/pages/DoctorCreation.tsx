@@ -42,10 +42,7 @@ const DoctorCreation: React.FC = () => {
                     <Form.Label>Surname</Form.Label>
                     <Form.Control placeholder="surname" value={doctorCreation.surname} onChange={(e) => doctorCreation.setSurname(e.target.value)}/>
                     <Form.Label>Specialty</Form.Label>
-                    <Form.Select value={doctorCreation.specialism} onChange={(e) => doctorCreation.setSpecialism(e.target.value)}>
-                        <option>Select a specialism</option>
-                        <option>Cardiovascular Health</option>
-                    </Form.Select>
+                    <Form.Control value={doctorCreation.specialism} onChange={(e) => doctorCreation.setSpecialism(e.target.value)} placeholder="specialty"/>
                     <Form.Label>Work Email</Form.Label>
                     <Form.Control type="email" placeholder="name@example.com" value={doctorCreation.workEmail} onChange={(e) => doctorCreation.setWorkEmail(e.target.value)}/>
                     <Form.Label>Work Mobile</Form.Label>
