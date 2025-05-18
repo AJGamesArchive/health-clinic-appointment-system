@@ -49,10 +49,14 @@ const PatientCreation: React.FC = () => {
                     <Form.Label>Blood Type</Form.Label>
                     <Form.Select value={patientCreation.patient.bloodType} onChange={(e) => patientCreation.updatePatient("bloodType", e.target.value)}>
                         <option>Select a blood type</option>
-                        <option>A</option>
-                        <option>B</option>
-                        <option>O</option>
-                        <option>AB</option>
+                        <option>A+</option>
+                        <option>B+</option>
+                        <option>O+</option>
+                        <option>AB+</option>
+                        <option>A-</option>
+                        <option>B-</option>
+                        <option>O-</option>
+                        <option>AB-</option>
 
                     </Form.Select>
                     <Form.Label>Gender</Form.Label>
