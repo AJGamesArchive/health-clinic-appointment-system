@@ -1,17 +1,6 @@
-//TODO Update Logical Schema to remove the "oneOf" keys and co. Choose one of the prided data sets in those sections and remove others.
-
-/**
- * This file contains the types that are used in the logical schema of the database
- * These types are used to define the structure of the data in the database
- * All types with the prefix 'DB_' represent individual collections in the database
- * The notation '() => { _id: string}' is used to represent MongoDBs ObjectId type - used as primary and foreign keying
- * All the 'Date' types are representing a timestamp as a date ISO string
- * @note //! There are attributes on this schema that are missing on the ERD
- */
-
 type DB_Account = {
   _id: () => { _id: string};
-  title: string; //? Moved here instead of being in patient and doctor separately
+  title: string;
   forenames: string; //? New
   surname: string; //? Changed from name to surname
   email: string;
@@ -22,9 +11,6 @@ type DB_Account = {
   accountData: PatientData | DoctorData | AdminData;
 };
 
-/**
- * @note The core Appointments objects are currently their own collection as I figured you'd primarily need to query for all upcoming appointments to check for available time slots - copies of static appointment data are stored in the Doctor and Patient objects for quick access
- */
 type DB_Appointment = {
   _id: () => { _id: string};
   doctorId: () => { _id: string};
@@ -36,7 +22,7 @@ type DB_Appointment = {
   bookedBy: 'Doctor' | 'Patient' | 'Admin';
   bookedAt: Date;
   updatedAt: Date;
-  vitals?: {
+  vitals?: { //! Key missing from ER
     height?: string;
     weight?: string;
     bloodPressure?: string;
@@ -50,14 +36,11 @@ type DB_Appointment = {
   postAppointmentNotes: string;
 };
 
-/**
- * @note In it's own collection due to the file size limits imposed by MongoDB and so data driven people can query all medical history for stats etc
- */
 type DB_MedicalHistory = {
   _id: () => { _id: string};
   patient: {
     patientId: () => { _id: string};
-    name: string;
+    patientName: string;
   };
   entryBy: {
     doctorId: () => { _id: string};
@@ -104,7 +87,7 @@ type PatientData = {
     phone: string;
     relationship: string;
   }[];
-  address: {
+  address: { //! Key missing from ER
     addressLine1: string;
     addressLine2: string;
     city: string;
@@ -118,18 +101,16 @@ type PatientData = {
     doctorId: () => { _id: string};
     doctorName: string;
   }[];
-  medicalInformation: { //? This would be the patents current statuses, however, an entry could be made for these in Medical History to ensure past statuses are kept?
+  medicalInformation: { //! Key missing from ER
     bloodType: string;
     sexAtBirth: string;
     conditions: string[];
     allergies: string[];
   };
-  lifeStyleHistory: LifeStyleFactors;
+  lifeStyleHistory: LifeStyleFactors; //! Key missing from ER
   importantNotes: string[]; 
 };
 
-//TODO Work out how to represent nullability on the JSON LDS
-//? Ensure these changes are correct on ER model
 type LifeStyleFactors = {
   smokingStatus: {
     status: string;
@@ -190,9 +171,20 @@ type LifeStyleFactors = {
 
 /*
   * Medical History Embeds
-  TODO Check all of the below with group!!!
 */
-type MedicalHistoryDetails =
+type MedicalHistoryDetails = {
+  type:
+    'LabTestResults' |
+    'Diagnoses' |
+    'DietaryRestrictions' |
+    'Allergies' |
+    'ChronicConditions' |
+    'PastSurgeries' |
+    'Vaccines' |
+    'Medications' |
+    'Treatments' |
+    'Referrals';
+} &
   LabTestResults |
   Diagnoses |
   DietaryRestrictions |
@@ -206,138 +198,116 @@ type MedicalHistoryDetails =
 ;
 
 type LabTestResults = {
-  tests: {
-    testName: string;
-    result: string;
-    resultsDate: Date;
-    requestedBy: {
-      doctorId: () => { _id: string};
-      doctorName: string;
-    };
-  }[];
+  testName: string;
+  result: string;
+  resultsDate: Date;
+  requestedBy: { //! Key missing on ER
+    doctorId: () => { _id: string};
+    doctorName: string;
+  };
 };
 
 type Diagnoses = {
-  diagnoses: {
-    condition: string;
-    notes: string;TODO
-    severity: string;
-    date: Date;
-    diagnosedBy: {
-      doctorId: () => { _id: string};
-      doctorName: string;
-    };
-  }[];
+  condition: string;
+  notes: string;
+  severity: string;
+  date: Date;
+  diagnosedBy: { //! Key missing on ER
+    doctorId: () => { _id: string};
+    doctorName: string;
+  };
 };
 
 type DietaryRestrictions = {
-  dietaryRestrictions: {
-    restriction: string;
-    notes: string;
-    date: Date;
-    prescribedBy: {
-      doctorId: () => { _id: string};
-      doctorName: string;
-    };
-  }[];
+  restriction: string;
+  notes: string;
+  date: Date;
+  prescribedBy: { //! Key missing on ER
+    doctorId: () => { _id: string};
+    doctorName: string;
+  };
 };
 
 type Allergies = {
-  allergies: {
-    allergen: string;
-    reaction: string;
-    severity: string;
-    notes: string;
-    date: Date;
-  }[];
+  allergen: string;
+  reaction: string;
+  severity: string;
+  notes: string;
+  date: Date;
 };
 
 type ChronicConditions = {
-  conditions: {
-    condition: string;
-    dateDiagnosed: Date;
-    severity: string;
-    notes: string;
-    diagnosedBy: {
-      doctorId: () => { _id: string};
-      doctorName: string;
-    };
-  }[];
+  condition: string;
+  dateDiagnosed: Date;
+  severity: string;
+  notes: string;
+  diagnosedBy: { //! Key missing on ER
+    doctorId: () => { _id: string};
+    doctorName: string;
+  };
 };
 
 type PastSurgeries = {
-  surgeries: {
-    surgery: string;
-    emergency: boolean;
-    date: Date;
-    notes: string;
-    performedBy: {
-      doctorId: () => { _id: string};
-      doctorName: string;
-    }[];
+  surgery: string;
+  emergency: boolean;
+  date: Date;
+  notes: string;
+  performedBy: { //! Key missing on ER
+    doctorId: () => { _id: string};
+    doctorName: string;
   }[];
 };
 
 type Vaccines = {
-  vaccines: {
-    vaccine: string;
-    dateAdministered: Date;
-    notes: string;
-  }[];
+  vaccine: string;
+  dateAdministered: Date;
+  notes: string;
 };
 
 type Medications = {
-  medications: {
-    medication: string;
-    dosage: string;
-    frequency: string;
-    startDate: Date;
-    endDate: Date | null; //? null if current
-    prescribedBy: {
-      doctorId: () => { _id: string};
-      doctorName: string;
-    };
-    prescribedDate: Date;
-    refills: number;
-    notes: string;
-  }[];
+  medication: string;
+  dosage: string;
+  frequency: string;
+  startDate: Date;
+  endDate: Date | null;
+  prescribedBy: { //! Key missing on ER
+    doctorId: () => { _id: string};
+    doctorName: string;
+  };
+  prescribedDate: Date;
+  refills: number;
+  notes: string;
 };
 
-type Treatments = {
-  treatments: {
-    treatment: string;
-    schedule: {
-      dateAdministered: Date;
-    } | {
-      startDate: Date;
-      endDate: Date;
-    };
-    administeredBy: {
-      doctorId: () => { _id: string};
-      doctorName: string;
-    };
-    dosage: string;
-    reason: string;
-    notes: string;
-  }[];
+type Treatments = { //! Full Embed Table Missing On ER
+  treatment: string;
+  schedule: {
+    dateAdministered: Date;
+    endDate: Date;
+  };
+  administeredBy: {
+    doctorId: () => { _id: string};
+    doctorName: string;
+  };
+  dosage: string;
+  reason: string;
+  notes: string;
 };
 
 type Referrals = {
-  referrals: {
-    referralTo: string;
-    dateReferred: Date;
-    reason: string;
-    referredBy: {
-      doctorId: () => { _id: string};
-      doctorName: string;
-    };
-    status: 'Pending' | 'Completed' | 'Declined';
-    followUpDate: Date | null; //? null if no follow up needed
-    followUpNotes: string;
-    followUpBy: {
-      doctorId: () => { _id: string};
-      doctorName: string;
-    };
-    notes: string;
-  }[];
+  referralTo: string;
+  dateReferred: Date;
+  reason: string;
+  referredBy: { //! Key and embed missing on ER
+    doctorId: () => { _id: string};
+    doctorName: string;
+  };
+  status: 'Pending' | 'Completed' | 'Declined';
+  followUpDate: Date | undefined;
+  followUpNotes: string | undefined;
+  followUpBy: { //! Key and embed missing on ER
+    doctorId: () => { _id: string};
+    doctorName: string;
+  } | undefined;
+  notes: string;
 };
