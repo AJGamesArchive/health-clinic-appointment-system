@@ -140,8 +140,10 @@ This repo is setup to allow you to both; use your own locally hosted MongoDB dat
 
 #### Database Workspace
 
-- ``yarn db:setup:cloud`` - Run the database creation & data insertion script on the shared cloud database.
-- ``yarn db:setup:local`` - Run the database creation & data insertion script on you're local database.
+- ``yarn db:setup:cloud`` - Run the database creation script on the shared cloud database - deleted and re-creates database with base 4 Admin accounts.
+- ``yarn db:setup:local`` - Run the database creation script on you're local database - deleted and re-creates database with base 4 Admin accounts.
+- ``yarn db:data:cloud`` - Run the data generation and insertion script on the shared cloud database - generates and adds testing data to existing database.
+- ``yarn db:data:local`` - Run the data generation and insertion script on you're local database - generates and adds testing data to existing database.
 - - *These commands will wipe all data in the respective database before creating the new collections and adding default data!* 
 
 #### API Workspace
