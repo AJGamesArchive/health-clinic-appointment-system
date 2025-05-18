@@ -1104,6 +1104,69 @@ paths:
                 required:
                   - error
                   - message
+  /auth/internal/admin/appointment/{id}:
+    get:
+      summary: Retrieve a specific appointment by ID for admin
+      tags:
+        - Appointments
+        - Admin
+      description: Retrieve detailed information about a specific appointment by ID for admin users.
+      operationId: getAdminAppointmentById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the appointment
+          schema:
+            type: string
+        - name: content-type
+          in: header
+          required: false
+          description: Content type of the request
+          schema:
+            type: string
+            enum: ['application/json']
+        - name: origin
+          in: header
+          required: true
+          description: Origin of the request
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppointmentData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
 components:
   schemas:
     PatientData:
