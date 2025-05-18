@@ -7,8 +7,11 @@ import guardIsDoctor from "../../../guards/IsDoctor.js";
 import schemaGetPatient from "../../../schema/accounts/SchemaGetPatient.js";
 import routeGetPatient from "../../../routes/accounts/RouteGetPatient.js";
 
-// Import routes & schemas
-//TODO Insert doctor endpoints here
+// Import appointment endpoints
+import schemaPatientAppointments from "../../../schema/appointments/SchemaPatientAppointments.js";
+import routePatientAppointments from "../../../routes/appointments/RoutePatientAppointments.js";
+import schemaPatientAppointment from "../../../schema/appointments/SchemaPatientAppointment.js";
+import routePatientAppointment from "../../../routes/appointments/RoutePatientAppointment.js";
 
 /**
  * Function to declare all internally protected doctor routes
@@ -24,10 +27,14 @@ const protectedDoctorRoutes = (): {
     // Guards
     protectedDoctorRoutes.addHook("onRequest", guardIsDoctor);
 
-    // Test endpoints
-    protectedDoctorRoutes.get("/test", //TODO Replace with actual doctor endpoints
-      {},
-      endpointTimeout(async (_req, rep) => rep.status(200).send(JSON.stringify({ message: "Hello Doctor!" }, null, 2)), 5000), // 5 seconds
+    // Appointment endpoints
+    protectedDoctorRoutes.get("/patient/:patientId/appointments/:type",
+      { schema: schemaPatientAppointments },
+      endpointTimeout(routePatientAppointments, 10000), // 10 seconds
+    );
+    protectedDoctorRoutes.get("/patient/:patientId/appointment/:appointmentId",
+      { schema: schemaPatientAppointment },
+      endpointTimeout(routePatientAppointment, 10000), // 10 seconds
     );
 
     protectedDoctorRoutes.get("/doctor/:id",

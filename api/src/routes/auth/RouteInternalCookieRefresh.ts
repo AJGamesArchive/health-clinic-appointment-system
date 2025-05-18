@@ -38,7 +38,7 @@ const routeInternalCookieRefresh = async (
 
   // Send back access token
   rep
-    .status(200)
+    .status(205)
     .setCookie('access_token', jwt, {
       httpOnly: true,
       secure: true,

@@ -1,6 +1,6 @@
 // Imports
 import mongoose from "mongoose";
-import { merge } from "lodash";
+import { merge } from "lodash-es";
 import Appointment from "../../classes/data/Appointment.js";
 import AppointmentData from "../../types/data/AppointmentData.js";
 import Account from "../../classes/data/Account.js";
@@ -8,6 +8,8 @@ import AccountService from "./AccountService.js";
 import AppointmentService from "./AppointmentService.js";
 import AccountData from "../../types/data/AccountData.js";
 import UpcomingAppointmentData from "../../types/data/UpcomingAppointmentData.js";
+
+//TODO Update this to check for conflicting appointment times if time permits
 
 /**
  * Class to handle all DB appointment & account upcoming appointment operations atomically
@@ -60,6 +62,60 @@ class AppointmentTransaction {
     this.appointment = appointment;
     this.doctor = doctor;
     this.patient = patient;
+  };
+
+  /**
+   * @public function to return any errors that occurred during the transaction
+   * @returns An array of errors that occurred during the transaction
+   * @AJGamesArchive
+   */
+  public getErrors(): string[] {
+    return this.errors;
+  };
+
+  /**
+   * @public function to return the current appointment data
+   * @returns The current appointment data
+   * @AJGamesArchive
+   */
+  public getAppointment(): AppointmentData {
+    return this.updatedAppointment?.toJSON() || this.appointment.toJSON();
+  };
+
+  /**
+   * @public function to return the current doctor details
+   * @returns The current doctor details
+   */
+  public getDoctor(): {
+    id: string;
+    title: string;
+    forenames: string;
+    surname: string;
+  } {
+    return {
+      id: this.doctor.getID() || "",
+      title: this.doctor.title,
+      forenames: this.doctor.forenames,
+      surname: this.doctor.surname,
+    };
+  };
+
+  /**
+   * @public function to return the current patient details
+   * @returns The current patient details
+   */
+  public getPatient(): {
+    id: string;
+    title: string;
+    forenames: string;
+    surname: string;
+  } {
+    return {
+      id: this.patient.getID() || "",
+      title: this.patient.title,
+      forenames: this.patient.forenames,
+      surname: this.patient.surname,
+    };
   };
 
   /**
