@@ -35,10 +35,6 @@ const routeAPIRoot = async (
         email: "em814@canterbury.ac.uk",
       },
       {
-        name: "Trinity Sayer",
-        email: "ts560@canterbury.ac.uk",
-      },
-      {
         name: "Alfie Skinner",
         email: "as2679@canterbury.ac.uk",
       },

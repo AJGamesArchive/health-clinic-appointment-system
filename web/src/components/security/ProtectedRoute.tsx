@@ -8,7 +8,7 @@ import { Button } from 'react-bootstrap';
 
 // Component Props Interface
 interface ProtectedRouteProps {
-  requiredRank: AccountRoles | 'Any',
+  requiredRank: AccountRoles[] | 'Any',
   loading: React.ReactNode
   redirect?: string;
   fallback: React.ReactNode;

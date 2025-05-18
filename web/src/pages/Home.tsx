@@ -19,7 +19,7 @@ const HomePage: React.FC = () => {
       <h6>Heading 6</h6>
 
       <h3>All links to pages</h3>
-      <h4>Create</h4>
+      <h4>Create Views</h4>
       <Button style={{ margin: "10px" }} href="/create-patient">
         Create Patient
       </Button>
@@ -29,8 +29,10 @@ const HomePage: React.FC = () => {
       <Button style={{ margin: "10px" }} href="/create-admin">
         Create Admin
       </Button>
+      <br/>
+      <p style={{paddingBottom: "10px"}}>There is also an ability to add appointments under appointment list but this is a modal not a page</p>
 
-      <h4>Read/Update</h4>
+      <h4>Read/Update/Delete Views</h4>
       <Button style={{ margin: "10px" }} href="/patient-profile">
         Patient Profile
       </Button>
@@ -41,8 +43,18 @@ const HomePage: React.FC = () => {
         Admin Profile
       </Button>
 
+    <h4>List Views</h4>
       <Button style={{ margin: "10px" }} href="/appointments">
         Appointment List
+      </Button>
+      <Button style={{ margin: "10px" }} href="/patients">
+        Patient List
+      </Button>
+      <Button style={{ margin: "10px" }} href="/doctors">
+        Doctors List
+      </Button>
+      <Button style={{ margin: "10px" }} href="/admins">
+        Admins List
       </Button>
 
       <DebugBlock>{JSON.stringify(auth.user, null, 2)}</DebugBlock>

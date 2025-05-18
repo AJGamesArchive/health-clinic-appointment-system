@@ -23,7 +23,7 @@ export type UseRouteAuthHook = {
  * @param checkContinually - Optional parameter to pass a millisecond interval to check access at
  */
 function useRouteAuth(
-  requiredRank: AccountRoles | 'Any',
+  requiredRank: AccountRoles[] | 'Any',
   checkContinually?: number,
 ): UseRouteAuthHook {
   // API Request Hooks
@@ -100,7 +100,7 @@ function useRouteAuth(
       return;
     };
     if(checkLogin.data) {
-      if(requiredRank !== 'Any' && checkLogin.data.role !== requiredRank) {
+      if(requiredRank !== 'Any' && !requiredRank.includes(checkLogin.data.role)) {
         setAccess(false);
         return;
       };

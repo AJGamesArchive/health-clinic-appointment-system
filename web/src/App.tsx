@@ -5,6 +5,9 @@ import { Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './components/security/ProtectedRoute';
 import PageLoading from './components/core/PageLoading';
 import PageAccessDenied from './components/core/PageAccessDenied';
+import PatientList from './pages/PatientList';
+import DoctorList from './pages/DoctorList';
+import AdminList from './pages/AdminList';
 
 // Lazy load pages
 const Login = lazy(() => import('./pages/login/Login'));
@@ -40,25 +43,35 @@ const App: React.FC = () => {
         />}>
           <Route path="/profile" Component={Profile}/>
           <Route path="/home" element={<HomePage/>}/>
-          <Route path="/patient-profile" element={<PatientProfile />}/>
-          <Route path="/doctor-profile" element={<DoctorProfile />}/>
-          <Route path="/admin-profile" element={<AdminProfile />}/>
           <Route path="/appointments" element={<UpcomingAppointments />}/>
-          <Route path="/create-patient" element={<PatientCreation />}/>
-          <Route path="/create-doctor" element={<DoctorCreation />}/>
-          <Route path="/create-admin" element={<AdminCreation />}/>
         </Route>
-        {
-          //* Admin Only Routes
-        }
+        
+        {/* No patient-only pages (I think?) */}
+
         <Route element={<ProtectedRoute
-          requiredRank="Admin"
+          requiredRank={["Doctor", "Admin"]}
           loading={<PageLoading/>}
           fallback={<PageAccessDenied/>}
         />}>
-          {
-            //TODO Add Admin Only Routes Here
-          }
+          <Route path="/patients" element={<PatientList/>}/>
+          <Route path="/patient-profile" element={<PatientProfile />}/>
+        </Route>
+        <Route element={<ProtectedRoute
+          requiredRank={["Admin"]}
+          loading={<PageLoading/>}
+          fallback={<PageAccessDenied/>}
+        />}>
+          <Route path="/patient-profile" element={<PatientProfile />}/>
+          <Route path="/doctor-profile" element={<DoctorProfile />}/>
+          <Route path="/admin-profile" element={<AdminProfile />}/>
+          <Route path="/create-patient" element={<PatientCreation />}/>
+          <Route path="/create-doctor" element={<DoctorCreation />}/>
+          <Route path="/create-admin" element={<AdminCreation />}/>
+          <Route path="/patients" element={<PatientList/>}/>
+          <Route path="/doctors" element={<DoctorList />}/>
+          <Route path="/doctors/:id" element={<DoctorProfile/>}/>
+          <Route path="/admins" element={<AdminList />}/>
+          <Route path="/admins/:id" element={<AdminProfile />}/>
         </Route>
       </Routes>
     </Suspense>
