@@ -10,16 +10,23 @@ import protectedPatientRoutes from "./PatientRoutes.js";
 import protectedDoctorRoutes from "./DoctorRoutes.js";
 import protectedAdminRoutes from "./AdminRoutes.js";
 
-// Import routes & schemas
+// Import account endpoints
 import schemaDecodeCookie from "../../../schema/auth/SchemaDecodeCookie.js";
 import routeDecodeCookie from "../../../routes/auth/RouteDecodeCookie.js";
-
 import schemaGetAccounts from "../../../schema/accounts/SchemaGetAccounts.js";
 import routeGetAccounts from "../../../routes/accounts/RouteGetAccounts.js";
-
 import schemaGetProfile from "../../../schema/accounts/SchemaGetProfile.js";
 import routeGetProfile from "../../../routes/accounts/RouteGetProfile.js";
 
+// Import appointment endpoints
+import schemaMyAppointments from "../../../schema/appointments/SchemaMyAppointments.js";
+import routeMyAppointments from "../../../routes/appointments/RouteMyAppointments.js";
+import schemaMyAppointment from "../../../schema/appointments/SchemaMyAppointment.js";
+import routeMyAppointment from "../../../routes/appointments/RouteMyAppointment.js";
+import schemaBookAppointment from "../../../schema/appointments/SchemaBookAppointment.js";
+import routeBookAppointment from "../../../routes/appointments/RouteBookAppointment.js";
+import schemaAmendAppointment from "../../../schema/appointments/SchemaAmendAppointment.js";
+import routeAmendAppointment from "../../../routes/appointments/RouteAmendAppointment.js";
 
 /**
  * Function to declare all internally protected routes
@@ -49,17 +56,33 @@ const protectedInternalRoutes = (): {
       endpointTimeout(routeDecodeCookie, 5000), // 5 seconds
     );
 
-    // Get All Account endpoint
+    // Account endpoints
     protectedInternalRoutes.get("/accounts",
       { schema: schemaGetAccounts },
       endpointTimeout(routeGetAccounts, 10000), // 10 seconds
     );
-
-		// Get Profile endpoint
 		protectedInternalRoutes.get("/profile",
 			{schema: schemaGetProfile },
 			endpointTimeout(routeGetProfile, 5000), // 5 Seconds
 		);
+
+    // Appointment endpoints
+    protectedInternalRoutes.get("/profile/appointments/:type",
+      { schema: schemaMyAppointments },
+      endpointTimeout(routeMyAppointments, 10000), // 10 seconds
+    );
+    protectedInternalRoutes.get("/profile/appointment/:id",
+      { schema: schemaMyAppointment },
+      endpointTimeout(routeMyAppointment, 10000), // 10 seconds
+    );
+    protectedInternalRoutes.post("/appointments/book",
+      { schema: schemaBookAppointment },
+      endpointTimeout(routeBookAppointment, 10000), // 10 seconds
+    );
+    protectedInternalRoutes.patch("/appointment/:id/amend",
+      { schema: schemaAmendAppointment },
+      endpointTimeout(routeAmendAppointment, 10000), // 10 seconds
+    );
   },
   prefix: '/auth/internal',
 });
