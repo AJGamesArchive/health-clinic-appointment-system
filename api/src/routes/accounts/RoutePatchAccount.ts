@@ -18,8 +18,10 @@ import AccountData, { JWTAccountData } from '../../types/data/AccountData.js';
 import Account from '../../classes/data/Account.js';
 
 /**
- * @summary Route to return all account data from an account based on a given ID, this is an admin only endpoint
- * @route GET /auth/internal/admin/account/:id
+ * @summary Route to update CORE account information. Takes an ID for Params, Body includes info to update
+ * @route PATCH /auth/internal/admin/account/:id
+ * @Params ID - String of the account ID to update.
+ * @Params Body - You can only update these variables {title, forename, surname, email, password}
  * @HammerCyclone
  */
 
@@ -32,12 +34,17 @@ const routePatchAccount = async (
   }>,
 	rep: FastifyReply,
 ): Promise<void> => {
-	// Type user object
+	
+	//Store currently logged in user (Should be an admin)
 	const curUser = req.user as JWTAccountData;
+
+	//Store the id passed in through params
 	const targetID = req.params.id;
+
+	//Store any information to update via the body
 	const body = req.body;
 
-	// Validate if logged in user is requesting their own information
+	// Validate if logged in user is an admin, reject them if they aren't
 	let reject: boolean = false;
 	if (curUser.role !== 'Admin') reject = true;
 
@@ -49,7 +56,7 @@ const routePatchAccount = async (
 		return;
 	};
 
-	// Fetch account data
+	// Fetch target account data
 	let accountToChange: AccountData | number;
 	accountToChange = await AccountService.getOne(targetID)
 
@@ -62,17 +69,21 @@ const routePatchAccount = async (
 		return;
 	};
 
-	//Patch in changes requested through the body
+	
+	//Patch in changes inputted through the body
 	let updater = new Account(accountToChange);
 	if (body.title) updater.title = body.title
 	if (body.forenames) updater.forenames = body.forenames
 	if (body.surname) updater.surname = body.surname
 	if (body.email) updater.email = body.email
 
+	//If there is a password to be changed, hash it before assigning it.
 	if (body.password) 
 	{
 		updater.password = body.password
 		const hashSuccessful: boolean | null = await updater.hashPassword()
+
+		//If password hashing is unsuccessful then return 500
 		if (!hashSuccessful)
 		{
 			rep.status(500).send({

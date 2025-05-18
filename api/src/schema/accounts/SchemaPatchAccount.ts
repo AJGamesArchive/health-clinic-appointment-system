@@ -1,10 +1,12 @@
 import AccountData from "../../types/data/AccountData";
 
-//Make interfaces based on the objects defined earlier
+
 export interface PatchAccountHeaders {
   'content-type': string;
   'origin': string;
 };
+
+
 export interface PatchAccountParams {
   id: string;
 };

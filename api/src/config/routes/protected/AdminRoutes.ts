@@ -17,7 +17,7 @@ import routeAnyAppointment from "../../../routes/appointments/RouteAnyAppointmen
 import schemaDeleteAppointment from "../../../schema/appointments/SchemaDeleteAppointment.js";
 import routeDeleteAppointment from "../../../routes/appointments/RouteDeleteAppointment.js";
 import schemaPatchSingleAccount from "../../../schema/accounts/SchemaPatchAccount.js";
-import routePatchSingleAccount from "../../../routes/accounts/RoutePatchSingleAccount.js";
+import routePatchSingleAccount from "../../../routes/accounts/RoutePatchAccount.js";
 
 /**
  * Function to declare all internally protected admin routes
@@ -34,10 +34,14 @@ const protectedAdminRoutes = (): {
     protectedAdminRoutes.addHook("onRequest", guardIsAdmin);
 
     // Account endpoints
+
+    //Getting a single account by ID
     protectedAdminRoutes.get("/account/:id",
       {schema: schemaGetSingleAccount },
       endpointTimeout(routeGetSingleAccount, 5000), // 5 Seconds
     );
+
+    //Update core details to an account by ID
     protectedAdminRoutes.patch("/account/:id",
       { schema: schemaPatchSingleAccount},
       endpointTimeout(routePatchSingleAccount, 10000), // 10 Seconds
