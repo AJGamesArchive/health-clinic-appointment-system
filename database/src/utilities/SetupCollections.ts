@@ -1,13 +1,16 @@
 // Import models
 import mongoose from "mongoose";
 import dataCreationFunctions from "../static/Data.js";
+import Tomato from "../classes/Tomato.js";
+import DB_Accounts from "../schemas/Accounts.js";
+import DB_Appointments from "../schemas/Appointment.js";
 
 /**
  * Function to drop the database and re-create everything
  */
 async function setupCollections(): Promise<void> {
   console.log("Ensuring database is ready...")
-  if(mongoose.connection.readyState === 0 || !mongoose.connection.db) throw new Error("Database connection not open");
+  if(mongoose.connection.readyState === 0 || !mongoose.connection.db) throw new Tomato("Database connection not open");
   console.log(`Database connection is open to: ${mongoose.connection.name}`);
 
   // Fetch live collections and all collections to setup
@@ -31,13 +34,17 @@ async function setupCollections(): Promise<void> {
   const collections = await mongoose.connection.db.listCollections().toArray();
   if(collections.length !== 0) {
     console.error(`Database is not empty, found '${collections.length}' collections. Exiting...`);
-    throw new Error(`Database is not empty, found '${collections.length}' collections`);
+    throw new Tomato(`Database is not empty, found '${collections.length}' collections`);
   };
   console.log("Database is empty");
 
   // Create all collections
   console.log("Setting up collections...");
   if(dataCreationFunctions.length !== 0) {
+    console.log("Setting up indexes...");
+    await DB_Accounts.createIndexes();
+    await DB_Appointments.createIndexes();
+    console.log("Indexes created successfully");
     console.log("Creating data insertion promises...");
     const promises = dataCreationFunctions.map((func) => func());
     console.log("Resolving insertion promises...");
