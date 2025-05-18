@@ -22,6 +22,8 @@
     "//////// Database ////////": "",
     "db:setup:cloud": "turbo run setup:cloud --filter=database",
     "db:setup:local": "turbo run setup:local --filter=database",
+    "db:data:cloud": "turbo run data:cloud --filter=database",
+    "db:data:local": "turbo run data:local --filter=database",
     "//////// API ////////": "",
     "api:start:cloud": "turbo run start:cloud --parallel --filter=api",
     "api:start:local": "turbo run start:local --parallel --filter=api",
