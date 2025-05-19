@@ -24,20 +24,10 @@ const UpdateAppointmentModal: React.FC<props> = ({visible, setVisible, selectedA
         setAppointment(selectedAppointment);
     }, [selectedAppointment]);
 
-
-    // Temporary data for doctors (when backend is done this will be replaced by actually
-    // getting a list of all the doctors)
-    
-
-    // Update both the doctor's ID and name when another doctor is selected
-    function updateDoctor(id : string) {
-        console.log("MISSING but new id is " + id)
-    };
-
     return (
         <Modal show={visible} onHide={() => setVisible(false)} size="xl">
             <Modal.Header closeButton>
-                <Modal.Title>Update Appointment (id: {appointment.id})</Modal.Title>
+                <Modal.Title>Update Appointment</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div className="two-content-container" style={{flexWrap: "wrap"}}>
@@ -46,18 +36,15 @@ const UpdateAppointmentModal: React.FC<props> = ({visible, setVisible, selectedA
                             <h5 className="section-header">Booking</h5>
                             <div className="two-content-container">
                                 <div className="multi-content">
-                                    <Form.Label>Doctor</Form.Label>
-                                    <Form.Select value={appointment.doctorId} onChange={(e) => { updateDoctor(e.target.value) }}>
-                                    <option>Select a doctor</option>
-                                    {/* {tempDoctors.map(doctor => <option value={doctor.id} key={doctor.id}>{doctor.name}</option>)} */}
-                                    </Form.Select>
+                                    <Form.Label>Doctor ID</Form.Label>
+                                    <Form.Control value={appointment.doctorId} disabled />
                                     <Form.Label>Date</Form.Label>
                                     <Form.Control type="date" value={appointment.date} onChange={(e) => setAppointment({...appointment, date: e.target.value})}/>
                                     <Form.Label>Time</Form.Label>
                                     <Form.Control type="time" value={appointment.time.split('.')[0]} onChange={(e) => setAppointment({...appointment, time: e.target.value})}/>
                                 </div>
                                 <div className="final-multi-content">
-                                    <Form.Label>Patient</Form.Label>
+                                    <Form.Label>Patient ID</Form.Label>
                                     <Form.Control value={appointment.patientId} disabled/>
                                     <Form.Label>Booked At</Form.Label>
                                     <Form.Control type="date" value={appointment.bookedAt?.toString().split('T')[0]} disabled/>
