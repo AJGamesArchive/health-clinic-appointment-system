@@ -4,6 +4,8 @@ import endpointTimeout from "../../../utilities/core/EndpointTimeout.js";
 
 // Imports guards
 import guardIsDoctor from "../../../guards/IsDoctor.js";
+import schemaGetPatient from "../../../schema/accounts/SchemaGetPatient.js";
+import routeGetPatient from "../../../routes/accounts/RouteGetPatient.js";
 
 // Import appointment endpoints
 import schemaPatientAppointments from "../../../schema/appointments/SchemaPatientAppointments.js";
@@ -33,6 +35,11 @@ const protectedDoctorRoutes = (): {
     protectedDoctorRoutes.get("/patient/:patientId/appointment/:appointmentId",
       { schema: schemaPatientAppointment },
       endpointTimeout(routePatientAppointment, 10000), // 10 seconds
+    );
+
+    protectedDoctorRoutes.get("/doctor/:id",
+      {schema: schemaGetPatient },
+      endpointTimeout(routeGetPatient, 5000), // 5 Seconds
     );
   },
   prefix: '/doctor',

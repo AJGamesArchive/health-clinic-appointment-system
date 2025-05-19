@@ -16,6 +16,14 @@ import schemaAnyAppointment from "../../../schema/appointments/SchemaAnyAppointm
 import routeAnyAppointment from "../../../routes/appointments/RouteAnyAppointment.js";
 import schemaDeleteAppointment from "../../../schema/appointments/SchemaDeleteAppointment.js";
 import routeDeleteAppointment from "../../../routes/appointments/RouteDeleteAppointment.js";
+import schemaPatchSingleAccount from "../../../schema/accounts/SchemaPatchAccount.js";
+import routePatchSingleAccount from "../../../routes/accounts/RoutePatchAccount.js";
+import schemaPatchPatient from "../../../schema/accounts/SchemaPatchPatient.js";
+import routePatchPatient from "../../../routes/accounts/RoutePatchPatient.js";
+import schemaPatchDoctor from "../../../schema/accounts/SchemaPatchDoctor.js";
+import routePatchDoctor from "../../../routes/accounts/RoutePatchDoctor.js";
+import schemaPatchAdmin from "../../../schema/accounts/SchemaPatchAdmin.js";
+import routePatchAdmin from "../../../routes/accounts/RoutePatchAdmin.js";
 
 /**
  * Function to declare all internally protected admin routes
@@ -32,9 +40,35 @@ const protectedAdminRoutes = (): {
     protectedAdminRoutes.addHook("onRequest", guardIsAdmin);
 
     // Account endpoints
+
+    //Getting a single account by ID
     protectedAdminRoutes.get("/account/:id",
       {schema: schemaGetSingleAccount },
       endpointTimeout(routeGetSingleAccount, 5000), // 5 Seconds
+    );
+
+    //Update core details to an account by ID
+    protectedAdminRoutes.patch("/account/:id",
+      { schema: schemaPatchSingleAccount},
+      endpointTimeout(routePatchSingleAccount, 10000), // 10 Seconds
+    );
+
+    //Update patient details to an account by ID
+    protectedAdminRoutes.patch("/patient/:id",
+      { schema: schemaPatchPatient},
+      endpointTimeout(routePatchPatient, 10000), // 10 Seconds
+    );
+
+    //Update doctor details to an account by ID
+    protectedAdminRoutes.patch("/doctor/:id",
+      { schema: schemaPatchDoctor},
+      endpointTimeout(routePatchDoctor, 10000), // 10 Seconds
+    );
+
+    //Update admin details to an account by ID
+    protectedAdminRoutes.patch("/admin/:id",
+      { schema: schemaPatchAdmin},
+      endpointTimeout(routePatchAdmin, 10000), // 10 Seconds
     );
 
     // Appointment endpoints

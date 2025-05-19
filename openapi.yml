@@ -571,6 +571,136 @@ paths:
                 required:
                   - error
                   - message
+  /auth/internal/doctor/patient/{id}:
+    get:
+      summary: Get patient account data for doctors
+      tags:
+        - Accounts
+        - Doctor
+        - Alfie
+      description: Retrieve a patients account data by a given ID
+      operationId: getPatientProfile
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the patient
+          schema:
+            type: string
+        - name: content-type
+          in: header
+          required: false
+          description: Content type of the request
+          schema:
+            type: string
+            enum: ['application/json']
+        - name: origin
+          in: header
+          required: true
+          description: Origin of the request
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  forenames:
+                    type: string
+                  surname:
+                    type: string
+                  email:
+                    type: string
+                  role:
+                    type: string
+                    enum: ['Patient', 'Admin']
+                  createdAt:
+                    type: string
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    format: date-time
+                  data:
+                    $ref: '#/components/schemas/PatientData'
+                required:
+                  - id
+                  - title
+                  - forenames
+                  - surname
+                  - email
+                  - role
+                  - createdAt
+                  - updatedAt
+                  - data
+        '206':
+          description: Partial response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  forenames:
+                    type: string
+                  surname:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/PatientData'
+                required:
+                  - title
+                  - forenames
+                  - surname
+                  - data
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
   /auth/internal/profile:
     get:
       summary: Retrieve Profiles
@@ -949,6 +1079,98 @@ paths:
                 required:
                   - error
                   - message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+    patch:
+      summary: Update core account information
+      tags:
+        - Accounts
+        - Admin
+        - Alfie
+      description: Update core account information for a specific user by ID. Only admins can perform this operation.
+      operationId: patchAccount
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the account to update
+          schema:
+            type: string
+        - name: content-type
+          in: header
+          required: true
+          description: Content type of the request
+          schema:
+            type: string
+            enum: ['application/json']
+        - name: origin
+          in: header
+          required: true
+          description: Origin of the request
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                forenames:
+                  type: string
+                surname:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+              additionalProperties: false
+              minProperties: 1
+      responses:
+        '200':
+          description: Account successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  role:
+                    type: string
+                    enum: ['Patient', 'Doctor', 'Admin']
+                  updatedAt:
+                    type: string
+                    format: date-time
         '403':
           description: Forbidden
           content:
@@ -1749,6 +1971,503 @@ paths:
                 required:
                   - error
                   - message
+  /auth/internal/admin/admin/{id}:
+    patch:
+      summary: Update admin embedded account information
+      tags:
+        - Accounts
+        - Admin
+        - Alfie
+      description: Update embedded account information for a specific admin user by ID. Only admins can perform this operation.
+      operationId: patchAdminAccount
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the admin account to update
+          schema:
+            type: string
+        - name: content-type
+          in: header
+          required: true
+          description: Content type of the request
+          schema:
+            type: string
+            enum: ['application/json']
+        - name: origin
+          in: header
+          required: true
+          description: Origin of the request
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                staffRole:
+                  type: string
+              additionalProperties: false
+              minProperties: 1
+      responses:
+        '200':
+          description: Account successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  updatedAt:
+                    type: string
+                    format: date-time
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+  /auth/internal/admin/doctor/{id}:
+    patch:
+      summary: Update Doctor embedded account information
+      tags:
+        - Accounts
+        - Admin
+        - Alfie
+      description: Update doctor embedded account information for a specific user by ID. Only admins can perform this operation.
+      operationId: patchDoctorAccount
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the doctor account to update
+          schema:
+            type: string
+        - name: content-type
+          in: header
+          required: true
+          description: Content type of the request
+          schema:
+            type: string
+            enum: ['application/json']
+        - name: origin
+          in: header
+          required: true
+          description: Origin of the request
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                specialty:
+                  type: string
+                workingHours:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      day:
+                        type: string
+                      startTime:
+                        type: string
+                      endTime:
+                        type: string
+                contactInfo:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    workEmail:
+                      type: string
+                    workPhone:
+                      type: string
+              minProperties: 1
+      responses:
+        '200':
+          description: Doctor account successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  updatedAt:
+                    type: string
+                    format: date-time
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+  /auth/internal/admin/patient/{id}:
+    patch:
+      summary: Update Patient embedded account information
+      tags:
+        - Accounts
+        - Admin
+        - Alfie
+      description: Update patient embedded account information for a specific user by ID. Only admins can perform this operation.
+      operationId: patchPatientAccount
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the patient account to update
+          schema:
+            type: string
+        - name: content-type
+          in: header
+          required: true
+          description: Content type of the request
+          schema:
+            type: string
+            enum: ['application/json']
+        - name: origin
+          in: header
+          required: true
+          description: Origin of the request
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                gender:
+                  type: string
+                dateOfBirth:
+                  type: string
+                  format: date
+                contactInfo:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    email:
+                      type: string
+                      format: email
+                    phone:
+                      type: string
+                emergencyContact:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      name:
+                        type: string
+                      phone:
+                        type: string
+                      relationship:
+                        type: string
+                address:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    addressLine1:
+                      type: string
+                    addressLine2:
+                      type: string
+                    city:
+                      type: string
+                    county:
+                      type: string
+                    postCode:
+                      type: string
+                medicalInformation:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    bloodType:
+                      type: string
+                    sexAtBirth:
+                      type: string
+                    conditions:
+                      type: array
+                      items:
+                        type: string
+                    allergies:
+                      type: array
+                      items:
+                        type: string
+                lifeStyleHistory:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    smokingStatus:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          status:
+                            type: string
+                          statusAsOf:
+                            type: string
+                            format: date
+                          notes:
+                            type: string
+                    alcoholConsumption:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          consumption:
+                            type: string
+                          consumptionAsOf:
+                            type: string
+                            format: date
+                          notes:
+                            type: string
+                    recreationalDrugUse:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          drug:
+                            type: string
+                          usage:
+                            type: string
+                          useAsOf:
+                            type: string
+                            format: date
+                          notes:
+                            type: string
+                    exerciseFrequency:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          exercise:
+                            type: string
+                          frequency:
+                            type: string
+                          frequencyAsOf:
+                            type: string
+                            format: date
+                          notes:
+                            type: string
+                    sleepQuality:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          quality:
+                            type: string
+                          qualityAsOf:
+                            type: string
+                            format: date
+                          notes:
+                            type: string
+                    stressLevel:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          level:
+                            type: string
+                          levelAsOf:
+                            type: string
+                            format: date
+                          notes:
+                            type: string
+                    socialSupport:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          support:
+                            type: string
+                          supportAsOf:
+                            type: string
+                            format: date
+                          notes:
+                            type: string
+                    travelHistory:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          location:
+                            type: string
+                          date:
+                            type: string
+                            format: date
+                          duration:
+                            type: string
+                          notes:
+                            type: string
+                    familyConditionals:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          condition:
+                            type: string
+                          typicalCause:
+                            type: string
+                          typicalAgeOfDiagnosis:
+                            type: number
+                          notes:
+                            type: string
+                    environmentalFactors:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          factor:
+                            type: string
+                          exposure:
+                            type: string
+                          exposureAsOf:
+                            type: string
+                            format: date
+                          notes:
+                            type: string
+      responses:
+        '200':
+          description: Patient account successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  id:
+                    type: string
+                  updatedAt:
+                    type: string
+                    format: date-time
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+# ...existing code...
 components:
   schemas:
     PatientData:

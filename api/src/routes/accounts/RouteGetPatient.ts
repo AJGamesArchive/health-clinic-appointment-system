@@ -4,11 +4,11 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 
 //Import interfaces from the schema file
 import {
-	GetDoctorHeaders,
-	GetDoctorParams,
-	GetDoctorReply206,
-	GetDoctorReply,
-} from '../../schema/accounts/SchemaGetDoctor.js';
+	GetPatientHeaders,
+	GetPatientParams,
+	GetPatientReply200,
+	GetPatientReply,
+} from '../../schema/accounts/SchemaGetPatient.js';
 
 //Service function (abstract parent class)
 import AccountService from '../../services/database/AccountService.js';
@@ -17,16 +17,16 @@ import AccountService from '../../services/database/AccountService.js';
 import AccountData, { JWTAccountData } from '../../types/data/AccountData.js';
 
 /**
- * @summary Route to a filtered doctors account data for a patient by a given doctor id
- * @route GET /auth/internal/patient/doctor/:id
+ * @summary Route to  account data for a patient by a given doctor id
+ * @route GET /auth/internal/doctor/patient/:id
  * @HammerCyclone
  */
 
 //Use interfaces to insert into headers and querystring (req = Request, rep = Reply)
-const routeGetDoctor = async (
+const routeGetPatient = async (
 	req: FastifyRequest<{
-		Headers: GetDoctorHeaders;
-		Params: GetDoctorParams;
+		Headers: GetPatientHeaders;
+		Params: GetPatientParams;
   }>,
 	rep: FastifyReply,
 ): Promise<void> => {
@@ -36,36 +36,36 @@ const routeGetDoctor = async (
 
 	// Validate if logged in user is requesting their own information
 	let reject: boolean = false;
-	if (user.role === 'Doctor') reject = true;
+	if (user.role !== 'Doctor') reject = true;
 
 	if(reject) {
 		rep.status(403).send({
 			error: 'FORBIDDEN',
 			message: 'You do not have permission to access this resource.',
-		} as GetDoctorReply);
+		} as GetPatientReply);
 		return;
 	};
 
 	// Fetch account data
-	let Doctor: AccountData | number;
-	Doctor = await AccountService.getOne(id)
+	let Patient: AccountData | number;
+	Patient = await AccountService.getOne(id)
 
 	// Ensure DB request succeeded
-	if(typeof Doctor === 'number') {
+	if(typeof Patient === 'number') {
 		rep.status(500).send({
 			error: 'INTERNAL_SERVER_ERROR',
-			message: `An error occurred while fetching Doctor data: Err: ${Doctor}`,
-		} as GetDoctorReply);
+			message: `An error occurred while fetching Patient data: Err: ${Patient}`,
+		} as GetPatientReply);
 		return;
 	};
 
 	// Filter and return data
-	rep.status(206).send({
-		...Doctor,
+	rep.status(200).send({
+		...Patient,
 		data: {
-			...Doctor.doctorData,
+			...Patient.patientData,
 		},
-	} as GetDoctorReply206);
+	} as GetPatientReply200);
 };
 
-export default routeGetDoctor;
+export default routeGetPatient;
