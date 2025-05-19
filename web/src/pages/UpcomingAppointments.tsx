@@ -49,7 +49,7 @@ const UpcomingAppointments: React.FC = () => {
             <CreateAppointmentModal visible={createVisible} setVisible={setCreateVisible}/>
             { selectedAppointment && <UpdateAppointmentModal visible={updateVisible} setVisible={setUpdateVisible} selectedAppointment={selectedAppointment}/>}
 
-            <h2>Upcoming Appointments <Button variant="primary" onClick={() => setCreateVisible(true)}>Book Appointment</Button></h2>
+            <h2 style={{padding: "30px 0 10px"}}>Upcoming Appointments <Button variant="primary" onClick={() => setCreateVisible(true)}>Book Appointment</Button></h2>
             { appointmentCards.length > 0 ? 
             <div className="account-card-container">
                 {appointmentCards}
