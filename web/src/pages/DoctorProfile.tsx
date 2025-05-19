@@ -26,9 +26,6 @@ const DoctorProfile: React.FC = () => {
     return (
         <Layout>
             <div>
-                <DebugBlock>
-                    {JSON.stringify(doctorProfile.modifiedProfile, null, 2)}
-                </DebugBlock>
                 <h2>{doctorProfile.modifiedProfile?.forenames} {doctorProfile.modifiedProfile?.surname}<Badge style={{margin: "0 10px", }} bg="secondary">Doctor</Badge></h2>
                 <Form>
                     <Form.Label>Title</Form.Label>
