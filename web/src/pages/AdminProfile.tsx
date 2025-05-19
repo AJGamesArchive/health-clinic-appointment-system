@@ -1,5 +1,5 @@
 import Layout from "../components/ui/Layout";
-import { Badge, Button  } from "react-bootstrap";
+import { Badge, Button, Alert  } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import { useAdminProfile } from "../hooks/UseAdminProfile";
 
@@ -48,12 +48,43 @@ const AdminProfile: React.FC = () => {
                 <div style={{textAlign: "center"}}>
                     { ! adminProfile.updateDisabled ? 
                         <>
-                            <Button variant="secondary" style={{margin: "10px"}} onClick={() => adminProfile.toggleUpdateEnabled()}>Cancel Editing</Button>
-                            <Button variant="success" style={{margin: "10px"}} onClick={() => adminProfile.updateProfile()}>Save</Button>
+                            <Button disabled={adminProfile.coreAccountReq.loading || adminProfile.adminAccountReq.loading} variant="secondary" style={{margin: "10px"}} onClick={() => adminProfile.toggleUpdateEnabled()}>Cancel Editing</Button>
+                            <Button disabled={adminProfile.coreAccountReq.loading || adminProfile.adminAccountReq.loading} variant="success" style={{margin: "10px"}} onClick={adminProfile.save}>Save</Button>
                         </>
                     :
                         <Button variant="secondary" style={{margin: "10px"}} onClick={() => adminProfile.toggleUpdateEnabled()}>Edit profile</Button>
                     }
+                </div>
+                <div style={{textAlign: "center"}}>
+                    {(
+                        adminProfile.saved &&
+                        !adminProfile.coreAccountReq.loading &&
+                        !adminProfile.adminAccountReq.loading &&
+                        (adminProfile.coreAccountReq.status === 200) &&
+                        (adminProfile.adminAccountReq.status === 200)
+                    ) && (
+                        <Alert
+                            security="success"
+                        >
+                            Account data saved successfully!
+                        </Alert>
+                    )}
+                    {(
+                        adminProfile.saved &&
+                        !adminProfile.coreAccountReq.loading &&
+                        !adminProfile.adminAccountReq.loading &&
+                        ((adminProfile.coreAccountReq.status !== 200) ||
+                        (adminProfile.adminAccountReq.status !== 200))
+                    ) && (
+                        <Alert
+                            security="danger"
+                        >
+                            {`One or more errors occurred while trying to save your account data:\n\n${JSON.stringify({
+                                core: adminProfile.coreAccountReq.error,
+                                embedded: adminProfile.adminAccountReq.error,
+                            }, null, 2)}`}
+                        </Alert>
+                    )}
                 </div>
             </Form>
         </Layout>

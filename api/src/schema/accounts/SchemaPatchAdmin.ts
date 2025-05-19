@@ -60,7 +60,7 @@ const schemaPatchAdmin = {
         id:         { type: 'string' },
         updatedAt:  { type: 'string', format: 'date-time' },
       },
-      required: ['id', 'role', 'updatedAt'],
+      required: ['id', 'updatedAt'],
     },
     400: {
       type: 'object',
