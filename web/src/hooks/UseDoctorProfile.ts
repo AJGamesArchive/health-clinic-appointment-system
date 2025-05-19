@@ -12,7 +12,8 @@ interface UseAdminProfileHook {
     updateDisabled: boolean;
     modifiedProfile: AccountData | undefined;
     updateField: (newValue: string, firstField: keyof AccountData, secondField?: keyof DoctorData | null, thirdField?: keyof DoctorContactInfo | null) => void;
-    updateSchedule: (day: "monday" | "tuesday" | "wednesday" | "thursday" | "friday", newTime: string, type: "start" | "end") => void;
+    getSchedule: (day: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday") => DoctorWorkingHours | undefined;
+    updateSchedule: (day: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday", newTime: string, type: "start" | "end") => void;
 };
 
 export function useDoctorProfile(): UseAdminProfileHook {
@@ -32,10 +33,33 @@ export function useDoctorProfile(): UseAdminProfileHook {
         } });
     };
 
-    function updateSchedule(day: "monday" | "tuesday" | "wednesday" | "thursday" | "friday", newTime: string, type: "start" | "end") {
-        // HOW DO I DO THIS 😭
+    function updateSchedule(day: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday", newTime: string, type: "start" | "end") {
+        if (!modifiedProfile?.doctorData?.workingHours) { return; }
+        var toUpdate: DoctorWorkingHours | undefined = modifiedProfile?.doctorData?.workingHours.find((workingDay) => workingDay.day === day);
+        if (!toUpdate || toUpdate === undefined) { return; }
+        if (type === "start") {
+            toUpdate.startTime = newTime;
+        }
+        else {
+            toUpdate.endTime = newTime;
+        };
+
+        var newSchedule = (modifiedProfile.doctorData.workingHours).map((workingDay) => {
+            return workingDay.day === day ? toUpdate! : workingDay;
+        });
+
+        if (newSchedule.length === 0) { return; }
+        
+        setModifiedProfile({...modifiedProfile, doctorData: 
+            {...modifiedProfile?.doctorData, workingHours: 
+                newSchedule 
+            }
+        })
         console.log("Should set " + day + " " + type + " time to " + newTime);
-    }
+    };
+
+    const getSchedule = (day: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday") => 
+        modifiedProfile?.doctorData?.workingHours.find((workingDay) => workingDay.day === day);
 
     useEffect(() => {
         if(useProfile.data && !modifiedProfile) (setModifiedProfile(cloneDeep(useProfile.data)))
@@ -59,6 +83,6 @@ export function useDoctorProfile(): UseAdminProfileHook {
         updateDisabled,
         updateField,
         modifiedProfile,
-        updateSchedule
+        getSchedule, updateSchedule
     });
-}
+};
