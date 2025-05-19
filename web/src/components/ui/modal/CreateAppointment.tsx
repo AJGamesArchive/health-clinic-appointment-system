@@ -1,5 +1,7 @@
 import { Button, Modal } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
+import AppointmentData from "../../../types/data/AppointmentData";
+import { useState } from "react";
 
 interface props {
     visible: boolean;
@@ -7,6 +9,10 @@ interface props {
 }
 
 const CreateAppointmentModal: React.FC<props> = ({visible, setVisible}) => {
+    const [ appointment, setAppointment ] = useState<AppointmentData>();
+    const [ doctorString, setDoctorString ] = useState<string>();
+    const [ patientString, setPatientString ] = useState<string>();
+
     return (
         <Modal show={visible} onHide={() => setVisible(false)}>
             <Modal.Header closeButton>
@@ -15,13 +21,13 @@ const CreateAppointmentModal: React.FC<props> = ({visible, setVisible}) => {
             <Modal.Body>
                 <Form style={{padding: "0 20px"}}>
                     <Form.Label>Doctor</Form.Label>
-                    <Form.Select>
-                        <option>Select a doctor</option>
-                    </Form.Select>
+                    <div className="search-container">
+                        <Form.Control className="control" placeholder="Enter doctor surname"/><Button><i className="bi bi-search"></i></Button>
+                    </div>
                     <Form.Label>Patient</Form.Label>
-                    <Form.Select>
-                        <option>Select a patient</option>
-                    </Form.Select>
+                    <div className="search-container">
+                        <Form.Control className="control" placeholder="Enter patient surname"/><Button><i className="bi bi-search"></i></Button>
+                    </div>
                     <Form.Label>Date</Form.Label>
                     <Form.Control type="date"/>
                     <Form.Label>Time</Form.Label>

@@ -8,6 +8,7 @@ import PageAccessDenied from './components/core/PageAccessDenied';
 import PatientList from './pages/PatientList';
 import DoctorList from './pages/DoctorList';
 import AdminList from './pages/AdminList';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 // Lazy load pages
 const Login = lazy(() => import('./pages/login/Login'));
