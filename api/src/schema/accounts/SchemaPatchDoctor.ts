@@ -48,12 +48,12 @@ const schemaPatchDoctor = {
     type: 'object',
     additionalProperties: false, 
     properties: {
-      speciality: { type: 'string' },
+      specialty: { type: 'string' },
       workingHours: {
         type: 'array',
         items: {
           type: 'object',
-          additionalPropterties:false,
+          additionalProperties:false,
           properties: {
             day:        { type: 'string' },
             startTime:  { type: 'string' },
@@ -63,7 +63,7 @@ const schemaPatchDoctor = {
       },
       contactInfo: {
         type: 'object',
-        additionalPropterties:false,
+        additionalProperties:false,
         properties: {
           workEmail:  { type: 'string' },
           workPhone:  { type: 'string' },
