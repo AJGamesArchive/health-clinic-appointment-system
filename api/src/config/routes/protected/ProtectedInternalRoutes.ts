@@ -17,6 +17,8 @@ import schemaGetAccounts from "../../../schema/accounts/SchemaGetAccounts.js";
 import routeGetAccounts from "../../../routes/accounts/RouteGetAccounts.js";
 import schemaGetProfile from "../../../schema/accounts/SchemaGetProfile.js";
 import routeGetProfile from "../../../routes/accounts/RouteGetProfile.js";
+import schemaSearchAccounts from "../../../schema/accounts/SchemaSearchAccounts.js";
+import routeSearchAccounts from "../../../routes/accounts/RouteSearchAccounts.js";
 
 // Import appointment endpoints
 import schemaMyAppointments from "../../../schema/appointments/SchemaMyAppointments.js";
@@ -65,6 +67,10 @@ const protectedInternalRoutes = (): {
 			{schema: schemaGetProfile },
 			endpointTimeout(routeGetProfile, 5000), // 5 Seconds
 		);
+    protectedInternalRoutes.get("/accounts/:type/search",
+      { schema: schemaSearchAccounts },
+      endpointTimeout(routeSearchAccounts, 10000), // 10 seconds
+    );
 
     // Appointment endpoints
     protectedInternalRoutes.get("/profile/appointments/:type",
