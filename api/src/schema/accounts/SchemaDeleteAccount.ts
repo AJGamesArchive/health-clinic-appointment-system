@@ -1,31 +1,30 @@
-import AccountData from "../../types/data/AccountData";
-
-export interface PostAccountHeaders {
+export interface DeleteAccountHeaders {
   'content-type': string;
   'origin': string;
 };
 
-export interface PostAccountBody extends AccountData{};
+export interface DeleteAccountParams {
+  id: string;
+}
 
-export interface PostAccountReply201 {
+export interface DeleteAccountReply200 {
   status: string;
   message: string;
   id: string;
   role: string;
-  createdAt: Date;
 };
 
-export interface PostAccountReply {
+export interface DeleteAccountReply {
   error: string;
   message: string;
 };
 
 /**
  * @summary API Endpoint Schema
- * @route POST /auth/internal/admin/account/
+ * @route Delete /auth/internal/admin/account/
  * @HammerCyclone
  */
-const schemaPostAccount = {
+const schemaDeleteAccount = {
   headers: {
     type: 'object',
     properties: {
@@ -34,29 +33,17 @@ const schemaPostAccount = {
     },
     required: ['origin'],
   },
-  body: {
-    type: 'object',
-    additionalProperties: false,
-    properties: { 
-      title:        { type: 'string' },
-      forenames:    { type: 'string' },
-      surname:      { type: 'string' },
-      email:        { type: 'string', format: 'email'},
-      password:     { type: 'string' },
-      role:         { type: 'string', enum: ['Patient', 'Doctor', 'Admin']},
-    },
-    minProperties: 6,
-  },
   response: {
-    201: {
+    200: {
       type: 'object',
-      additionalProperties: true,
+      additionalProperties: false,
       properties: {
+        status:     { type: 'string' },
+        message:     { type: 'string' },
         id:         { type: 'string' },
         role:       { type: 'string', enum: ['Patient', 'Doctor', 'Admin'] },
-        createdAt:  { type: 'string', format: 'date-time' },
       },
-      required: ['id', 'role', 'createdAt'],
+      required: ['status', 'message','id', 'role'],
     },
     400: {
       type: 'object',
@@ -85,4 +72,4 @@ const schemaPostAccount = {
   },
 };
 
-export default schemaPostAccount;
+export default schemaDeleteAccount;
