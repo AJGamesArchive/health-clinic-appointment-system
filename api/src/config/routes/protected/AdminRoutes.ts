@@ -24,6 +24,8 @@ import schemaPatchDoctor from "../../../schema/accounts/SchemaPatchDoctor.js";
 import routePatchDoctor from "../../../routes/accounts/RoutePatchDoctor.js";
 import schemaPatchAdmin from "../../../schema/accounts/SchemaPatchAdmin.js";
 import routePatchAdmin from "../../../routes/accounts/RoutePatchAdmin.js";
+import schemaPostAccount from "../../../schema/accounts/SchemaPostAccount.js";
+import routePostAccount from "../../../routes/accounts/RoutePostAccount.js";
 
 /**
  * Function to declare all internally protected admin routes
@@ -69,6 +71,11 @@ const protectedAdminRoutes = (): {
     protectedAdminRoutes.patch("/admin/:id",
       { schema: schemaPatchAdmin},
       endpointTimeout(routePatchAdmin, 10000), // 10 Seconds
+    );
+
+    protectedAdminRoutes.post("/admin/account",
+      { schema: schemaPostAccount},
+      endpointTimeout(routePostAccount, 10000), // 10 Seconds
     );
 
     // Appointment endpoints
