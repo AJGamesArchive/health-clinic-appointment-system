@@ -3,10 +3,6 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import setupCollections from './utilities/SetupCollections.js';
 
-//TODO Add index creators for all schemas
-// await DB_Accounts.createIndexes(); // Once, or in a migration/setup script
-// await Account.syncIndexes(); // Ensures indexes match the schema
-
 /**
  * Main script function to avoid callback hell
  */
