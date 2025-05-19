@@ -2,9 +2,11 @@
 import mongoose from "mongoose";
 import DB_Accounts from "../schemas/Accounts.js";
 import DB_Appointments from "../schemas/Appointment.js";
+import DB_MedicalHistory from "../schemas/MedicalHistory.js";
 import Tomato from "../classes/Tomato.js";
 import AccountData from "../types/data/AccountData.js";
 import AppointmentData from "../types/data/AppointmentData.js";
+import MedicalHistoryData from "../types/data/MedicalHistoryData.js";
 
 /**
  * Function to handle inserting data into the database and updating all corresponding IDs
@@ -13,6 +15,7 @@ import AppointmentData from "../types/data/AppointmentData.js";
  * @param data.doctors - The doctors to insert into the database
  * @param data.admins - The admins to insert into the database
  * @param data.appointments - The appointments to insert into the database
+ * @param data.medicalHistories - The medical history data to insert into the database
  * @param localDB - Flag to indicate if the database is local or not
  * @note Function will not use a transaction is database is local
  * @returns {Promise<void>} - A promise that resolves when the data has been inserted
@@ -25,6 +28,7 @@ async function insertData(
     doctors: AccountData[];
     admins: AccountData[];
     appointments: AppointmentData[];
+    medicalHistories: MedicalHistoryData[];
   },
   localDB?: boolean,
 ): Promise<void> {
@@ -126,6 +130,41 @@ async function insertData(
       appointments.map((appointment, index) => [appointment.id, appointmentInsertions[index]._id.toString()])
     );
 
+    // Replace UUIDs in medical history with MongoDB IDs
+    const updatedMedicalHistories = data.medicalHistories.map((history) => ({
+      ...history,
+      patient: {
+        ...history.patient,
+        patientId: patientIdMap.get(history.patient.patientId),
+      },
+      entryBy: {
+        ...history.entryBy,
+        doctorId: doctorIdMap.get(history.entryBy.doctorId),
+      },
+    }));
+
+    // Insert medical history
+    console.log("Inserting medical history...");
+    const medicalHistoryInsertions = await DB_MedicalHistory.insertMany(updatedMedicalHistories.map((history) => ({
+      patient: {
+        patientId: history.patient.patientId,
+        patientName: history.patient.patientName,
+      },
+      entryBy: {
+        doctorId: history.entryBy.doctorId,
+        doctorName: history.entryBy.doctorName,
+      },
+      createdAt: history.createdAt,
+      updatedAt: history.updatedAt,
+      details: history.details,
+    })), { session: (!localDB) ? session : undefined });
+    console.log("Medical history inserted!");
+
+    // Map medical history IDs
+    const medicalHistoryIdMap = new Map(
+      data.medicalHistories.map((history, index) => [history.id, medicalHistoryInsertions[index]._id.toString()])
+    );
+
     // Map upcoming appointments into the patients and doctors
     console.log("Updating referenced indexes...")
     for(const appointment of updatedAppointments) {
@@ -218,6 +257,10 @@ async function insertData(
     console.log("Appointments:");
     appointments.forEach((appointment) => {
       console.log(`  ${appointment.id} -> ${appointmentIdMap.get(appointment.id)}`);
+    });
+    console.log("Medical histories:");
+    data.medicalHistories.forEach((history) => {
+      console.log(`  ${history.id} -> ${medicalHistoryIdMap.get(history.id)}`);
     });
     return;
   } catch (err: any) {

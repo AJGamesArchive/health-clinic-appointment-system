@@ -1,6 +1,7 @@
 // Imports
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import { merge } from "lodash-es";
 import saltRounds from "../../static/SaltRounds.js";
 import AccountRoles from "../../types/data/AccountRoles.js";
 import AccountData from "../../types/data/AccountData.js";
@@ -128,6 +129,18 @@ class Account extends AccountService {
   };
 
   /**
+   * @public function to update the account patient data
+   * @param data the update to be made to patient data
+   * @returns true if the data was updated successfully, false if the data failed to update
+   * @AJGamesArchive
+   */
+  public mergeIntoPatientData(data: Partial<PatientData>): boolean {
+    if(!this.patientData) return false;
+    this.patientData = merge(this.patientData, data);
+    return true;
+  };
+
+  /**
    * @public function to update the account doctor data
    * @param data the new doctor data to set
    * @AJGamesArchive
@@ -138,6 +151,18 @@ class Account extends AccountService {
   };
 
   /**
+   * @public function to update the account doctor data
+   * @param data the update to be made to doctor data
+   * @returns true if the data was updated successfully, false if the data failed to update
+   * @AJGamesArchive
+   */
+  public mergeIntoDoctorData(data: Partial<DoctorData>): boolean {
+    if(!this.doctorData) return false;
+    this.doctorData = merge(this.doctorData, data);
+    return true;
+  };
+
+  /**
    * @public function to update the account admin data
    * @param data the new admin data to set
    * @AJGamesArchive
@@ -145,6 +170,18 @@ class Account extends AccountService {
   public setAdminData(data: AdminData): void {
     this.adminData = data;
     return;
+  };
+
+  /**
+   * @public function to update the account admin data
+   * @param data the update to be made to admin data
+   * @returns true if the data was updated successfully, false if the data failed to update
+   * @AJGamesArchive
+   */
+  public mergeIntoAdminData(data: Partial<AdminData>): boolean {
+    if(!this.adminData) return false;
+    this.adminData = merge(this.adminData, data);
+    return true;
   };
 
   /**
