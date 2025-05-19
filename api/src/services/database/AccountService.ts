@@ -378,6 +378,55 @@ abstract class AccountService {
       return 500; // Internal Server Error
     };
   };
+
+  /**
+   * @static function to search for an account by surname, forenames, or email
+   * @param type - The account type to search for
+   * @param surname - The surname to search for (Optional)
+   * @param forenames - The forenames to search for (Optional)
+   * @param email - The email to search for (Optional)
+   * @notes Searcher should ignore casing and whitespace
+   * @notes Searcher should return all accounts that match the search criteria, including strings that contain the search string
+   * @returns An array of account data objects, otherwise returns error status code
+   * @AJGamesArchive
+   */
+  static async searchAccounts(
+    type: AccountRoles,
+    surname?: string,
+    forenames?: string,
+    email?: string,
+  ): Promise<Partial<AccountData>[] | number> {
+    // DB Opts
+    try {
+      // Build query object
+      const query: any = { role: type };
+      if(surname) {
+        query.surname = { $regex: surname.replace(/\s+/g, ''), $options: 'i' };
+      };
+      if(forenames) {
+        query.forenames = { $regex: forenames.replace(/\s+/g, ''), $options: 'i' };
+      };
+      if(email) {
+        query.email = { $regex: email.replace(/\s+/g, ''), $options: 'i' };
+      };
+
+      // Find matching accounts
+      const documents = await DB_Accounts.find(query);
+      if (!documents) return 404;
+
+      // Map to AccountData[]
+      const accounts: Partial<AccountData>[] = documents.map((document) => ({
+        id: document._id.toString(),
+        title: document.title,
+        forenames: document.forenames,
+        surname: document.surname,
+      }));
+      return accounts;
+    } catch (err: any) {
+      console.error(`Failed to fetch account data:\n\n${err}`);
+      return 500;
+    };
+  };
 };
 
 export default AccountService;
