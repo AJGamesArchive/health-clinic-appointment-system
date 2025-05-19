@@ -4,9 +4,7 @@ import { useState } from "react";
 import CreateAppointmentModal from "../components/ui/modal/CreateAppointment";
 import UpdateAppointmentModal from "../components/ui/modal/UpdateAppointmentModal";
 import AppointmentData from "../types/data/AppointmentData";
-import { useAppointments } from "../hooks/UseAppointments";
-import { useAuthContext } from "../contexts/AuthContext";
-import { UseRouteAuthHook } from "../hooks/security/UseRouteAuth";
+import { appointmentType, useAppointments } from "../hooks/UseAppointments";
 
 const UpcomingAppointments: React.FC = () => {
     const [ createVisible, setCreateVisible ] = useState<boolean>(false);
@@ -32,20 +30,16 @@ const UpcomingAppointments: React.FC = () => {
     function handleUpdateVisible(appointment : AppointmentData) {
         setUpdateVisible(true);
         setSelectedAppointment(appointment);
-    }
+        console.log(appointment)
+    } 
 
-    const appointmentsArray = appointments.data as AppointmentData[]
-    console.log(appointmentsArray)
-
-    const tempAppointmentCards = appointmentsArray.length > 0 
-        ? (appointmentsArray).map((appointment) => (
-            <Card key={appointment.id} onClick={() => handleUpdateVisible(appointment)}>
-                <h5>Appointment with [UNKNOWN]</h5>
+    const appointmentCards = (appointments.data as appointmentType).appointments.map((appointment) => (
+            <Card className="account-card" key={appointment.id} onClick={() => handleUpdateVisible(appointment)}>
+                <h5>Appointment</h5>
                 <p style={{margin: 0}}>Date: {appointment.date}</p>
                 <p style={{margin: 0}}>Time: {appointment.time}</p>
             </Card>
-        ))
-        : null;
+        ));
 
     // // Uncomment this to see view with no appointments
     // const tempAppointmentCards = null
@@ -56,8 +50,10 @@ const UpcomingAppointments: React.FC = () => {
             { selectedAppointment && <UpdateAppointmentModal visible={updateVisible} setVisible={setUpdateVisible} selectedAppointment={selectedAppointment}/>}
 
             <h2>Upcoming Appointments <Button variant="primary" onClick={() => setCreateVisible(true)}>Book Appointment</Button></h2>
-            { tempAppointmentCards ?
-                tempAppointmentCards
+            { appointmentCards.length > 0 ? 
+            <div className="account-card-container">
+                {appointmentCards}
+            </div>
             :
                 <p>You don't have any upcoming appointments.</p>
             }

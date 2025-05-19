@@ -54,15 +54,15 @@ const UpdateAppointmentModal: React.FC<props> = ({visible, setVisible, selectedA
                                     <Form.Label>Date</Form.Label>
                                     <Form.Control type="date" value={appointment.date} onChange={(e) => setAppointment({...appointment, date: e.target.value})}/>
                                     <Form.Label>Time</Form.Label>
-                                    <Form.Control type="time" value={appointment.time} onChange={(e) => setAppointment({...appointment, time: e.target.value})}/>
+                                    <Form.Control type="time" value={appointment.time.split('.')[0]} onChange={(e) => setAppointment({...appointment, time: e.target.value})}/>
                                 </div>
                                 <div className="final-multi-content">
                                     <Form.Label>Patient</Form.Label>
                                     <Form.Control value={appointment.patientId} disabled/>
                                     <Form.Label>Booked At</Form.Label>
-                                    <Form.Control type="date" value={appointment.bookedAt?.toDateString()} disabled/>
+                                    <Form.Control type="date" value={appointment.bookedAt?.toString().split('T')[0]} disabled/>
                                     <Form.Label>Updated At</Form.Label>
-                                    <Form.Control type="date" value={appointment.updatedAt?.toDateString()} disabled/>
+                                    <Form.Control type="date" value={appointment.updatedAt?.toString().split('T')[0]} disabled/>
                                 </div>
                             </div>
                         </Form>
