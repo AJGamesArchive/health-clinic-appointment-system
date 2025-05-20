@@ -2467,7 +2467,180 @@ paths:
                     type: string
                   message:
                     type: string
-# ...existing code...
+  /auth/internal/admin/admin/account:
+    post:
+      summary: Create a new account
+      tags:
+        - Accounts
+        - Admin
+        - Alfie
+      description: Endpoint to create a new account. Only admins can perform this operation.
+      operationId: postAdminAccount
+      parameters:
+        - name: content-type
+          in: header
+          required: true
+          description: Content type of the request
+          schema:
+            type: string
+            enum: ['application/json']
+        - name: origin
+          in: header
+          required: true
+          description: Origin of the request
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                forenames:
+                  type: string
+                surname:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                role:
+                  type: string
+                  enum: ['Patient', 'Doctor', 'Admin']
+              required:
+                - title
+                - forenames
+                - surname
+                - email
+                - password
+                - role
+      responses:
+        '201':
+          description: Account successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  role:
+                    type: string
+                    enum: ['Patient', 'Doctor', 'Admin']
+                  createdAt:
+                    type: string
+                    format: date-time
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+  /auth/internal/admin/admin/account/{id}:
+    delete:
+      summary: Delete an account
+      tags:
+        - Accounts
+        - Admin
+        - Alfie
+      description: Endpoint to delete an account by ID. Only admins can perform this operation.
+      operationId: deleteAdminAccount
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: The ID of the account to delete
+          schema:
+            type: string
+        - name: content-type
+          in: header
+          required: true
+          description: Content type of the request
+          schema:
+            type: string
+            enum: ['application/json']
+        - name: origin
+          in: header
+          required: true
+          description: Origin of the request
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Account successfully deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  id:
+                    type: string
+                  role:
+                    type: string
+                    enum: ['Admin']
+                required:
+                  - status
+                  - message
+                  - id
+                  - role
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - error
+                  - message
 components:
   schemas:
     PatientData:
