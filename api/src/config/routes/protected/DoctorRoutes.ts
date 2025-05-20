@@ -12,6 +12,8 @@ import schemaPatientAppointments from "../../../schema/appointments/SchemaPatien
 import routePatientAppointments from "../../../routes/appointments/RoutePatientAppointments.js";
 import schemaPatientAppointment from "../../../schema/appointments/SchemaPatientAppointment.js";
 import routePatientAppointment from "../../../routes/appointments/RoutePatientAppointment.js";
+import schemaPatchPatient from "../../../schema/accounts/SchemaPatchPatient.js";
+import routePatchPatient from "../../../routes/accounts/RoutePatchPatient.js";
 
 /**
  * Function to declare all internally protected doctor routes
@@ -37,9 +39,15 @@ const protectedDoctorRoutes = (): {
       endpointTimeout(routePatientAppointment, 10000), // 10 seconds
     );
 
-    protectedDoctorRoutes.get("/doctor/:id",
+    protectedDoctorRoutes.get("/patient/:id",
       {schema: schemaGetPatient },
       endpointTimeout(routeGetPatient, 5000), // 5 Seconds
+    );
+
+    //Update patient details to an account by ID
+    protectedDoctorRoutes.patch("/patient/:id",
+      { schema: schemaPatchPatient },
+      endpointTimeout(routePatchPatient, 10000), // 10 Seconds
     );
   },
   prefix: '/doctor',
