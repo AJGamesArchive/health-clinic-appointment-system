@@ -209,7 +209,7 @@ function generateAccount(role: AccountRoles): AccountData {
     title: fakerEN.helpers.arrayElement(["Mr", "Mrs", "Ms", "Dr"]),
     forenames: fakerEN.person.firstName(),
     surname: fakerEN.person.lastName(),
-    email: fakerEN.internet.email(),
+    email: `${fakerEN.number.int({ min: 1, max: 1000 })}.${fakerEN.internet.email()}`,
     password: 'password',
     role,
     createdAt: fakerEN.date.past(),
