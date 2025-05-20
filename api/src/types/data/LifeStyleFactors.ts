@@ -3,57 +3,57 @@ type LifeStyleFactors = {
     status: string;
     statusAsOf: Date;
     notes: string;
-  }[] | null;
+  }[] | undefined;
   alcoholConsumption: {
     consumption: string;
     consumptionAsOf: Date;
     notes: string;
-  }[] | null;
+  }[] | undefined;
   recreationalDrugUse: {
     drug: string;
     usage: string;
     useAsOf: Date;
     notes: string;
-  }[] | null;
+  }[] | undefined;
   exerciseFrequency:{
     exercise: string;
     frequency: string;
     frequencyAsOf: Date;
     notes: string;
-  }[] | null;
+  }[] | undefined;
   sleepQuality:{
     quality: string;
     qualityAsOf: Date;
     notes: string;
-  }[] | null;
+  }[] | undefined;
   stressLevel: {
     level: string;
     levelAsOf: Date;
     notes: string;
-  }[] | null;
+  }[] | undefined;
   socialSupport: {
     support: string;
     supportAsOf: Date;
     notes: string;
-  }[] | null;
+  }[] | undefined;
   travelHistory: {
     location: string;
     date: Date;
     duration: string;
     notes: string;
-  }[] | null;
+  }[] | undefined;
   familyConditionals: {
     condition: string;
     typicalCause: string;
     typicalAgeOfDiagnosis: number;
     notes: string;
-  }[] | null;
+  }[] | undefined;
   environmentalFactors: {
     factor: string;
     exposure: string;
     exposureAsOf: Date;
     notes: string;
-  }[] | null;
+  }[] | undefined;
 };
 
 export default LifeStyleFactors;
