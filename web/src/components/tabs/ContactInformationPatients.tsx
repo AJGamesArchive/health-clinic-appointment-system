@@ -61,7 +61,7 @@ const [formData, setFormData] = useState({
                 <input
                  type="number"
                  name="emergencyContactPhone"
-                 value={formData.emergencyContactPhone}
+                 value={formData.emergencyContactPhone.trim()}
                  onChange={handleChange}
                  readOnly={isReadOnly(formData.emergencyContactPhone)}
                  />

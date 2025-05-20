@@ -8,14 +8,16 @@ import { useAuthContext } from "../contexts/AuthContext";
 import { UseRouteAuthHook } from "../hooks/security/UseRouteAuth";
 import { useAccountProfile } from "../hooks/UseProfileHook";
 import "./PatientProfile.css"; 
+import { useParams } from "react-router-dom";
 
 
 
 const PatientPage: React.FC = () => {
+    const { id } = useParams();
+    const { data: accountData, loading } = id 
+    ? useAccountProfile(id, "patient") 
+    : useAccountProfile();
 
-    const loggedInUser: UseRouteAuthHook = useAuthContext();
-    const {data: accountData, loading } = useAccountProfile();
-    
   
    const [activeTab, setActiveTab] = useState<string>("CoreInfromation");
 
@@ -29,7 +31,7 @@ const PatientPage: React.FC = () => {
             case "ContactInformation":
                return <ContactInformationPatients accountData={accountData} />;
            case "LifeStyle":
-               return <LifeStylePatients/>;
+               return <LifeStylePatients accountData={accountData} />;
             case "UpcomingAppointments":
                return <UpcomingAppointmentsPatients accountData={accountData}/>;
             //case "MedicalHistory":
@@ -45,7 +47,7 @@ const PatientPage: React.FC = () => {
   return (
     <Layout>
         <div className="patient-Profile-container">
-            <h1>{loggedInUser.user?.forenames} {loggedInUser.user?.surname} </h1> 
+            <h1>{accountData?.forenames} {accountData?.surname} </h1> 
                 <div className="tabs-section">
                     <button
                         className={`tab ${activeTab === "CoreInfromation" ? "active" : ""}`}
