@@ -1,0 +1,42 @@
+.box {
+    margin: 10px;
+    padding: 20px;
+    border-radius: 5px; 
+    border: 1px solid lightgrey;
+    flex: 1;
+    min-width: 450px;
+}
+
+.half-width-box {
+    margin: 10px;
+    padding: 20px;
+    border-radius: 5px; 
+    border: 1px solid lightgrey;
+    width: 50%;
+}
+
+.multi-content {
+    margin-right: 20px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.final-multi-content {
+    flex: 1;
+    min-width: 200px;
+    flex-wrap: wrap;
+    margin-right: 20px;
+}
+
+.button-set-container {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.button-wrapper {
+    margin: 5px;
+}
+
+.section-header {
+    margin: 0;
+}

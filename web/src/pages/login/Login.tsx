@@ -18,13 +18,16 @@ const Login: React.FC = () => {
       {
         //* Login Form
       }
+      <div className="login-card-container">
+
+      
       <div className="login-card">
         {
           //* Logo
         }
         <div className="left-div">
           <img 
-            src={'/vite.svg'}
+            src={'/login-image.jpg'}
             className='logo'
           />
         </div>
@@ -33,19 +36,19 @@ const Login: React.FC = () => {
         }
         <div className="right-div">
           <div>
-            <h2 style={{
-              margin: "0px"
+            <h4 style={{
+              margin: "0px", fontWeight: 600
             }}>
-              Login to HCMS:
-            </h2>
+              Login to HCAMS
+            </h4>
           </div>
           <div>
             {
               //* Email Input
             }
-            <div className="mb-3">
+            <div className="mt-3">
               <label className="form-label">
-                Email Address:
+                Email Address
               </label>
               <div className="input-group">
                 <span
@@ -83,7 +86,7 @@ const Login: React.FC = () => {
             }
             <div className="mb-3">
               <label className="form-label">
-                Password:
+                Password
               </label>
               <div className="input-group">
                 <span
@@ -138,9 +141,9 @@ const Login: React.FC = () => {
           {
             //* Login Button
           }
-          <div>
+          <div className="mt-3">
             <Button
-              variant="info"
+              variant="success"
               className="w-100"
               id="login-button"
               type="submit"
@@ -163,6 +166,7 @@ const Login: React.FC = () => {
               <span> Login</span>
             </Button>
           </div>
+        </div>
         </div>
       </div>
       {

@@ -1,0 +1,28 @@
+/* UpcomingAppointmentsPatients.css */
+.upcoming-appointments {
+    padding: 20px;
+}
+
+.appointments-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.appointment-card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 8px;
+    width: 250px;
+    background-color: #f9f9f9;
+}
+
+.appointment-card h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.appointment-card p {
+    margin: 5px 0;
+    font-size: 14px;
+}

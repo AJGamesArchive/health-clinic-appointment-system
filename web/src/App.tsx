@@ -5,10 +5,21 @@ import { Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './components/security/ProtectedRoute';
 import PageLoading from './components/core/PageLoading';
 import PageAccessDenied from './components/core/PageAccessDenied';
+import PatientList from './pages/PatientList';
+import DoctorList from './pages/DoctorList';
+import AdminList from './pages/AdminList';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 // Lazy load pages
 const Login = lazy(() => import('./pages/login/Login'));
 const Profile = lazy(() => import('./pages/profile/Profile'));
+const UpcomingAppointments = lazy(() => import('./pages/UpcomingAppointments'));
+const DoctorCreation = lazy(() => import('./pages/DoctorCreation'));
+const PatientCreation = lazy(() => import('./pages/PatientCreation'));
+const AdminCreation = lazy(() => import('./pages/AdminCreation'));
+const AdminProfile = lazy(() => import('./pages/AdminProfile'));
+const DoctorProfile = lazy(() => import('./pages/DoctorProfile'));
+const PatientProfile = lazy(() => import('./pages/PatientProfile'));
 
 /**
  * React function to render the core APP and handle app routing
@@ -31,6 +42,32 @@ const App: React.FC = () => {
           fallback={<PageAccessDenied/>}
         />}>
           <Route path="/profile" Component={Profile}/>
+          <Route path="/appointments" element={<UpcomingAppointments />}/>
+        </Route>
+        
+        {/* No patient-only pages (I think?) */}
+
+        <Route element={<ProtectedRoute
+          requiredRank={["Doctor", "Admin"]}
+          loading={<PageLoading/>}
+          fallback={<PageAccessDenied/>}
+        />}>
+          <Route path="/patients" element={<PatientList/>}/>
+          <Route path="/patient-profile/:id" element={<PatientProfile />}/>
+        </Route>
+        <Route element={<ProtectedRoute
+          requiredRank={["Admin"]}
+          loading={<PageLoading/>}
+          fallback={<PageAccessDenied/>}
+        />}>
+          <Route path="/create-patient" element={<PatientCreation />}/>
+          <Route path="/create-doctor" element={<DoctorCreation />}/>
+          <Route path="/create-admin" element={<AdminCreation />}/>
+          <Route path="/patients" element={<PatientList/>}/>
+          <Route path="/doctors" element={<DoctorList />}/>
+          <Route path="/doctors/:id" element={<DoctorProfile/>}/>
+          <Route path="/admins" element={<AdminList />}/>
+          <Route path="/admins/:id" element={<AdminProfile />}/>
         </Route>
       </Routes>
     </Suspense>

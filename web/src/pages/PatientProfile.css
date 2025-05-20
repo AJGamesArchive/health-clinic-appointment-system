@@ -1,0 +1,42 @@
+
+.patient-Profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: right; 
+    justify-content: right; 
+    margin: 0 auto; 
+}
+
+.patient-h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+    align-items: left;
+}
+.patient-h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.tabs-section button {
+    margin: 5px;
+    padding: 10px;
+    background-color: white;
+    color: grey;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    border-bottom: 2px solid grey;
+}
+
+.tabs-section button.active {
+    color: black;
+    font-weight: bold; 
+    border-bottom: 2px solid black;
+}
+
+.tabs-section button:hover {
+    color:rgb(54, 54, 56);
+} 
+

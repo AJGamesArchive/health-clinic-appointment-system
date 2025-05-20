@@ -38,11 +38,11 @@ async function data() {
     // Generate mock data
     console.log("Generating mock data...");
     const mockData = await generateMockData({
-      patientCount: 32000,
-      doctorCount: 7500,
-      adminCount: 5000,
-      appointmentCount: 75000,
-      medicalHistoryCount: 125000,
+      patientCount: 50000,
+      doctorCount: 30000,
+      adminCount: 20000,
+      appointmentCount: 100000,
+      medicalHistoryCount: 200000,
     });
 
     // Insert mock data into the database
