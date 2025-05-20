@@ -382,6 +382,43 @@ abstract class AppointmentService {
       return 500; // Internal Server Error
     };
   };
+
+  /**
+   * @static async function to fetch all appointment IDs for a given patient or doctor id
+   * @param userType - The type of user to fetch appointments for
+   * @param userId - The ID of the user to fetch appointments for
+   * @returns An array of appointment IDs, otherwise returns error status code
+   * @AJGamesArchive
+   */
+  static async getAppointmentIdsByUserId(
+    userType: "Patient" | "Doctor",
+    userId: string,
+  ): Promise<string[] | number> {
+    // Ensure required data is present
+    if(!userId) return 400;
+
+    // DB opts
+    try {
+      // Get documents
+      const documents = await DB_Appointments
+        .find({
+          [userType.toLowerCase() + 'Id']: userId,
+        })
+        .select('_id');
+
+      // Handle silent failure
+      if(!documents) return 404; // Not Found
+
+      // Map updated document
+      const appointmentIds: string[] = documents.map((document) => document._id.toString());
+
+      // Return appointments
+      return appointmentIds;
+    } catch (err: any) {
+      console.error(`Failed to get account:\n\n${err}`);
+      return 500; // Internal Server Error
+    };
+  };
 };
 
 export default AppointmentService;
