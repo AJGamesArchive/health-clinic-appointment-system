@@ -64,7 +64,7 @@ const AdminProfile: React.FC = () => {
                         (adminProfile.adminAccountReq.status === 200)
                     ) && (
                         <Alert
-                            security="success"
+                            variant="success"
                         >
                             Account data saved successfully!
                         </Alert>
@@ -77,7 +77,7 @@ const AdminProfile: React.FC = () => {
                         (adminProfile.adminAccountReq.status !== 200))
                     ) && (
                         <Alert
-                            security="danger"
+                            variant="danger"
                         >
                             {`One or more errors occurred while trying to save your account data:\n\n${JSON.stringify({
                                 core: adminProfile.coreAccountReq.error,

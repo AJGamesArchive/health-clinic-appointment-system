@@ -5,9 +5,7 @@ import ContactInformationPatients from "../components/tabs/ContactInformationPat
 import UpcomingAppointmentsPatients from "../components/tabs/UpcomingAppointmentsPatients";
 import LifeStylePatients from "../components/tabs/LifeStylePatients";
 import { useAuthContext } from "../contexts/AuthContext";
-import { UseRouteAuthHook } from "../hooks/security/UseRouteAuth";
 import { useAccountProfile } from "../hooks/UseProfileHook";
-import DebugBlock from "../components/utilities/DebugBlock";
 import "./PatientProfile.css"; 
 import { useParams } from "react-router-dom";
 

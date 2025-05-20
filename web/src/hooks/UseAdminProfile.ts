@@ -5,6 +5,7 @@ import AccountData from "../types/data/AccountData";
 import AdminData from "../types/data/AdminData";
 import { useParams } from "react-router-dom";
 import useAPIService from "./services/UseAPIService";
+import { useAuthContext } from "../contexts/AuthContext";
 
 interface UseAdminProfileHook {
     profile: UseProfileHook;
@@ -32,8 +33,9 @@ interface UseAdminProfileHook {
 export function useAdminProfile(): UseAdminProfileHook {
     // States
     const { id } = useParams();
+    const auth = useAuthContext();
     
-    const useProfile = id? useAccountProfile(id, "Admin") : useAccountProfile();
+    const useProfile = id? useAccountProfile(auth, id, "Admin") : useAccountProfile(auth);
     const [saved, setSaved] = useState<boolean>(false);
     const [ updateDisabled, setUpdateDisabled ] = useState<boolean>(true);
     const [ modifiedProfile, setModifiedProfile ] = useState<AccountData | undefined>(undefined);
