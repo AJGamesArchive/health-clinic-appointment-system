@@ -8,10 +8,29 @@ interface CoreInformationPatientsProps {
 }
 
 const CoreInformationPatients: React.FC<CoreInformationPatientsProps> = ({ accountData }) => {
+
+    const calculateAge = (dob: string): string => {
+        if (!dob) return "";
+
+        const birthDate = new Date(dob)
+        const today = new Date();
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getDate();
+        const dayDiff = today.getDate() - birthDate.getDate();
+
+        if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0 )){
+            age--;
+        }
+        return age.toString();
+    }
+
+
+
     const [formData, setFormData] = useState({
         notes: accountData.patientData?.importantNotes || [],
         title: accountData.title || "",
-        age: "",
+        age: calculateAge(accountData.patientData?.dateOfBirth.toString() || ""),
         dob: accountData.patientData?.dateOfBirth || "", //! Will always be returned as an ISO string from API
         sexAtBirth: accountData.patientData?.medicalInformation.sexAtBirth || "",
         bloodType: accountData.patientData?.medicalInformation.bloodType || "",
@@ -34,14 +53,11 @@ const CoreInformationPatients: React.FC<CoreInformationPatientsProps> = ({ accou
 
     return (
         <div className="core-information">
-            <DebugBlock>
-                {JSON.stringify(accountData, null, 2)}
-            </DebugBlock>
             <div className="info-item">
                 <p>Important Notes:</p>
                 <textarea
                  name="notes" 
-                 value={formData.notes.join(", \n ")} 
+                 value={formData.notes.join(", \n")} 
                  onChange={handleChange}
                  readOnly={isReadOnly(formData.notes)}
                 />

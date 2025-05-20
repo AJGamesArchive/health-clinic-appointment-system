@@ -24,8 +24,7 @@
    border-radius: 5px;
 }
 
-.info-item input[readonly], textarea[readonly] {
-    color: #000;         
+.info-item input[readonly], textarea[readonly] {      
     background-color: #fff;  
     opacity: 1;
    color: #000;         
@@ -35,7 +34,7 @@
 
 .info-item textarea {
    margin-bottom: 5px;
-   color: #ccc;
+   color: #000000;
    background-color: white;
    border: 1px solid #ccc;
    border-radius: 5px;
