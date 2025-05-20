@@ -77,13 +77,13 @@ const schemaBookAppointment = {
       preAppointmentNotes: { type: 'string' },
       actionsTaken: {
         type: 'string',
-        default: "",
+        default: "_____",
       },
       previousAppointmentId: { type: 'string' },
       nextAppointmentId: { type: 'string' },
       postAppointmentNotes: {
         type: 'string',
-        default: "",
+        default: "_____",
       },
     },
     required: [
@@ -123,6 +123,7 @@ const schemaBookAppointment = {
               type: 'object',
               properties: {
                 id: { type: 'string' },
+                title: { type: 'string' },
                 forenames: { type: 'string' },
                 surname: { type: 'string' },
               },
@@ -133,8 +134,8 @@ const schemaBookAppointment = {
           },
           required: [
             'id',
-            'doctorId',
-            'patientId',
+            'doctor',
+            'patient',
             'date',
             'time',
           ],
