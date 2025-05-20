@@ -479,10 +479,12 @@ class AppointmentTransaction {
 
   /**
    * @public async function to atomically commit all appointment and account changes to the database
+   * @param passedSession - The session to use for the transaction (Optional)
+   * @note This function will start a new session if no session is passed
    * @returns true if the transaction was successful, false if the transaction failed
    * @AJGamesArchive
    */
-  public async commitTransaction(): Promise<boolean> {
+  public async commitTransaction(passedSession?: mongoose.mongo.ClientSession): Promise<boolean> {
     // Ensure the transaction is valid
     if(this.operation !== "Delete" && !this.updatedAppointment) {
       this.errors.push("Cannot commit transaction without updated appointment.");
@@ -491,7 +493,7 @@ class AppointmentTransaction {
     
     // Prepare transaction
     const session = await mongoose.startSession();
-    session.startTransaction();
+    if(!passedSession) session.startTransaction();
 
     // DB Opts
     try {
@@ -500,7 +502,7 @@ class AppointmentTransaction {
         case "Create":
           // Commit appointment
           if(!this.updatedAppointment) throw new Error("No queued appointment to create.");
-          const createResult = await this.updatedAppointment.createDoc(session);
+          const createResult = await this.updatedAppointment.createDoc(passedSession ?? session);
           if(!createResult) throw new Error(`Failed to save appointment data.\n\n${this.updatedAppointment.getErrors()}`);
           const newAppointmentId: string | null = this.updatedAppointment.getId();
           if(!newAppointmentId) throw new Error("Failed to retrieve appointment ID.");
@@ -531,12 +533,12 @@ class AppointmentTransaction {
         case "Update":
           // Commit appointment
           if(!this.updatedAppointment) throw new Error("No queued appointment to update.");
-          const updateResult: boolean = await this.updatedAppointment.updateDoc(session);
+          const updateResult: boolean = await this.updatedAppointment.updateDoc(passedSession ?? session);
           if(!updateResult) throw new Error(`Failed to update appointment data.\n\n${this.updatedAppointment.getErrors()}`);
           break;
         case "Delete":
           // Commit appointment
-          const deleteResult = await this.appointment.deleteDoc(session);
+          const deleteResult = await this.appointment.deleteDoc(passedSession ?? session);
           if(typeof deleteResult === 'number') throw new Error(`Failed to delete appointment data.\n\n${this.appointment.getErrors()}`);
           break;
         default:
@@ -544,34 +546,34 @@ class AppointmentTransaction {
       };
       
       // Commit doctor upcoming appointments
-      const doctorResult: boolean = await this.doctor.updateDoc(session);
+      const doctorResult: boolean = await this.doctor.updateDoc(passedSession ?? session);
       if(!doctorResult) throw new Error(`Failed to update doctor upcoming appointments.\n\n${this.doctor.getErrors()}`);
 
       // Commit patient upcoming appointments
-      const patientResult: boolean = await this.patient.updateDoc(session);
+      const patientResult: boolean = await this.patient.updateDoc(passedSession ?? session);
       if(!patientResult) throw new Error(`Failed to update patient upcoming appointments.\n\n${this.patient.getErrors()}`);
 
       // Commit new doctor upcoming appointments if required
       if(this.newDoctor) {
-        const newDoctorResult: boolean = await this.newDoctor.updateDoc(session);
+        const newDoctorResult: boolean = await this.newDoctor.updateDoc(passedSession ?? session);
         if(!newDoctorResult) throw new Error(`Failed to update new doctor upcoming appointments.\n\n${this.newDoctor.getErrors()}`);
       };
 
       // Commit new patient upcoming appointments if required
       if(this.newPatient) {
-        const newPatientResult: boolean = await this.newPatient.updateDoc(session);
+        const newPatientResult: boolean = await this.newPatient.updateDoc(passedSession ?? session);
         if(!newPatientResult) throw new Error(`Failed to update new patient upcoming appointments.\n\n${this.newPatient.getErrors()}`);
       };
 
       // Commit transaction
-      await session.commitTransaction();
+      if(!passedSession) await session.commitTransaction();
       return true;
     } catch (err: any) {
       console.error(`Error in transaction: ${err}`);
-      await session.abortTransaction();
+      if(!passedSession) await session.abortTransaction();
       return false;
     } finally {
-      session.endSession();
+      if(!passedSession) session.endSession();
     };
   };
 };
