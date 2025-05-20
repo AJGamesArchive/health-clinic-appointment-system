@@ -9,16 +9,11 @@ import {
 	DeleteAccountReply,
 } from '../../schema/accounts/SchemaDeleteAccount.js';
 
-
 //Account data (child object) will be used to contain the logged in user accounts account to do operations
 import AccountData, { JWTAccountData } from '../../types/data/AccountData.js';
 import Account from '../../classes/data/Account.js';
-import PatientData from '../../types/data/PatientData.js';
-import LifeStyleFactors from '../../types/data/LifeStyleFactors.js';
-import DoctorData from '../../types/data/DoctorData.js';
 import AccountService from '../../services/database/AccountService.js';
-import Appointment from '../../classes/data/Appointment.js';
-import AppointmentService from '../../services/database/AppointmentService.js';
+import AccountDeletionTransaction from '../../services/database/AccountTransaction.js';
 
 /**
  * @summary Route to update CORE account information. Takes an ID for Params, Body includes info to update
@@ -66,51 +61,46 @@ const routeDeleteAccount = async (
 	switch(accountToDelete.role)
 	{
 		case "Patient":
-			const emptyLifeStyleFactors: LifeStyleFactors = {
-				smokingStatus:         [],
-				alcoholConsumption:    [],
-				recreationalDrugUse:   [],
-				exerciseFrequency:     [],
-				sleepQuality:          [],
-				stressLevel:           [],
-				socialSupport:         [],
-				travelHistory:         [],
-				familyConditionals:    [],
-				environmentalFactors:  [],
-			};
+			const patientTransaction = await AccountDeletionTransaction.initTransaction('Patient', req.params.id);
+			if (!patientTransaction)
+			{
+				rep.status(500).send({
+				error: 'INTERNAL_SERVER_ERROR',
+				message: `An error occurred while deleting Patient data`,
+				} as DeleteAccountReply);
+				return;
+			}
+			const patientSuccess = await patientTransaction.commitTransaction();
 
-			const emptyPatientData: PatientData = {
-				gender:            '',
-				dateOfBirth:       new Date(),
-				contactInfo:       { email: '', phone: '' },
-				emergencyContact:  [],
-				address: {
-					addressLine1:	'', 
-					addressLine2: '',
-					city: 				'', 
-					county: 			'', 
-					postCode: 		'',
-				},
-				upcomingAppointments: [],
-				medicalInformation: {
-					bloodType:   '',
-					sexAtBirth:  '',
-					conditions:  [],
-					allergies:   [],
-				},
-				lifeStyleHistory: emptyLifeStyleFactors,
-				importantNotes:   [],
-			};
-
-			creator.setPatientData(emptyPatientData)
+			if (!patientSuccess)
+			{
+				rep.status(500).send({
+				error: 'INTERNAL_SERVER_ERROR',
+				message: `An error occurred while deleting Doctor data`,
+				} as DeleteAccountReply);
+				return;
+			}
 		break;
 
 		case 'Doctor':
-			const getUpcoming = accountToDelete.getUpcomingAppointments()
-			if (getUpcoming){
-				getUpcoming.forEach( (appointment) =>{
-					const del = new Appointment(appointment)
-				});
+			const doctorTransaction = await AccountDeletionTransaction.initTransaction('Doctor', req.params.id);
+			if (!doctorTransaction)
+			{
+				rep.status(500).send({
+				error: 'INTERNAL_SERVER_ERROR',
+				message: `An error occurred while deleting admin data`,
+				} as DeleteAccountReply);
+				return;
+			}
+			const doctorSuccess = await doctorTransaction.commitTransaction();
+
+			if (!doctorSuccess)
+			{
+				rep.status(500).send({
+				error: 'INTERNAL_SERVER_ERROR',
+				message: `An error occurred while deleting admin data`,
+				} as DeleteAccountReply);
+				return;
 			}
 		break;
 

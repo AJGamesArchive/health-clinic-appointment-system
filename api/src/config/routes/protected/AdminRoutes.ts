@@ -26,6 +26,8 @@ import schemaPatchAdmin from "../../../schema/accounts/SchemaPatchAdmin.js";
 import routePatchAdmin from "../../../routes/accounts/RoutePatchAdmin.js";
 import schemaPostAccount from "../../../schema/accounts/SchemaPostAccount.js";
 import routePostAccount from "../../../routes/accounts/RoutePostAccount.js";
+import schemaDeleteAccount from "../../../schema/accounts/SchemaDeleteAccount.js";
+import routeDeleteAccount from "../../../routes/accounts/RouteDeleteAccount.js";
 
 /**
  * Function to declare all internally protected admin routes
@@ -73,9 +75,16 @@ const protectedAdminRoutes = (): {
       endpointTimeout(routePatchAdmin, 10000), // 10 Seconds
     );
 
+    //Create Base admin account
     protectedAdminRoutes.post("/admin/account",
       { schema: schemaPostAccount},
       endpointTimeout(routePostAccount, 10000), // 10 Seconds
+    );
+
+    //delete account by ID
+    protectedAdminRoutes.delete("/admin/account/:id",
+      { schema: schemaDeleteAccount},
+      endpointTimeout(routeDeleteAccount, 10000), // 10 Seconds
     );
 
     // Appointment endpoints
