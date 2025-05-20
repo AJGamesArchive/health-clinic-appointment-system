@@ -4,12 +4,17 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "setup:cloud": "tsc && NODE_ENV=cloud node ./dist/SetupDatabase.js",
-    "setup:local": "tsc && NODE_ENV=local node ./dist/SetupDatabase.js"
+    "setup:cloud": "tsc && NODE_ENV=cloud node ./dist/Setup.js",
+    "setup:local": "tsc && NODE_ENV=local node ./dist/Setup.js",
+    "data:cloud": "tsc && NODE_ENV=cloud node ./dist/Data.js",
+    "data:local": "tsc && NODE_ENV=local node ./dist/Data.js"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.8.0",
+    "bcrypt": "^6.0.0",
     "dotenv": "^16.4.7",
-    "mongoose": "^8.9.6"
+    "mongoose": "^8.9.6",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/mongoose": "^5.11.97",

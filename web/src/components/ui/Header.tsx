@@ -38,6 +38,15 @@ const Header = () => {
                 Patients
               </Button>
             </>}
+            { auth.user?.role === "Doctor" &&
+              <Button
+                variant="outline-secondary"
+                style={{ margin: "5px" }}
+                href="/patients"
+              >
+                Patients
+              </Button>
+            }
           <Button
             variant="outline-secondary"
             style={{ margin: "5px" }}

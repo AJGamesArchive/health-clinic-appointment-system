@@ -23,7 +23,7 @@ const DoctorList: React.FC = () => {
 
     const doctorCards = doctors.data.map((doctor) => (
         <a href={"/doctors/" + doctor.id}>
-            <Card key={doctor.id}>
+            <Card key={doctor.id} className="account-card">
                 <h5>{doctor.forenames} {doctor.surname}</h5>
             </Card>
         </a>
@@ -31,9 +31,11 @@ const DoctorList: React.FC = () => {
 
     return (
         <Layout>
-            <h2>Doctors <Button variant="primary" href="/create-doctor">Add new Doctor</Button> <BackButton backFactor={-1} label="Back" variant="secondary"/></h2>            
+            <h2 style={{padding: "30px 0 10px"}}>Doctors <Button variant="primary" href="/create-doctor">Add new Doctor</Button> <BackButton backFactor={-1} label="Back" variant="secondary"/></h2>            
             { doctorCards.length > 0 ? 
-                doctorCards
+                <div className="account-card-container">
+                    {doctorCards}
+                </div>
             : 
                 <p>No doctors in system.</p> 
             }            

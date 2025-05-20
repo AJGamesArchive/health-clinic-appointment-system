@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./CoreInfromationPatients.css"; 
 import accountData from "../../types/data/AccountData";
+import DebugBlock from "../utilities/DebugBlock";
 
 interface CoreInformationPatientsProps {
   accountData: accountData;
@@ -11,7 +12,7 @@ const CoreInformationPatients: React.FC<CoreInformationPatientsProps> = ({ accou
         notes: accountData.patientData?.importantNotes || [],
         title: accountData.title || "",
         age: "",
-        dob: accountData.patientData?.dateOfBirth || "",
+        dob: accountData.patientData?.dateOfBirth || "", //! Will always be returned as an ISO string from API
         sexAtBirth: accountData.patientData?.medicalInformation.sexAtBirth || "",
         bloodType: accountData.patientData?.medicalInformation.bloodType || "",
         gender: accountData.patientData?.gender || "",
@@ -33,6 +34,9 @@ const CoreInformationPatients: React.FC<CoreInformationPatientsProps> = ({ accou
 
     return (
         <div className="core-information">
+            <DebugBlock>
+                {JSON.stringify(accountData, null, 2)}
+            </DebugBlock>
             <div className="info-item">
                 <p>Important Notes:</p>
                 <textarea
@@ -67,7 +71,7 @@ const CoreInformationPatients: React.FC<CoreInformationPatientsProps> = ({ accou
                 <input
                  type="date"
                  name="dob"
-                 value={formData.dob.toString()}
+                 value={(formData.dob as string).split('T')[0]}
                  onChange={handleChange}
                  readOnly={isReadOnly(formData.dob.toString())}
                 />

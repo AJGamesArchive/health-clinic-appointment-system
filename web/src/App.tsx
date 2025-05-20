@@ -8,6 +8,7 @@ import PageAccessDenied from './components/core/PageAccessDenied';
 import PatientList from './pages/PatientList';
 import DoctorList from './pages/DoctorList';
 import AdminList from './pages/AdminList';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 // Lazy load pages
 const Login = lazy(() => import('./pages/login/Login'));
@@ -61,9 +62,6 @@ const App: React.FC = () => {
           loading={<PageLoading/>}
           fallback={<PageAccessDenied/>}
         />}>
-          <Route path="/patient-profile" element={<PatientProfile />}/>
-          <Route path="/doctor-profile" element={<DoctorProfile />}/>
-          <Route path="/admin-profile" element={<AdminProfile />}/>
           <Route path="/create-patient" element={<PatientCreation />}/>
           <Route path="/create-doctor" element={<DoctorCreation />}/>
           <Route path="/create-admin" element={<AdminCreation />}/>

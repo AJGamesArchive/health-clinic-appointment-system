@@ -56,7 +56,6 @@ body {
 
   .second {
     flex: 1;
-    margin: auto;
     text-align: right;
     vertical-align: middle;
     flex-basis: auto;
@@ -67,6 +66,20 @@ body {
   padding: 30px;
   margin: 10px 0;
   box-shadow: 0px 0px 10px #ccc;
+}
+
+.account-card-container {
+  display: flex; 
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 1000px;
+  max-width: 90vw;
+
+  .account-card {
+    flex: 1;
+    min-width: 300px;
+    max-width: 300px;
+  }
 }
 
 .card:hover {
@@ -107,6 +120,16 @@ label {
   z-index: 1;
   position: fixed;
   right: 10px; 
+}
+
+.search-container {
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+
+  .control {
+    margin-right: 5px;
+  }
 }
 
 @media (max-width: 950px) {

@@ -22,16 +22,18 @@ const PatientList: React.FC = () => {
     )
 
     const patientCards = patients.data.map((patient) => (
-        <Card key={patient.id} onClick={() => console.log("Open patient with ID " + patient.id)}>
+        <Card key={patient.id} className="account-card" onClick={() => console.log("Open patient with ID " + patient.id)}>
             <h5>{patient.forenames} {patient.surname}</h5>
         </Card>
     ));
 
     return (
         <Layout>
-            <h2>Patients <Button variant="primary" href="/create-patient">Add new Patient</Button> <BackButton backFactor={-1} label="Back" variant="secondary"/></h2>            
+            <h2 style={{padding: "30px 0 10px"}}>Patients <Button variant="primary" href="/create-patient">Add new Patient</Button> <BackButton backFactor={-1} label="Back" variant="secondary"/></h2>            
             { patientCards.length > 0 ? 
-                patientCards
+                <div className="account-card-container">
+                    {patientCards}
+                </div>
             : 
                 <p>No patients in system.</p> 
             }            

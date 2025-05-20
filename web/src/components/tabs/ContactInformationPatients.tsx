@@ -59,7 +59,7 @@ const [formData, setFormData] = useState({
             <div className="info-item">
                 <p>Emergency Contact Phone</p>
                 <input
-                 type="number"
+                 type="text"
                  name="emergencyContactPhone"
                  value={formData.emergencyContactPhone.trim()}
                  onChange={handleChange}

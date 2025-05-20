@@ -10,162 +10,118 @@
     "createdAt": "2023-01-01T00:00:00Z",
     "updatedAt": "2023-01-02T00:00:00Z",
     "accountData": {
-      "////////TODO Remove the One Of Field ////////": "",
-      "oneOf": [
-        {
+      "type": "object",
+      "properties": {
+        "gender": "Male",
+        "dateOfBirth": "1980-05-15",
+        "contactInfo": {
+          "email": "patient.jane@example.com",
+          "phone": "+0987654321"
+        },
+        "emergencyContact": [
+          {
+            "name": "Emily Doe",
+            "phone": "+1122334455",
+            "relationship": "Spouse"
+          }
+        ],
+        "address": {
+          "addressLine1": "221B Baker Street",
+          "addressLine2": "",
+          "city": "London",
+          "county": "Greater London",
+          "postCode": "NW1 6XE"
+        },
+        "upcomingAppointments": [
+          {
+            "appointmentId": "64f1a2b3c4d5e6f7g8h9i0j6",
+            "date": "2023-01-15",
+            "time": "02:00 PM",
+            "doctorId": "64f1a2b3c4d5e6f7g8h9i0j7",
+            "doctorName": "Dr. Smith"
+          }
+        ],
+        "medicalInformation": {
+          "bloodType": "O+",
+          "sexAtBirth": "Male",
+          "conditions": ["Hypertension"],
+          "allergies": ["Peanuts"]
+        },
+        "lifeStyleHistory": {
           "type": "object",
           "properties": {
-            "staffRole": "Receptionist"
+            "smokingStatus": [
+              {
+                "status": "Non-smoker",
+                "statusAsOf": "2020-01-01",
+                "notes": "Never smoked"
+              }
+            ],
+            "alcoholConsumption": [
+              {
+                "consumption": "Occasional",
+                "consumptionAsOf": "2023-01-01",
+                "notes": "Social drinking"
+              }
+            ],
+            "recreationalDrugUse": [
+              {
+                "drug": "None",
+                "usage": "N/A",
+                "useAsOf": "N/A",
+                "notes": "No drug use"
+              }
+            ],
+            "exerciseFrequency": [
+              {
+                "exercise": "Running",
+                "frequency": "3 times a week",
+                "frequencyAsOf": "2023-01-01",
+                "notes": "Morning runs"
+              }
+            ],
+            "sleepQuality": [
+              {
+                "quality": "Good",
+                "qualityAsOf": "2023-01-01",
+                "notes": "7-8 hours per night"
+              }
+            ],
+            "stressLevel": [
+              {
+                "level": "Moderate",
+                "levelAsOf": "2023-01-01",
+                "notes": "Work-related stress"
+              }
+            ],
+            "socialSupport": [
+              {
+                "support": "Family",
+                "supportAsOf": "2023-01-01",
+                "notes": "Strong family support"
+              }
+            ],
+            "travelHistory": [
+              {
+                "location": "Paris, France",
+                "date": "2022-12-01",
+                "duration": "1 week",
+                "notes": "Vacation"
+              }
+            ],
+            "familyConditionals": [
+              {
+                "condition": "Diabetes",
+                "typicalCause": "Genetic",
+                "typicalAgeOfDiagnosis": 50,
+                "notes": "Father diagnosed"
+              }
+            ],
+            "environmentalFactors": null
           }
         },
-        {
-          "type": "object",
-          "properties": {
-            "specialty": "Cardiology",
-            "upcomingAppointments": [
-              {
-                "appointmentId": "64f1a2b3c4d5e6f7g8h9i0j3",
-                "date": "2023-01-10",
-                "time": "10:00 AM",
-                "patientId": "64f1a2b3c4d5e6f7g8h9i0j4",
-                "patientName": "Jane Smith"
-              }
-            ],
-            "workingHours": [
-              {
-                "day": "Monday",
-                "startTime": "09:00 AM",
-                "endTime": "05:00 PM"
-              }
-            ],
-            "contactInfo": {
-              "workEmail": "dr.john@example.com",
-              "workPhone": "+1234567890"
-            }
-          }
-        },
-        {
-          "type": "object",
-          "properties": {
-            "gender": "Male",
-            "dateOfBirth": "1980-05-15",
-            "contactInfo": {
-              "email": "patient.jane@example.com",
-              "phone": "+0987654321"
-            },
-            "emergencyContact": [
-              {
-                "name": "Emily Doe",
-                "phone": "+1122334455",
-                "relationship": "Spouse"
-              }
-            ],
-            "address": {
-              "addressLine1": "123 Main St",
-              "addressLine2": "Apt 4B",
-              "city": "Springfield",
-              "county": "Hampden",
-              "postCode": "01103"
-            },
-            "upcomingAppointments": [
-              {
-                "appointmentId": "64f1a2b3c4d5e6f7g8h9i0j6",
-                "date": "2023-01-15",
-                "time": "02:00 PM",
-                "doctorId": "64f1a2b3c4d5e6f7g8h9i0j7",
-                "doctorName": "Dr. Smith"
-              }
-            ],
-            "medicalInformation": {
-              "bloodType": "O+",
-              "sexAtBirth": "Male",
-              "conditions": ["Hypertension"],
-              "allergies": ["Peanuts"]
-            },
-            "lifeStyleHistory": {
-              "type": "object",
-              "properties": {
-                "smokingStatus": [
-                  {
-                    "status": "Non-smoker",
-                    "statusAsOf": "2020-01-01",
-                    "notes": "Never smoked"
-                  }
-                ],
-                "alcoholConsumption": [
-                  {
-                    "consumption": "Occasional",
-                    "consumptionAsOf": "2023-01-01",
-                    "notes": "Social drinking"
-                  }
-                ],
-                "recreationalDrugUse": [
-                  {
-                    "drug": "None",
-                    "usage": "N/A",
-                    "useAsOf": "N/A",
-                    "notes": "No drug use"
-                  }
-                ],
-                "exerciseFrequency": [
-                  {
-                    "exercise": "Running",
-                    "frequency": "3 times a week",
-                    "frequencyAsOf": "2023-01-01",
-                    "notes": "Morning runs"
-                  }
-                ],
-                "sleepQuality": [
-                  {
-                    "quality": "Good",
-                    "qualityAsOf": "2023-01-01",
-                    "notes": "7-8 hours per night"
-                  }
-                ],
-                "stressLevel": [
-                  {
-                    "level": "Moderate",
-                    "levelAsOf": "2023-01-01",
-                    "notes": "Work-related stress"
-                  }
-                ],
-                "socialSupport": [
-                  {
-                    "support": "Family",
-                    "supportAsOf": "2023-01-01",
-                    "notes": "Strong family support"
-                  }
-                ],
-                "travelHistory": [
-                  {
-                    "location": "Paris, France",
-                    "date": "2022-12-01",
-                    "duration": "1 week",
-                    "notes": "Vacation"
-                  }
-                ],
-                "familyConditionals": [
-                  {
-                    "condition": "Diabetes",
-                    "typicalCause": "Genetic",
-                    "typicalAgeOfDiagnosis": 50,
-                    "notes": "Father diagnosed"
-                  }
-                ],
-                "environmentalFactors": [
-                  {
-                    "factor": "Air pollution",
-                    "exposure": "Moderate",
-                    "exposureAsOf": "2023-01-01",
-                    "notes": "Urban area"
-                  }
-                ]
-              }
-            },
-            "importantNotes": ["Patient is allergic to penicillin"]
-          }
-        }
-      ]
+        "importantNotes": ["Patient is allergic to penicillin"]
+      }
     }
   },
   "appointments": {
@@ -196,7 +152,7 @@
     "_id": "64f1a2b3c4d5e6f7g8h9i0j13",
     "patient": {
       "patientId": "64f1a2b3c4d5e6f7g8h9i0j14",
-      "name": "Jane Doe"
+      "patientName": "Jane Doe"
     },
     "entryBy": {
       "doctorId": "64f1a2b3c4d5e6f7g8h9i0j15",
@@ -206,188 +162,121 @@
     "updatedAt": "2023-01-02T00:00:00Z",
     "details": [
       {
-        "type": "object",
-        "properties": {
-          "tests": [
-            {
-              "testName": "Blood Test",
-              "result": "Normal",
-              "resultsDate": "2023-01-01",
-              "requestedBy": {
-                "doctorId": "64f1a2b3c4d5e6f7g8h9i0j16",
-                "doctorName": "Dr. Jane Smith"
-              }
-            }
-          ]
+        "type": "LabTestResults",
+        "testName": "Blood Test",
+        "result": "Normal",
+        "resultsDate": "2023-01-01",
+        "requestedBy": {
+          "doctorId": "64f1a2b3c4d5e6f7g8h9i0j16",
+          "doctorName": "Dr. Jane Smith"
         }
       },
       {
-        "type": "object",
-        "properties": {
-          "diagnoses": [
-            {
-              "condition": "Hypertension",
-              "notes": "Patient needs to monitor blood pressure regularly",
-              "severity": "Moderate",
-              "date": "2023-01-01",
-              "diagnosedBy": {
-                "doctorId": "64f1a2b3c4d5e6f7g8h9i0j17",
-                "doctorName": "Dr. John Doe"
-              }
-            }
-          ]
+        "type": "Diagnoses",
+        "condition": "Hypertension",
+        "notes": "Patient needs to monitor blood pressure regularly",
+        "severity": "Moderate",
+        "date": "2023-01-01",
+        "diagnosedBy": {
+          "doctorId": "64f1a2b3c4d5e6f7g8h9i0j17",
+          "doctorName": "Dr. John Doe"
         }
       },
       {
-        "type": "object",
-        "properties": {
-          "dietaryRestrictions": [
-            {
-              "restriction": "Low sodium diet",
-              "notes": "Avoid processed foods",
-              "date": "2023-01-01",
-              "prescribedBy": {
-                "doctorId": "64f1a2b3c4d5e6f7g8h9i0j18",
-                "doctorName": "Dr. Jane Doe"
-              }
-            }
-          ]
+        "type": "DietaryRestrictions",
+        "restriction": "Low sodium diet",
+        "notes": "Avoid processed foods",
+        "date": "2023-01-01",
+        "prescribedBy": {
+          "doctorId": "64f1a2b3c4d5e6f7g8h9i0j18",
+          "doctorName": "Dr. Jane Doe"
         }
       },
       {
-        "type": "object",
-        "properties": {
-          "allergies": [
-            {
-              "allergen": "Peanuts",
-              "reaction": "Anaphylaxis",
-              "severity": "Severe",
-              "notes": "Carry epinephrine auto-injector",
-              "date": "2023-01-01"
-            }
-          ]
+        "type": "Allergies",
+        "allergen": "Peanuts",
+        "reaction": "Anaphylaxis",
+        "severity": "Severe",
+        "notes": "Carry epinephrine auto-injector",
+        "date": "2023-01-01"
+      },
+      {
+        "type": "ChronicConditions",
+        "condition": "Diabetes",
+        "dateDiagnosed": "2023-01-01",
+        "severity": "Moderate",
+        "notes": "Monitor blood sugar levels",
+        "diagnosedBy": {
+          "doctorId": "64f1a2b3c4d5e6f7g8h9i0j19",
+          "doctorName": "Dr. John Smith"
         }
       },
       {
-        "type": "object",
-        "properties": {
-          "conditions": [
-            {
-              "condition": "Diabetes",
-              "dateDiagnosed": "2023-01-01",
-              "severity": "Moderate",
-              "notes": "Monitor blood sugar levels",
-              "diagnosedBy": {
-                "doctorId": "64f1a2b3c4d5e6f7g8h9i0j19",
-                "doctorName": "Dr. John Smith"
-              }
-            }
-          ]
-        }
+        "type": "PastSurgeries",
+        "surgery": "Appendectomy",
+        "emergency": true,
+        "date": "2023-01-01",
+        "notes": "Successful surgery",
+        "performedBy": [
+          {
+            "doctorId": "64f1a2b3c4d5e6f7g8h9i0j20",
+            "doctorName": "Dr. Jane Smith"
+          }
+        ]
       },
       {
-        "type": "object",
-        "properties": {
-          "surgeries": [
-            {
-              "surgery": "Appendectomy",
-              "emergency": true,
-              "date": "2023-01-01",
-              "notes": "Successful surgery",
-              "performedBy": [
-                {
-                  "doctorId": "64f1a2b3c4d5e6f7g8h9i0j20",
-                  "doctorName": "Dr. Jane Smith"
-                }
-              ]
-            }
-          ]
-        }
+        "type": "Vaccines",
+        "vaccine": "Influenza",
+        "dateAdministered": "2023-01-01",
+        "notes": "Annual flu shot"
       },
       {
-        "type": "object",
-        "properties": {
-          "vaccines": [
-            {
-              "vaccine": "Influenza",
-              "dateAdministered": "2023-01-01",
-              "notes": "Annual flu shot"
-            }
-          ]
-        }
+        "type": "Medications",
+        "medication": "Lisinopril",
+        "dosage": "10 mg",
+        "frequency": "Once daily",
+        "startDate": "2023-01-01",
+        "endDate": "2023-12-31",
+        "prescribedBy": {
+          "doctorId": "64f1a2b3c4d5e6f7g8h9i0j21",
+          "doctorName": "Dr. John Doe"
+        },
+        "prescribedDate": "2023-01-01",
+        "refills": 3,
+        "notes": "Monitor blood pressure"
       },
       {
-        "type": "object",
-        "properties": {
-          "medications": [
-            {
-              "medication": "Lisinopril",
-              "dosage": "10 mg",
-              "frequency": "Once daily",
-              "startDate": "2023-01-01",
-              "endDate": "2023-12-31",
-              "prescribedBy": {
-                "doctorId": "64f1a2b3c4d5e6f7g8h9i0j21",
-                "doctorName": "Dr. John Doe"
-              },
-              "prescribedDate": "2023-01-01",
-              "refills": 3,
-              "notes": "Monitor blood pressure"
-            }
-          ]
-        }
+        "type": "Treatments",
+        "treatment": "Physical therapy",
+        "schedule": {
+          "dateAdministered": "2023-01-01",
+          "endDate": "2023-12-31"
+        },
+        "administeredBy": {
+          "doctorId": "64f1a2b3c4d5e6f7g8h9i0j22",
+          "doctorName": "Dr. Jane Doe"
+        },
+        "dosage": "30 minutes",
+        "reason": "Rehabilitation",
+        "notes": "Weekly sessions"
       },
       {
-        "type": "object",
-        "properties": {
-          "treatments": [
-            {
-              "treatment": "Physical therapy",
-              "schedule": {
-                "oneOf": [
-                  {
-                    "dateAdministered": "2023-01-01"
-                  },
-                  {
-                    "startDate": "2023-01-01",
-                    "endDate": "2023-12-31"
-                  }
-                ]
-              },
-              "administeredBy": {
-                "doctorId": "64f1a2b3c4d5e6f7g8h9i0j22",
-                "doctorName": "Dr. Jane Doe"
-              },
-              "dosage": "30 minutes",
-              "reason": "Rehabilitation",
-              "notes": "Weekly sessions"
-            }
-          ]
-        }
-      },
-      {
-        "type": "object",
-        "properties": {
-          "referrals": [
-            {
-              "referralTo": "Cardiologist",
-              "dateReferred": "2023-01-01",
-              "reason": "Heart health",
-              "referredBy": {
-                "doctorId": "64f1a2b3c4d5e6f7g8h9i0j23",
-                "doctorName": "Dr. John Smith"
-              },
-              "status": "Pending",
-              "followUpDate": "2023-01-15",
-              "followUpNotes": "Check heart condition",
-              "followUpBy": {
-                "doctorId": "64f1a2b3c4d5e6f7g8h9i0j24",
-                "doctorName": "Dr. Jane Doe"
-              },
-              "notes": "Patient needs further evaluation"
-            }
-          ]
-        }
+        "type": "Referrals",
+        "referralTo": "Cardiologist",
+        "dateReferred": "2023-01-01",
+        "reason": "Heart health",
+        "referredBy": {
+          "doctorId": "64f1a2b3c4d5e6f7g8h9i0j23",
+          "doctorName": "Dr. John Smith"
+        },
+        "status": "Pending",
+        "followUpDate": "2023-01-15",
+        "followUpNotes": "Check heart condition",
+        "followUpBy": {
+          "doctorId": "64f1a2b3c4d5e6f7g8h9i0j24",
+          "doctorName": "Dr. Jane Doe"
+        },
+        "notes": "Patient needs further evaluation"
       }
     ]
   }
