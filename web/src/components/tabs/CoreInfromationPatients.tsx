@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./CoreInfromationPatients.css"; 
 import accountData from "../../types/data/AccountData";
-import DebugBlock from "../utilities/DebugBlock";
 
 interface CoreInformationPatientsProps {
   accountData: accountData;
