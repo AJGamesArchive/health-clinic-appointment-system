@@ -25,7 +25,7 @@ export function useDoctorProfile(): UseAdminProfileHook {
     const auth: UseRouteAuthHook = useAuthContext();
     const isAdmin = auth.user?.role === "Admin"
     
-    const useProfile = id? useAccountProfile(id, "Doctor") : useAccountProfile();
+    const useProfile = id? useAccountProfile(auth, id, "Doctor") : useAccountProfile(auth);
     const [ updateDisabled, setUpdateDisabled ] = useState<boolean>(true);
     const [ modifiedProfile, setModifiedProfile ] = useState<AccountData | undefined>(undefined);
 

@@ -2,8 +2,6 @@ import Layout from "../components/ui/Layout";
 import { Badge, Button, Table  } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import { useDoctorProfile } from "../hooks/UseDoctorProfile";
-import DebugBlock from "../components/utilities/DebugBlock";
-
 
 const DoctorProfile: React.FC = () => {
     const doctorProfile = useDoctorProfile();
