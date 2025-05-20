@@ -4,7 +4,6 @@ import AppointmentData from "../../../types/data/AppointmentData";
 import { useEffect, useState } from "react";
 import useAPIService from "../../../hooks/services/UseAPIService";
 import { useAuthContext } from "../../../contexts/AuthContext";
-import DebugBlock from "../../utilities/DebugBlock";
 
 interface props {
     visible: boolean;
