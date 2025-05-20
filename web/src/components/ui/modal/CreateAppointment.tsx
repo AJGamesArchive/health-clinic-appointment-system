@@ -85,9 +85,6 @@ const CreateAppointmentModal: React.FC<props> = ({visible, setVisible}) => {
             </Modal.Header>
             <Modal.Body>
                 <Form style={{padding: "0 20px"}}>
-                    <DebugBlock>
-                        {JSON.stringify(appointment, null, 2)}
-                    </DebugBlock>
                     <Form.Label>Doctor</Form.Label>
                     <div className="search-container">
                         <Form.Control
