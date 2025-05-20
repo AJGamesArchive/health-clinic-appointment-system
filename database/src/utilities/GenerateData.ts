@@ -8,6 +8,7 @@ import PatientData from "../types/data/PatientData.js";
 import DoctorData from "../types/data/DoctorData.js";
 import AccountRoles from "../types/data/AccountRoles.js";
 import AdminData from "../types/data/AdminData.js";
+import MedicalHistoryData, { MedicalHistoryDetails } from "../types/data/MedicalHistoryData.js";
 
 /**
  * Faker instance for generating random data
@@ -208,7 +209,7 @@ function generateAccount(role: AccountRoles): AccountData {
     title: fakerEN.helpers.arrayElement(["Mr", "Mrs", "Ms", "Dr"]),
     forenames: fakerEN.person.firstName(),
     surname: fakerEN.person.lastName(),
-    email: fakerEN.internet.email(),
+    email: `${fakerEN.number.int({ min: 1, max: 1000 })}.${fakerEN.internet.email()}`,
     password: 'password',
     role,
     createdAt: fakerEN.date.past(),
@@ -263,11 +264,201 @@ function generateAppointment(doctorId: string, patientId: string): AppointmentDa
 };
 
 /**
+ * Function to generate mock medical history details data
+ * @returns The generated medical history details data
+ * @AJGamesArchive
+ */
+function generateMedicalHistoryDetails(): MedicalHistoryDetails {
+  // Generate random type
+  const type = fakerEN.helpers.arrayElement([
+    "LabTestResults",
+    "Diagnoses",
+    "DietaryRestrictions",
+    "Allergies",
+    "ChronicConditions",
+    "PastSurgeries",
+    "Vaccines",
+    "Medications",
+    "Treatments",
+    "Referrals"
+  ]);
+
+  // Generate random data based on type
+  switch(type) {
+    case "LabTestResults":
+      return {
+        type,
+        testName: fakerEN.lorem.word(),
+        result: fakerEN.lorem.word(),
+        resultsDate: fakerEN.date.past(),
+        requestedBy: {
+          doctorId: uuid(),
+          doctorName: fakerEN.person.fullName(),
+        },
+      } as MedicalHistoryDetails;
+    case "Diagnoses":
+      return {
+        type,
+        condition: fakerEN.lorem.word(),
+        notes: fakerEN.lorem.sentence(),
+        severity: fakerEN.helpers.arrayElement(["Mild", "Moderate", "Severe", "Wild"]),
+        date: fakerEN.date.past(),
+        diagnosedBy: {
+          doctorId: uuid(),
+          doctorName: fakerEN.person.fullName(),
+        },
+      } as MedicalHistoryDetails;
+    case "DietaryRestrictions":
+      return {
+        type,
+        restriction: fakerEN.lorem.word(),
+        notes: fakerEN.lorem.sentence(),
+        date: fakerEN.date.past(),
+        prescribedBy: {
+          doctorId: uuid(),
+          doctorName: fakerEN.person.fullName(),
+        },
+      } as MedicalHistoryDetails;
+    case "Allergies":
+      return {
+        type,
+        allergen: fakerEN.lorem.word(),
+        reaction: fakerEN.lorem.sentence(),
+        severity: fakerEN.helpers.arrayElement(["Mild", "Moderate", "Severe"]),
+        notes: fakerEN.lorem.sentence(),
+        date: fakerEN.date.past(),
+      } as MedicalHistoryDetails;
+    case "ChronicConditions":
+      return {
+        type,
+        condition: fakerEN.lorem.word(),
+        dateDiagnosed: fakerEN.date.past(),
+        severity: fakerEN.helpers.arrayElement(["Mild", "Moderate", "Severe"]),
+        notes: fakerEN.lorem.sentence(),
+        diagnosedBy: {
+          doctorId: uuid(),
+          doctorName: fakerEN.person.fullName(),
+        },
+      } as MedicalHistoryDetails;
+    case "PastSurgeries":
+      return {
+        type,
+        surgery: fakerEN.lorem.word(),
+        emergency: fakerEN.datatype.boolean(0.5),
+        date: fakerEN.date.past(),
+        notes: fakerEN.lorem.sentence(),
+        performedBy: Array.from({ length: 2 }, () => ({
+          doctorId: uuid(),
+          doctorName: fakerEN.person.fullName(),
+        })),
+      } as MedicalHistoryDetails;
+    case "Vaccines":
+      return {
+        type,
+        vaccine: fakerEN.lorem.word(),
+        dateAdministered: fakerEN.date.past(),
+        notes: fakerEN.lorem.sentence(),
+      } as MedicalHistoryDetails;
+    case "Medications":
+      return {
+        type,
+        medication: fakerEN.lorem.word(),
+        dosage: `${fakerEN.number.int({ min: 1, max: 500 })} mg`,
+        frequency: fakerEN.helpers.arrayElement(["Once daily", "Twice daily", "Weekly"]),
+        startDate: fakerEN.date.past(),
+        endDate: fakerEN.datatype.boolean(0.5) ? fakerEN.date.future() : null,
+        prescribedBy: {
+          doctorId: uuid(),
+          doctorName: fakerEN.person.fullName(),
+        },
+        prescribedDate: fakerEN.date.past(),
+        refills: fakerEN.number.int({ min: 0, max: 5 }),
+        notes: fakerEN.lorem.sentence(),
+      } as MedicalHistoryDetails;
+    case "Treatments":
+      return {
+        type,
+        treatment: fakerEN.lorem.word(),
+        schedule: {
+          dateAdministered: fakerEN.date.past(),
+          endDate: fakerEN.date.future(),
+        },
+        administeredBy: {
+          doctorId: uuid(),
+          doctorName: fakerEN.person.fullName(),
+        },
+        dosage: `${fakerEN.number.int({ min: 1, max: 500 })} mg`,
+        reason: fakerEN.lorem.sentence(),
+        notes: fakerEN.lorem.sentence(),
+      } as MedicalHistoryDetails;
+    case "Referrals":
+      return {
+        type,
+        referralTo: fakerEN.company.name(),
+        dateReferred: fakerEN.date.past(),
+        reason: fakerEN.lorem.sentence(),
+        referredBy: {
+          doctorId: uuid(),
+          doctorName: fakerEN.person.fullName(),
+        },
+        status: fakerEN.helpers.arrayElement(["Pending", "Completed", "Declined"]),
+        followUpDate: fakerEN.datatype.boolean(0.5) ? fakerEN.date.future() : undefined,
+        followUpNotes: fakerEN.datatype.boolean(0.5) ? fakerEN.lorem.sentence() : undefined,
+        followUpBy: fakerEN.datatype.boolean(0.5)
+          ? {
+              doctorId: uuid(),
+              doctorName: fakerEN.person.fullName(),
+            }
+          : undefined,
+        notes: fakerEN.lorem.sentence(),
+      } as MedicalHistoryDetails;
+    default:
+      throw new Tomato("Unsupported medical history type");
+  };
+};
+
+/**
+ * Function to generate mock medical history data for a given patient and doctor
+ * @param patient.id The ID of the patient
+ * @param patient.name The name of the patient
+ * @param doctor.id The ID of the doctor
+ * @param doctor.name The name of the doctor
+ * @returns The generated medical history data
+ * @AJGamesArchive
+ */
+function generateMedicalHistory(
+  patient: {
+    id: string,
+    name: string
+  },
+  doctor: {
+    id: string,
+    name: string
+  }
+): MedicalHistoryData {
+  return {
+    id: uuid(),
+    patient: {
+      patientId: patient.id,
+      patientName: patient.name,
+    },
+    entryBy: {
+      doctorId: doctor.id,
+      doctorName: doctor.name,
+    },
+    createdAt: fakerEN.date.past(),
+    updatedAt: fakerEN.date.recent(),
+    details: Array.from({ length: fakerEN.number.int({ min: 1, max: 20 }) }, () => generateMedicalHistoryDetails()),
+  };
+}
+
+/**
  * Function to manage mock data generation
  * @param patientCount The number of patients to generate
  * @param doctorCount The number of doctors to generate
  * @param adminCount The number of admins to generate
  * @param appointmentCount The number of appointments to generate
+ * @param medicalHistoryCount The number of medical history entries to generate
  * @returns The generated mock data
  * @AJGamesArchive
  */
@@ -276,11 +467,13 @@ async function generateMockData(counts: {
   doctorCount: number,
   adminCount: number,
   appointmentCount: number,
+  medicalHistoryCount: number,
 }): Promise<{
   patients: AccountData[];
   doctors: AccountData[];
   admins: AccountData[];
   appointments: AppointmentData[];
+  medicalHistories: MedicalHistoryData[];
 }> {
   // Generate accounts
   const patients: AccountData[] = Array.from({ length: counts.patientCount }, () => generateAccount("Patient"));
@@ -292,6 +485,21 @@ async function generateMockData(counts: {
     const doctor = fakerEN.helpers.arrayElement(doctors);
     const patient = fakerEN.helpers.arrayElement(patients);
     return generateAppointment(doctor.id!, patient.id!);
+  });
+
+  // Generate medical history
+  const medicalHistories: MedicalHistoryData[] = Array.from({ length: counts.medicalHistoryCount }, () => {
+    const doctor = fakerEN.helpers.arrayElement(doctors);
+    const patient = fakerEN.helpers.arrayElement(patients);
+    if(!doctor.id) throw new Tomato("Doctor ID not found");
+    if(!patient.id) throw new Tomato("Patient ID not found");
+    return generateMedicalHistory({
+      id: patient.id,
+      name: `${patient.forenames} ${patient.surname}`,
+    }, {
+      id: doctor.id,
+      name: `${doctor.forenames} ${doctor.surname}`,
+    });
   });
 
   // Set previous and next appointment references
@@ -317,7 +525,7 @@ async function generateMockData(counts: {
   };
 
   // Return data
-  return { patients, doctors, admins, appointments };
+  return { patients, doctors, admins, appointments, medicalHistories };
 };
 
 export default generateMockData;
