@@ -13,7 +13,6 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 // Lazy load pages
 const Login = lazy(() => import('./pages/login/Login'));
 const Profile = lazy(() => import('./pages/profile/Profile'));
-const HomePage = lazy(() => import('./pages/Home'));
 const UpcomingAppointments = lazy(() => import('./pages/UpcomingAppointments'));
 const DoctorCreation = lazy(() => import('./pages/DoctorCreation'));
 const PatientCreation = lazy(() => import('./pages/PatientCreation'));
@@ -43,7 +42,6 @@ const App: React.FC = () => {
           fallback={<PageAccessDenied/>}
         />}>
           <Route path="/profile" Component={Profile}/>
-          <Route path="/home" element={<HomePage/>}/>
           <Route path="/appointments" element={<UpcomingAppointments />}/>
         </Route>
         

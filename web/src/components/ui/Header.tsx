@@ -9,9 +9,7 @@ const Header = () => {
     <div className="header">
       <div className="two-content-container">
         <div className="first">
-          <h4>
-            <a href="/home">Health Clinic Appointment Management System</a>
-          </h4>
+          <h4>Health Clinic Appointment Management System</h4>
         </div>
         <div className="second">
           { auth.user?.role === "Admin" && 
