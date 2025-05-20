@@ -22,9 +22,11 @@ const PatientList: React.FC = () => {
     )
 
     const patientCards = patients.data.map((patient) => (
+        <a href={"/patient-profile/" + patient.id}>
         <Card key={patient.id} className="account-card" onClick={() => console.log("Open patient with ID " + patient.id)}>
             <h5>{patient.forenames} {patient.surname}</h5>
         </Card>
+        </a>
     ));
 
     return (
