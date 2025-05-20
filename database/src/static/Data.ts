@@ -35,7 +35,7 @@ const dataCreationFunctions = [
     {
       title: "Mr",
       forenames: "Ethan",
-      surname: "McGuiness",
+      surname: "McGuinness",
       email: "em814@canterbury.ac.uk",
       password: "$2b$10$a7yfUF5n3MzXpID4zwKcauVtL0vqo9XJyHUBE5eLY4IBsbx2OBVcO",
       role: "Admin",

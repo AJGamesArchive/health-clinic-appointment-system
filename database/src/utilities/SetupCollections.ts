@@ -4,6 +4,7 @@ import dataCreationFunctions from "../static/Data.js";
 import Tomato from "../classes/Tomato.js";
 import DB_Accounts from "../schemas/Accounts.js";
 import DB_Appointments from "../schemas/Appointment.js";
+import DB_MedicalHistory from "../schemas/MedicalHistory.js";
 
 /**
  * Function to drop the database and re-create everything
@@ -44,6 +45,7 @@ async function setupCollections(): Promise<void> {
     console.log("Setting up indexes...");
     await DB_Accounts.createIndexes();
     await DB_Appointments.createIndexes();
+    await DB_MedicalHistory.createIndexes();
     console.log("Indexes created successfully");
     console.log("Creating data insertion promises...");
     const promises = dataCreationFunctions.map((func) => func());

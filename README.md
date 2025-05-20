@@ -18,14 +18,14 @@
 ## Assignment Work
 
 | Brief Sec. Ref | Codebase | Work | Weighting | Description / Key Points | Group Member(s) |
-|:--------------:|:--------:|:-----|:---------:|:-------------------------|:---------------:|
+|:--------------:|:--------:|:----:|:---------:|:-------------------------|:---------------:|
 |**3A**|Document|Requirements Analysis|20%|Define project scope and objectives, understand clinic workflows, define system requirements and key features.|All|
 |**3B**|Document|Entity Relationship (ER) Conceptual Model|10%|Identify entities, define relationships, define data structures (deciding on embedding vs referencing for each), create fully formed and annotated ER model.|All|
 |**3B**|Document|Logical Schema Design (JSON Document Model)|15%|Create fully formed JSON DOcument Model complete with; field names; data types; and example documents for each collection, provide denormalization explanation.|All|
 |**3C**|Document & GitHub Repo - Database Workspace|Database Setup|20%|Setup MongoDB database based on logical schema, populate database with high volume of realistic sample data, ensure proper use of; collections; embedding; and referencing.|Alex|
-|**3C**|Document & GitHub Repo - API Workspace|Query Implementation (via API?)|15%|Implement queries to support user use cases, optimize queries with appropriate indexing strategies, ensure all CRUD operations for all applicable data are covered as outlined in requirements analysis.|Alfie, Ethan, Alex|
-|**3D**|Document & GitHub Repo - Web Workspace|Operational Web Interface|10%|Demonstraight operational capabilities of created database, develop a simple web user interface, test CRUD operations for accuracy and efficiency,|Jess, Alex|
-|**3E**|Document|Challenges & Future Considerations|10%|Propose and present solutions to the following; "*What do you propose for handling booking conflicts where 2 patients might try to book the same time slot?*"; "*As the clinic grows, the database should be able to handle a large number of records efficiently - what solutions can you propose to handle this?*".|All|
+|**3C**|Document & GitHub Repo - API Workspace|Query Implementation (via API?)|15%|Implement queries to support user use cases, optimize queries with appropriate indexing strategies, ensure all CRUD operations for all applicable data are covered as outlined in requirements analysis.|Alfie, Alex|
+|**3D**|Document & GitHub Repo - Web Workspace|Operational Web Interface|10%|Demonstraight operational capabilities of created database, develop a simple web user interface, test CRUD operations for accuracy and efficiency,|Jess, Ethan, Alex|
+|**3E**|Document|Challenges & Future Considerations|10%|Propose and present solutions to the following; "*What do you propose for handling booking conflicts where 2 patients might try to book the same time slot?*"; "*As the clinic grows, the database should be able to handle a large number of records efficiently - what solutions can you propose to handle this?*".|Jess|
 
 # Repo Info
 
@@ -48,7 +48,7 @@ It's not the end of the world if you forget, but these prefixes do help with kee
 
 ## Overview
 
-This is a monorepo comprised of **__3__** workspaces: "database", "api", and "web". The repo requires **NodeJS v20.18.1+**, uses the package manager **Yarn v4.0.2**, and utilizes Volta and Nodes Engine to enforce the Node version. Turbo is used to manage the monorepo.
+This is a monorepo comprised of **__3__** workspaces: "database", "api", and "web". The repo requires **NodeJS v22.14.0+**, uses the package manager **Yarn v4.0.2**, and utilizes Volta and Nodes Engine to enforce the Node version. Turbo is used to manage the monorepo.
 
 Details on how to setup, use, and work with this monorepo are detailed below! Documentation for all tools and utilities can be found at the bottom of this file.
 
@@ -70,7 +70,8 @@ This code is located in: (``./api``).
 
 **Content:** This is the backend API for the appointment system. This contains all backend project code including; all database CRUD operation code, all system logical code, and all querying, filtering, and data manipulation utilities.
 
-**Technology:** This is a simple Fastify REST API written in Typescript. This API accesses the database via the Object Document Model (ODM) tool [Mongoose](https://mongoosejs.com/docs/) and runs on [Port 80](http://localhost:80).
+**Technology:** This is a simple Fastify REST API written in Typescript. This API accesses the database via the Object Document Model (ODM) tool [Mongoose](https://mongoosejs.com/docs/) and runs on [Port ENV](http://localhost:80).
+- The local port is specified by the ``.env`` ``PORT=`` variable.
 
 - If you get a ``'Permission Denied'`` error when trying to boot the API, this is because you're OS requires elevated privileges in order to map to Ports below 1024 for security reasons. Sometimes these privileges are enabled by default and sometimes there not. If you get this error you will need to provide the NodeJS binary on your computer with Admin/Sudo privileges.
 
@@ -142,9 +143,9 @@ This repo is setup to allow you to both; use your own locally hosted MongoDB dat
 
 - ``yarn db:setup:cloud`` - Run the database creation script on the shared cloud database - deleted and re-creates database with base 4 Admin accounts.
 - ``yarn db:setup:local`` - Run the database creation script on you're local database - deleted and re-creates database with base 4 Admin accounts.
+- - *These commands will wipe all data in the respective database before creating the new collections and adding default data!* 
 - ``yarn db:data:cloud`` - Run the data generation and insertion script on the shared cloud database - generates and adds testing data to existing database.
 - ``yarn db:data:local`` - Run the data generation and insertion script on you're local database - generates and adds testing data to existing database.
-- - *These commands will wipe all data in the respective database before creating the new collections and adding default data!* 
 
 #### API Workspace
 

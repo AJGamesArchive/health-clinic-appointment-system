@@ -48,6 +48,8 @@ const routeAnyAppointments = async (
     req.params.type,
   );
 
+  console.log('Appointments:', appointments); //! Remove later
+
   // Handle error
   if(typeof appointments === 'number') {
     rep.status((appointments === 404) ? 404 : 500).send(JSON.stringify({
@@ -71,9 +73,9 @@ const routeAnyAppointments = async (
 
   // Send response
   rep.status(200).send(JSON.stringify({
-    appointments: req.params.type === 'all' ? undefined : appointments,
-    upcomingAppointments: req.params.type === 'all' ? upcomingAppointments : undefined,
-    pastAppointments: req.params.type === 'all' ? pastAppointments : undefined,
+    appointments: (req.params.type === "all" && req.query.split) ? undefined : appointments,
+    upcomingAppointments: upcomingAppointments,
+    pastAppointments: pastAppointments,
   } as AnyAppointmentsReply200, null, 2));
 	return;
 };

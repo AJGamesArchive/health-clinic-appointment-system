@@ -70,9 +70,9 @@ const routeMyAppointments = async (
 
   // Send response
   rep.status(200).send(JSON.stringify({
-    appointments: req.params.type === 'all' ? undefined : appointments,
-    upcomingAppointments: req.params.type === 'all' ? upcomingAppointments : undefined,
-    pastAppointments: req.params.type === 'all' ? pastAppointments : undefined,
+    appointments: (req.params.type === "all" && req.query.split) ? undefined : appointments,
+    upcomingAppointments: upcomingAppointments,
+    pastAppointments: pastAppointments,
   } as MyAppointmentsReply200, null, 2));
 	return;
 };
