@@ -16,9 +16,9 @@ import AccountService from '../../services/database/AccountService.js';
 import AccountDeletionTransaction from '../../services/database/AccountTransaction.js';
 
 /**
- * @summary Route to update CORE account information. Takes an ID for Params, Body includes info to update
+ * @summary Route to delete CORE account information. Takes an ID for Params
  * @route Delete /auth/internal/admin/account/
- * @Params Body - You can only update these variables {title, forename, surname, email, password}
+ * @Params Body - The ID of the account to delete
  * @HammerCyclone
  */
 

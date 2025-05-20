@@ -21,7 +21,7 @@ import Account from '../../classes/data/Account.js';
  * @summary Route to update Doctor account information. Takes an ID for Params, Body includes info to update
  * @route PATCH /auth/internal/admin/doctor/:id
  * @Params ID - String of the account ID to update.
- * @Params Body - You can update any parts of paitent data, except for appointments
+ * @Params Body - Any parts of the doctor data type except for appointments.
  * @HammerCyclone
  */
 
