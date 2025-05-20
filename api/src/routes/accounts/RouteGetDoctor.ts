@@ -17,7 +17,7 @@ import AccountService from '../../services/database/AccountService.js';
 import AccountData, { JWTAccountData } from '../../types/data/AccountData.js';
 
 /**
- * @summary Route to a filtered doctors account data for a patient by a given doctor id
+ * @summary Route to get a filtered doctors account data for a patient by a given doctor id
  * @route GET /auth/internal/patient/doctor/:id
  * @HammerCyclone
  */

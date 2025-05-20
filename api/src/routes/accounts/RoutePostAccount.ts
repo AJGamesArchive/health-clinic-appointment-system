@@ -19,9 +19,9 @@ import DoctorData from '../../types/data/DoctorData.js';
 import AdminData from '../../types/data/AdminData.js';
 
 /**
- * @summary Route to update CORE account information. Takes an ID for Params, Body includes info to update
- * @route Post /auth/internal/admin/account/
- * @Params Body - You can only update these variables {title, forename, surname, email, password}
+ * @summary Route to Create an account with CORE information, will create an empty object for the chosen role. Body includes all needed core information
+ * @route POST /auth/internal/admin/account/
+ * @Params Body - You MUST include these variables {title, forename, surname, email, password, role}
  * @HammerCyclone
  */
 
@@ -75,6 +75,7 @@ const routePostAccount = async (
 		return;
 	};
 
+	//Create empty object for the selected role
 	switch(body.role)
 	{
 		case "Patient":
