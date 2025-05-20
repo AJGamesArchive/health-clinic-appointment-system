@@ -55,7 +55,7 @@ const App: React.FC = () => {
           fallback={<PageAccessDenied/>}
         />}>
           <Route path="/patients" element={<PatientList/>}/>
-          <Route path="/patient-profile" element={<PatientProfile />}/>
+          <Route path="/patient-profile/:id" element={<PatientProfile />}/>
         </Route>
         <Route element={<ProtectedRoute
           requiredRank={["Admin"]}

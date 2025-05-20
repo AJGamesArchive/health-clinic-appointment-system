@@ -7,16 +7,19 @@ import LifeStylePatients from "../components/tabs/LifeStylePatients";
 import { useAuthContext } from "../contexts/AuthContext";
 import { UseRouteAuthHook } from "../hooks/security/UseRouteAuth";
 import { useAccountProfile } from "../hooks/UseProfileHook";
+import DebugBlock from "../components/utilities/DebugBlock";
 import "./PatientProfile.css"; 
 import { useParams } from "react-router-dom";
 
 
 
 const PatientPage: React.FC = () => {
+    const auth = useAuthContext();
+
     const { id } = useParams();
     const { data: accountData, loading } = id 
-    ? useAccountProfile(id, "patient") 
-    : useAccountProfile();
+    ? useAccountProfile(auth, id, "Patient") 
+    : useAccountProfile(auth);
 
   
    const [activeTab, setActiveTab] = useState<string>("CoreInfromation");
@@ -47,7 +50,7 @@ const PatientPage: React.FC = () => {
   return (
     <Layout>
         <div className="patient-Profile-container">
-            <h1>{accountData?.forenames} {accountData?.surname} </h1> 
+            <h1>{accountData?.forenames} {accountData?.surname} {": " + accountData?.role} </h1> 
                 <div className="tabs-section">
                     <button
                         className={`tab ${activeTab === "CoreInfromation" ? "active" : ""}`}

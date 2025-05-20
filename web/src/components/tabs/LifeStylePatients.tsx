@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import AddEntry from "./addLiftStyleEntry";
 import accountData from "../../types/data/AccountData";
-
+import { useAuthContext } from "../../contexts/AuthContext";
 interface LifeStylePatientProps {
     accountData: accountData;
 }
 
 const LifeStylePatients: React.FC<LifeStylePatientProps> = ({accountData})=> {
     
+   const auth = useAuthContext();
     const lifestyleData = accountData?.patientData?.lifeStyleHistory;
     const [showAddEntry, setShowAddEntry] = useState(false);
+    
 
     const formatTitle = (str: string) =>
      str
@@ -50,16 +52,18 @@ const LifeStylePatients: React.FC<LifeStylePatientProps> = ({accountData})=> {
           </div>
         );
       })}
+      {auth.user?.role !== 'Patient' && (
+                    <div className="info-item">
+                        <button className="Add-Entry" onClick={() => setShowAddEntry(true)}>
+                            Add Entry
+                        </button>
+                    </div>
+                )}
 
-      <div className="info-item">
-        <button className="Add-Entry" onClick={() => setShowAddEntry(true)}>
-          Add Entry
-        </button>
-      </div>
+                {showAddEntry && <AddEntry onClose={() => setShowAddEntry(false)} />}
+            </div>
+        </div>
 
-      {showAddEntry && <AddEntry onClose={() => setShowAddEntry(false)} />}
-    </div>
-  </div>
 );
 };
 export default LifeStylePatients;

@@ -5,6 +5,8 @@ import useAPIService, { APIResponse } from "./services/UseAPIService";
 import PatientData from "../types/data/PatientData";
 import DoctorData from "../types/data/DoctorData";
 import AdminData from "../types/data/AdminData";
+import AccountRoles from "../types/data/AccountRoles";
+import { UseRouteAuthHook } from "./security/UseRouteAuth";
 
 type APIAccountData = AccountData & { data: object | undefined };
 
@@ -14,14 +16,14 @@ export interface UseProfileHook {
   error: string | null;
 }
 
-export function useAccountProfile(id?: string, type?: string) {
+export function useAccountProfile(auth: UseRouteAuthHook, id?: string, type?: AccountRoles) {
   // States
   const [data, setData] = useState<AccountData | null>(null);
   // Hooks
   const apiService: APIResponse<APIAccountData> = id
     ? useAPIService<APIAccountData>(
         "GET",
-        "/auth/internal/admin/account/" + id,
+        `/auth/internal/${auth.user?.role === "Admin" ? 'admin' : 'doctor'}/${auth.user?.role === "Admin" ? 'account' : 'patient'}/` + id,
         {},
         {},
         {
